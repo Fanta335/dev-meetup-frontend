@@ -1,17 +1,28 @@
-import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import React, { VFC } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
+import RequireAuth from "./components/auth/requireAuth";
+import Home from "./components/Home";
+import NavBar from "./components/Navbar";
 import Profile from "./components/Profile";
 
-function App() {
+const App: VFC = () => {
+  const { isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <p>Loading ...</p>;
+  }
+
   return (
     <div className="App">
-      <LoginButton />
-      <LogoutButton />
-      <Profile />
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>}></Route>
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
