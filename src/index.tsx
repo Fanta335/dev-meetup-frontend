@@ -5,18 +5,18 @@ import App from "./App";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import { Auth0Provider } from "@auth0/auth0-react";
-
-const domain = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || "clientId";
+import { BrowserRouter } from "react-router-dom";
+import Auth0ProviderWithHistory from "./components/auth/auth0-provider-with-history";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Auth0Provider>
+    <BrowserRouter>
+      <Auth0ProviderWithHistory>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Auth0ProviderWithHistory>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
