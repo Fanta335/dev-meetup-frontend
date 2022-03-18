@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Auth0ProviderWithHistory: FC = ({ children }) => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || "clientId";
+  const audience = process.env.REACT_APP_AUTH0_AUDIENCE || "audience";
 
   const navigate = useNavigate();
 
@@ -13,7 +14,13 @@ const Auth0ProviderWithHistory: FC = ({ children }) => {
   };
 
   return (
-    <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin} onRedirectCallback={onRedirectCallback}>
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      redirectUri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+      audience={audience} // react appがアクセスするresource url
+    >
       {children}
     </Auth0Provider>
   );
