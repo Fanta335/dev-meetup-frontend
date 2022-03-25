@@ -1,5 +1,5 @@
 import { VFC } from "react";
-import AuthenticationButton from "./AuthenticationButton";
+import AuthenticationButton from "../../../components/AuthenticationButton";
 
 const AuthNav: VFC = () => {
   return <AuthenticationButton />;

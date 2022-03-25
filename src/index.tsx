@@ -6,7 +6,7 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
-import Auth0ProviderWithHistory from "./components/auth/auth0-provider-with-history";
+import Auth0ProviderWithHistory from "./features/auth/components/auth0-provider-with-history";
 
 ReactDOM.render(
   <React.StrictMode>

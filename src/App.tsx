@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { VFC } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import RequireAuth from "./components/auth/requireAuth";
+import RequireAuth from "./features/auth/components/requireAuth";
 import Home from "./pages/Home";
 import NavBar from "./components/Navbar";
 import Profile from "./pages/Profile";
