@@ -1,7 +1,10 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { VFC } from "react";
 
 const Home: VFC = () => {
-  return <p>This is home page.</p>;
+  const { isAuthenticated } = useAuth0();
+
+  return <p>{isAuthenticated ? 'login!' : 'logout'}</p>;
 };
 
 export default Home;
