@@ -9,4 +9,5 @@ export type MysqlUser = {
   subId: string;
   createdAt: string;
   updatedAt: string;
-}
+  deletedAt: string | null;
+};
