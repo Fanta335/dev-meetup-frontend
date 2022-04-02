@@ -8,6 +8,7 @@ const Auth0ProviderWithHistory: FC = ({ children }) => {
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE || "audience";
 
   const navigate = useNavigate();
+  const target = window.location.origin + '/app';
 
   const onRedirectCallback = (appState: AppState) => {
     navigate(appState?.returnTo || window.location.pathname);
@@ -17,7 +18,7 @@ const Auth0ProviderWithHistory: FC = ({ children }) => {
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={window.location.origin}
+      redirectUri={target}
       onRedirectCallback={onRedirectCallback}
       audience={audience} // react appがアクセスするresource url
     >

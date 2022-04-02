@@ -1,29 +1,12 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import React, { VFC } from "react";
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import RequireAuth from "./features/auth/components/requireAuth";
-import Home from "./pages/Home";
-import NavBar from "./components/Navbar";
-import Profile from "./pages/Profile";
-import ExternalApi from "./pages/externalApi";
+import { VFC } from "react";
+import { AppProvider } from "./providers/app";
+import { AppRoutes } from "./routes";
 
 const App: VFC = () => {
-  const { isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <p>Loading ...</p>;
-  }
-
   return (
-    <div className="App">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>}></Route>
-        <Route path='/external-api' element={<ExternalApi />}></Route>
-      </Routes>
-    </div>
+    <AppProvider>
+      <AppRoutes />
+    </AppProvider>
   );
 };
 
