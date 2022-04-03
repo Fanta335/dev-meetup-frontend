@@ -14,7 +14,8 @@ export const protectedRoutes = [
     ],
   },
   {
-    path: "/",
+    // path: "/",
+    index: true,
     element: <Landing />,
   },
 ];
