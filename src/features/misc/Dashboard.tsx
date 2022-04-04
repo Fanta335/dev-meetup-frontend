@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { fetchAsyncGetUsers, selectUsers } from "../users/userSlice";
+import { fetchAsyncGetUsers, selectUsers } from "../user/userSlice";
 
 export const Dashboard = () => {
   const { user } = useAuth0();
