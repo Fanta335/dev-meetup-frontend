@@ -1,5 +1,6 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import LogoutButton from "../auth/LogoutButton";
 
 export const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -15,9 +16,10 @@ export const Navbar = () => {
   return (
     <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
       <Toolbar>
-        <Typography variant="h6" noWrap component="div" sx={{flexGrow: 1}}>
+        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
           Dev Meetup
         </Typography>
+        <LogoutButton />
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
