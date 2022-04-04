@@ -3,8 +3,8 @@ import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { store } from "../app/store";
-import Auth0ProviderWithHistory from "../features/auth/components/auth0-provider-with-history";
+import { store } from "../stores/store";
+import Auth0ProviderWithHistory from "../features/auth/providers/auth0-provider-with-history";
 
 const ErrorFallback = () => {
   return (
