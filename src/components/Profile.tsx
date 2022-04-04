@@ -1,7 +1,7 @@
 import { IdToken, useAuth0 } from "@auth0/auth0-react";
 // import axios from "axios";
 import { useEffect, useState, VFC } from "react";
-import { Loading } from "../components/Loading";
+import { Loading } from "./Loading";
 import { MysqlUser } from "../types";
 
 const Profile: VFC = () => {
