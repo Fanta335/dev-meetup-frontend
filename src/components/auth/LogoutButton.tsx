@@ -5,8 +5,14 @@ import { VFC } from "react";
 const LogoutButton: VFC = () => {
   const { logout } = useAuth0();
 
+  const handleLogout = () => {
+    // clear the current user's access token.
+    localStorage.removeItem("access_token");
+    logout({ returnTo: window.location.origin });
+  }
+
   return (
-    <Button variant="contained" onClick={() => logout({ returnTo: window.location.origin })}>
+    <Button variant="contained" onClick={handleLogout}>
       Log out
     </Button>
   );
