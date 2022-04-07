@@ -11,3 +11,7 @@ export type Room = {
   updatedAt: string;
   deletedAt?: string | null;
 };
+
+export type CreateRoomDTO = {
+  name: string;
+}

@@ -1,7 +1,7 @@
-import { Divider, Drawer, List, ListItem, ListItemIcon, Toolbar, Tooltip, Zoom } from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
+import { Divider, Drawer,Toolbar } from "@mui/material";
 import { VFC } from "react";
+import { OwnRoomsList } from "../../features/room/components/OwnRoomsList";
+import { CreateRoomButton } from "../../features/room/components/CreateRoomButton";
 
 const Sidebar: VFC = () => {
   const drawerWidth = 70;
@@ -20,25 +20,9 @@ const Sidebar: VFC = () => {
     >
       <Toolbar />
       <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <Tooltip title={text} placement="right" arrow TransitionComponent={Zoom}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            </Tooltip>
-          </ListItem>
-        ))}
-      </List>
+      <OwnRoomsList />
       <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <Tooltip title={text} placement="right" arrow TransitionComponent={Zoom}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            </Tooltip>
-          </ListItem>
-        ))}
-      </List>
+      <CreateRoomButton />
     </Drawer>
   );
 };
