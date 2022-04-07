@@ -4,7 +4,6 @@ import { RootState } from "../../stores/store";
 import { User } from "./types";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
-const token = localStorage.getItem("access_token");
 const initialState: { users: User[] } = {
   users: [
     {
@@ -18,7 +17,7 @@ const initialState: { users: User[] } = {
   ],
 };
 
-export const fetchAsyncGetUsers = createAsyncThunk("user/get", async () => {
+export const fetchAllUsers = createAsyncThunk<User[], { token: string }>("user/fetchAllUsers", async ({ token }) => {
   const res = await axios.get(`${apiUrl}/users`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -32,12 +31,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAsyncGetUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+    builder.addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
       state.users = action.payload;
     });
   },
 });
 
-export const selectUsers = (state: RootState) => state.users;
+export const selectUsers = (state: RootState) => state.user.users;
 
 export const userReducer = userSlice.reducer;
