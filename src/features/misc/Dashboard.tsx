@@ -1,21 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { fetchAsyncGetUsers, selectUsers } from "../user/userSlice";
 
 export const Dashboard = () => {
   const { user } = useAuth0();
-  const dispatch = useAppDispatch();
-  const users = useAppSelector(selectUsers);
 
-  useEffect(() => {
-    const fetchUsersData = async () => {
-      await dispatch(fetchAsyncGetUsers());
-    };
-    fetchUsersData();
-  }, [dispatch]);
-
-  console.log("users: ", users);
   return (
     <div>
       <h1>Dashboard page.</h1>
