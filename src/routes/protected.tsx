@@ -1,6 +1,7 @@
 import { MainLayout } from "../components/Layouts/MainLayout";
-import { Dashboard } from "../features/misc/Dashboard";
+import { Home } from "../features/misc/Home";
 import { Landing } from "../features/misc/Landing";
+import { Room } from "../features/room/components/Room";
 
 export const protectedRoutes = [
   {
@@ -9,7 +10,11 @@ export const protectedRoutes = [
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <Home />,
+      },
+      {
+        path: "rooms/:id",
+        element: <Room />,
       },
     ],
   },
