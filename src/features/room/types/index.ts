@@ -15,12 +15,32 @@ export type CreateRoomDTO = {
 
 // Does not contain messageIds because the frequency of updates of messages would be very high.
 export type CurrentRoom = {
-  ownerIds: number[];
-  memberIds: number[];
+  owners: string[];
+  members: string[];
 } & Room;
 
+// This contains all of the room contents data including Users and Messages.
 export type RoomContent = {
   owners: User[];
   members: User[];
   messages: Message[];
 } & Room;
+
+export type NormalizedRoomContent = {
+  entities: {
+    owners: {
+      [key: string]: User;
+    };
+    members: {
+      [key: string]: User;
+    };
+    messages?: {
+      [key: string]: Message;
+    };
+  };
+  result: {
+    owners: string[];
+    members: string[];
+    messages?: string[];
+  } & Room;
+};

@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent } from "../room/types";
+import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent } from "../room/types";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
 const initialState: { rooms: Room[]; ownRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom } = {
@@ -33,8 +33,8 @@ const initialState: { rooms: Room[]; ownRooms: { byIds: { [key: string]: Room };
     createdAt: "",
     updatedAt: "",
     deletedAt: null,
-    ownerIds: [],
-    memberIds: [],
+    owners: [],
+    members: [],
   },
 };
 
@@ -64,7 +64,7 @@ export const fetchAsyncGetAllRooms = createAsyncThunk<Room[], { token: string }>
 });
 
 export const fetchAsyncGetOwnRooms = createAsyncThunk<Room[], { token: string }>("room/fetchOwnRooms", async ({ token }) => {
-  const res = await axios.get(`${apiUrl}/rooms/own-rooms`, {
+  const res = await axios.get<Room[]>(`${apiUrl}/rooms/own-rooms`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -73,14 +73,26 @@ export const fetchAsyncGetOwnRooms = createAsyncThunk<Room[], { token: string }>
 });
 
 // This method is shared between 3 reducers: Room, User, Message.
-export const fetchRoomContent = createAsyncThunk<RoomContent, { token: string; roomId: string }>("room/fetchRoomContent", async ({ token, roomId: id }) => {
-  const res = await axios.get(`${apiUrl}/rooms/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return res.data;
-});
+export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }>(
+  "room/fetchRoomContent",
+  async ({ token, roomId: id }) => {
+    const res = await axios.get<RoomContent>(`${apiUrl}/rooms/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const owner = new schema.Entity("owners");
+    const member = new schema.Entity("members");
+    const message = new schema.Entity("messages");
+    const mySchema = { owners: [owner], members: [member], messages: [message] };
+    const normalizedData = normalize(res.data, mySchema) as NormalizedRoomContent;
+
+    console.log("normalizedData: ", normalizedData);
+
+    return normalizedData;
+  }
+);
 
 const roomSlice = createSlice({
   name: "room",
@@ -105,16 +117,13 @@ const roomSlice = createSlice({
         state.ownRooms.allIds = normalizedOwnRoomsData.result.ownRooms;
       }
     });
-    builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<RoomContent>) => {
+    builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
-      const owner = new schema.Entity("owners");
-      const member = new schema.Entity("members");
-      const message = new schema.Entity("messages");
-      const mySchema = { owners: [owner], members: [member], messages: [message] };
-      const normalizedData = normalize(data, mySchema);
-      console.log(normalizedData);
+      // Do not monitor message referenses in currentRoom state.
+      delete data.result.messages;
+      console.log('fetchroomcontent data: ', data);
 
-      state.currentRoom = normalizedData.result;
+      state.currentRoom = data.result;
     });
   },
 });
