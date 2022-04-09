@@ -23,9 +23,9 @@ export const OwnRoomsList = () => {
   return (
     <>
       <List>
-        {ownRooms.map((room) => (
-          <ListItem button key={room.id}>
-            <Tooltip title={room.name} placement="right" arrow TransitionComponent={Zoom}>
+        {ownRooms.allIds.map((roomId) => (
+          <ListItem button key={roomId}>
+            <Tooltip title={ownRooms.byIds[roomId].name} placement="right" arrow TransitionComponent={Zoom}>
               <ListItemIcon><HouseIcon /></ListItemIcon>
             </Tooltip>
           </ListItem>

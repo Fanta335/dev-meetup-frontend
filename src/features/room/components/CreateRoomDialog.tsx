@@ -3,7 +3,7 @@ import { FC, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch } from "../../../stores/hooks";
-import { fetchAsyncGetOwnRooms, postRoom } from "../roomSlice";
+import { postRoom } from "../roomSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 export type DialogTitleProps = {
@@ -57,8 +57,6 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
     const createRoomDTO = data;
     await dispatch(postRoom({ token, createRoomDTO }));
     console.log('post room');
-    await dispatch(fetchAsyncGetOwnRooms({token}));
-    console.log('fetch own rooms');
     handleClose();
   };
 
