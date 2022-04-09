@@ -5,12 +5,14 @@ import Sidebar from "./Sidebar";
 
 export const MainLayout = () => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height: "100vh" }}>
       <CssBaseline />
-      <Navbar />
       <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", pl: 3, pt: 7 }}>
-        <Outlet />
+      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+        <Navbar />
+        <Box sx={{ bgcolor: "green", border: "solid", mt: 8, height: "100%" }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );
