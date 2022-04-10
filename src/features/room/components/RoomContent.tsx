@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { useEffect, VFC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { MessageContainer } from "../../message/components/MessageContainer";
 import { UsersList } from "../../user/components/UsersList";
 import { fetchRoomContent, selectCurrentRoom } from "../roomSlice";
 
@@ -30,7 +31,8 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
     <>
       <Box sx={{ display: "flex", height: "100%" }}>
         <Box sx={{ flexGrow: 1 }}>
-          <p>Room {roomId} comments should be here.</p>
+          {/* <p>Room {roomId} comments should be here.</p> */}
+          <MessageContainer />
         </Box>
         <Box sx={{ flexGrow: 0, width: "220px", bgcolor: "orange" }}>
           <UsersList />

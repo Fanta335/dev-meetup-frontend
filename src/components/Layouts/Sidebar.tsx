@@ -14,6 +14,7 @@ const Sidebar: VFC = () => {
           width: drawerWidth,
           boxSizing: "border-box",
         },
+        justifyContent: 'center'
       }}
       variant="permanent"
       anchor="left"

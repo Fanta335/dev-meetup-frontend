@@ -10,7 +10,7 @@ export const MainLayout = () => {
       <Sidebar />
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <Navbar />
-        <Box sx={{ bgcolor: "green", border: "solid", mt: 8, height: "100%" }}>
+        <Box sx={{ bgcolor: "green", mt: 8, height: "100%" }}>
           <Outlet />
         </Box>
       </Box>
