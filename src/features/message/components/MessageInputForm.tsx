@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
 
 export const MessageInputForm = () => {
-  return <TextField fullWidth id="messageInputForm" />;
+  return <TextField fullWidth multiline id="messageInputForm" />;
 };
