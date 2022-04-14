@@ -88,6 +88,7 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
     const mySchema = { owners: [owner], members: [member], messages: [message] };
     const normalizedData = normalize(res.data, mySchema) as NormalizedRoomContent;
 
+    console.log("before normalized: ", res.data);
     console.log("normalizedData: ", normalizedData);
 
     return normalizedData;
@@ -120,10 +121,16 @@ const roomSlice = createSlice({
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
       // Do not monitor message referenses in currentRoom state.
-      delete data.result.messages;
-      console.log('fetchroomcontent data: ', data);
-
-      state.currentRoom = data.result;
+      const currentRoom: CurrentRoom = {
+        id: data.result.id,
+        name: data.result.name,
+        owners: data.result.owners,
+        members: data.result.members,
+        createdAt: data.result.createdAt,
+        updatedAt: data.result.updatedAt,
+        deletedAt: data.result.deletedAt,
+      };
+      state.currentRoom = currentRoom;
     });
   },
 });

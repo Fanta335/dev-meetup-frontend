@@ -6,7 +6,7 @@ export type Room = {
   name: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt?: string | null;
+  deletedAt: string | null;
 };
 
 export type CreateRoomDTO = {
@@ -34,13 +34,13 @@ export type NormalizedRoomContent = {
     members: {
       [key: string]: User;
     };
-    messages?: {
+    messages: {
       [key: string]: Message;
-    };
+    } | undefined;
   };
   result: {
     owners: string[];
     members: string[];
-    messages?: string[];
+    messages: string[] | undefined;
   } & Room;
 };
