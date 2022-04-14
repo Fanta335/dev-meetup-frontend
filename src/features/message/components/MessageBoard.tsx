@@ -1,33 +1,24 @@
-import { Button } from "@mui/material";
-import { io } from "socket.io-client";
+import { useAppSelector } from "../../../stores/hooks";
+import { selectCurrentUsers } from "../../user/userSlice";
+import { selectCurrentMessages } from "../messageSlice";
 
 export const MessageBoard = () => {
-  const socket = io("http://localhost:3000");
-  socket.on("connect", () => {
-    console.log("Connected!");
-
-    socket.emit("send_message", { test: "test" });
-  });
-  socket.on("send_message", (data) => {
-    console.log("message", data);
-  });
-  socket.on("recieve_message", (data) => {
-    console.log("message", data);
-  });
-  socket.on("exception", function (data) {
-    console.log("event", data);
-  });
-  socket.on("disconnect", function () {
-    console.log("Disconnected");
-  });
-
-  const handleClick = () => {
-    socket.emit("click", { message: "clicked!!" });
-  };
+  const currentUsers = useAppSelector(selectCurrentUsers);
+  const currentMessages = useAppSelector(selectCurrentMessages);
+  console.log("current users: ", currentUsers);
 
   return (
     <>
-      <Button onClick={handleClick}>send message</Button>
+      <ul>
+        {currentMessages.allIds[0] !== "0" &&
+          currentMessages.allIds.map((messageId) => (
+            <li key={messageId}>
+              <strong>{currentUsers.members.byIds[currentMessages.byIds[messageId].authorId.toString()].name}</strong>
+              {": "}
+              <span>{currentMessages.byIds[messageId].content}</span>
+            </li>
+          ))}
+      </ul>
     </>
   );
 };
