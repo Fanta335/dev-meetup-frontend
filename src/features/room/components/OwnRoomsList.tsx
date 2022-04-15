@@ -27,11 +27,11 @@ export const OwnRoomsList = () => {
         {ownRooms.allIds.map((roomId) => (
           <ListItem button key={roomId} sx={{ display: "flex", justifyContent: "center" }}>
             <Tooltip title={ownRooms.byIds[roomId].name} placement="right" arrow TransitionComponent={Zoom}>
-              <ListItemIcon sx={{ display: "flex", justifyContent: "center" }}>
-                <Link to={`rooms/${roomId}`}>
-                  <HouseIcon />
-                </Link>
-              </ListItemIcon>
+              <Link to={`rooms/${roomId}`}>
+                <ListItemIcon sx={{ display: "flex", justifyContent: "center" }}>
+                  <HouseIcon sx={{ color: "inherit" }} />
+                </ListItemIcon>
+              </Link>
             </Tooltip>
           </ListItem>
         ))}

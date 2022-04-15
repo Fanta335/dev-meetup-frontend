@@ -1,5 +1,6 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 
 export const Navbar = () => {
@@ -16,7 +17,7 @@ export const Navbar = () => {
   return (
     <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
       <Toolbar>
-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+        <Typography component={Link} to="/" variant="h6" noWrap sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}>
           Dev Meetup
         </Typography>
         <LogoutButton />

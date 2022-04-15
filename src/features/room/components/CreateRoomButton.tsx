@@ -16,14 +16,14 @@ export const CreateRoomButton = () => {
 
   return (
     <List>
-      <ListItem button sx={{ display: "flex", justifyContent: "center" }}>
-        <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
+      <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
+        <ListItem button sx={{ display: "flex", justifyContent: "center" }}>
           <IconButton aria-label="create room" onClick={handleClickOpen}>
             <AddCircleOutlinedIcon />
           </IconButton>
-        </Tooltip>
-        <CreateRoomDialog open={open} handleClose={handleClose} />
-      </ListItem>
+          <CreateRoomDialog open={open} handleClose={handleClose} />
+        </ListItem>
+      </Tooltip>
     </List>
   );
 };
