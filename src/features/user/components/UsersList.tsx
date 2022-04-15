@@ -5,7 +5,7 @@ import { UserItem } from "./UserItem";
 
 export const UsersList = () => {
   const currentUsers = useAppSelector(selectCurrentUsers);
-  console.log("currentusers: ", currentUsers);
+  console.log("current users: ", currentUsers);
 
   return (
     <div>

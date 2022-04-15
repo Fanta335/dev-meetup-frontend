@@ -66,7 +66,6 @@ const messageSlice = createSlice({
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
-      console.log('all data: ', data);
       console.log('room messages: ', data.entities.messages, data.result.messages);
       if (data.entities.messages !== undefined && data.result.messages !== undefined) {
         state.currentMessages.byIds = data.entities.messages;
