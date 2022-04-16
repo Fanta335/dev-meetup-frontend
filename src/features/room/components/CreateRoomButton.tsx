@@ -1,4 +1,4 @@
-import { IconButton, List, ListItem, Tooltip, Zoom } from "@mui/material";
+import { IconButton, ListItem, Tooltip, Zoom } from "@mui/material";
 import { useState } from "react";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { CreateRoomDialog } from "./CreateRoomDialog";
@@ -15,15 +15,13 @@ export const CreateRoomButton = () => {
   };
 
   return (
-    <List>
-      <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
-        <ListItem button sx={{ display: "flex", justifyContent: "center" }}>
-          <IconButton aria-label="create room" onClick={handleClickOpen}>
-            <AddCircleOutlinedIcon />
-          </IconButton>
-          <CreateRoomDialog open={open} handleClose={handleClose} />
-        </ListItem>
-      </Tooltip>
-    </List>
+    <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
+      <ListItem button sx={{ display: "flex", justifyContent: "center", height: "60px" }}>
+        <IconButton aria-label="create room" onClick={handleClickOpen}>
+          <AddCircleOutlinedIcon sx={{ fontSize: "48px" }} />
+        </IconButton>
+        <CreateRoomDialog open={open} handleClose={handleClose} />
+      </ListItem>
+    </Tooltip>
   );
 };

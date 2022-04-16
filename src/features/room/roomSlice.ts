@@ -76,7 +76,7 @@ export const fetchAsyncGetOwnRooms = createAsyncThunk<Room[], { token: string }>
 export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }>(
   "room/fetchRoomContent",
   async ({ token, roomId: id }) => {
-    const res = await axios.get<RoomContent>(`${apiUrl}/rooms/${id}`, {
+    const res = await axios.get<RoomContent>(`${apiUrl}/rooms/${id}/detail`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

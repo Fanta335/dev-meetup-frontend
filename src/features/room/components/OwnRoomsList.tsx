@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { List, ListItem, ListItemIcon, Tooltip, Zoom } from "@mui/material";
+import { List, ListItem, Tooltip, Zoom } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchAsyncGetOwnRooms, selectOwnRooms } from "../roomSlice";
@@ -25,12 +25,10 @@ export const OwnRoomsList = () => {
     <>
       <List>
         {ownRooms.allIds.map((roomId) => (
-          <ListItem button key={roomId} sx={{ display: "flex", justifyContent: "center" }}>
+          <ListItem button key={roomId} sx={{ display: "flex", justifyContent: "center", height: "60px" }}>
             <Tooltip title={ownRooms.byIds[roomId].name} placement="right" arrow TransitionComponent={Zoom}>
               <Link to={`rooms/${roomId}`}>
-                <ListItemIcon sx={{ display: "flex", justifyContent: "center" }}>
-                  <HouseIcon sx={{ color: "inherit" }} />
-                </ListItemIcon>
+                <HouseIcon sx={{ color: "inherit", fontSize: "48px" }} />
               </Link>
             </Tooltip>
           </ListItem>
