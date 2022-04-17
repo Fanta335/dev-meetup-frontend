@@ -5,7 +5,6 @@ import LogoutButton from "../auth/LogoutButton";
 
 export const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const drawerWidth = 70;
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -17,9 +16,11 @@ export const Navbar = () => {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
-        <Typography component={Link} to="/" variant="h6" noWrap sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}>
-          Dev Meetup
-        </Typography>
+        <Box sx={{flexGrow: 1}}>
+          <Typography component={Link} to="/" variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
+            Dev Meetup
+          </Typography>
+        </Box>
         <LogoutButton />
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
