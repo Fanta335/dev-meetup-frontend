@@ -34,9 +34,11 @@ export type NormalizedRoomContent = {
     members: {
       [key: string]: User;
     };
-    messages: {
-      [key: string]: Message;
-    } | undefined;
+    messages:
+      | {
+          [key: string]: Message;
+        }
+      | undefined;
   };
   result: {
     owners: string[];
@@ -44,3 +46,5 @@ export type NormalizedRoomContent = {
     messages: string[] | undefined;
   } & Room;
 };
+
+export type Location = "home" | "room" | "discovery";

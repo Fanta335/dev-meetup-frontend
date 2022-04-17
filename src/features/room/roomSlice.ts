@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent } from "../room/types";
+import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location } from "../room/types";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
-const initialState: { rooms: Room[]; belongingRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom } = {
+const initialState: { rooms: Room[]; belongingRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom; location: Location } = {
   rooms: [
     {
       id: 0,
@@ -36,6 +36,7 @@ const initialState: { rooms: Room[]; belongingRooms: { byIds: { [key: string]: R
     owners: [],
     members: [],
   },
+  location: "home",
 };
 
 export const postRoom = createAsyncThunk<Room, { token: string; createRoomDTO: CreateRoomDTO }>("room/postRoom", async ({ token, createRoomDTO }) => {
@@ -97,7 +98,11 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
 const roomSlice = createSlice({
   name: "room",
   initialState,
-  reducers: {},
+  reducers: {
+    changeLocation(state, action: PayloadAction<Location>) {
+      state.location = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(postRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const newRoom = action.payload;
@@ -134,8 +139,11 @@ const roomSlice = createSlice({
   },
 });
 
+export const { changeLocation } = roomSlice.actions;
+
 export const selectRooms = (state: RootState) => state.room.rooms;
 export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;
 export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
+export const selectLocation = (state: RootState) => state.room.location;
 
 export const roomReducer = roomSlice.reducer;
