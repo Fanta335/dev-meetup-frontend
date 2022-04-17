@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 
 export const MainLayout = () => {
   return (
-    <Box sx={{ display: "flex", height: "100vh", overflow: "auto" }}>
+    <Box sx={{ display: "flex", height: "100vh", overflow: "auto", overscrollBehavior: "none" }}>
       <CssBaseline />
       <Navbar />
       <Sidebar />
