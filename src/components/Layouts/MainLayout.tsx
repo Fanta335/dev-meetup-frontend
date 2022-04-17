@@ -1,18 +1,17 @@
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import Sidebar from "./Sidebar";
 
 export const MainLayout = () => {
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", height: "100vh", overflow: "auto" }}>
       <CssBaseline />
+      <Navbar />
       <Sidebar />
-      <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <Navbar />
-        <Box sx={{ bgcolor: "green", mt: 8, height: "100%" }}>
-          <Outlet />
-        </Box>
+      <Box component="main" sx={{flexGrow: 1}}>
+        <Toolbar />
+        <Outlet />
       </Box>
     </Box>
   );

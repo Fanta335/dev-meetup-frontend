@@ -5,7 +5,7 @@ import { RootState } from "../../stores/store";
 import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent } from "../room/types";
 
 const apiUrl = process.env.REACT_APP_SERVER_URL;
-const initialState: { rooms: Room[]; ownRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom } = {
+const initialState: { rooms: Room[]; belongingRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom } = {
   rooms: [
     {
       id: 0,
@@ -15,7 +15,7 @@ const initialState: { rooms: Room[]; ownRooms: { byIds: { [key: string]: Room };
       deletedAt: null,
     },
   ],
-  ownRooms: {
+  belongingRooms: {
     byIds: {
       "0": {
         id: 0,
@@ -63,8 +63,8 @@ export const fetchAsyncGetAllRooms = createAsyncThunk<Room[], { token: string }>
   return res.data;
 });
 
-export const fetchAsyncGetOwnRooms = createAsyncThunk<Room[], { token: string }>("room/fetchOwnRooms", async ({ token }) => {
-  const res = await axios.get<Room[]>(`${apiUrl}/rooms/own-rooms`, {
+export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: string }>("room/fetchBelongingRooms", async ({ token }) => {
+  const res = await axios.get<Room[]>(`${apiUrl}/rooms/belonging-rooms`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -101,20 +101,20 @@ const roomSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(postRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const newRoom = action.payload;
-      state.ownRooms.byIds[newRoom.id] = newRoom;
-      state.ownRooms.allIds.push(newRoom.id.toString());
+      state.belongingRooms.byIds[newRoom.id] = newRoom;
+      state.belongingRooms.allIds.push(newRoom.id.toString());
     });
     builder.addCase(fetchAsyncGetAllRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       state.rooms = action.payload;
     });
-    builder.addCase(fetchAsyncGetOwnRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
+    builder.addCase(fetchAsyncGetBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       const data = action.payload;
-      const ownRoomEntity = new schema.Entity<Room>("ownRooms");
-      const ownRoomSchema = { ownRooms: [ownRoomEntity] };
-      const normalizedOwnRoomsData = normalize({ ownRooms: data }, ownRoomSchema);
-      if (normalizedOwnRoomsData.entities.ownRooms !== undefined) {
-        state.ownRooms.byIds = normalizedOwnRoomsData.entities.ownRooms;
-        state.ownRooms.allIds = normalizedOwnRoomsData.result.ownRooms;
+      const belongingRoomEntity = new schema.Entity<Room>("belongingRooms");
+      const belongingRoomSchema = { belongingRooms: [belongingRoomEntity] };
+      const normalizedBelongingRoomsData = normalize({ belongingRooms: data }, belongingRoomSchema);
+      if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
+        state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
+        state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
       }
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
@@ -135,7 +135,7 @@ const roomSlice = createSlice({
 });
 
 export const selectRooms = (state: RootState) => state.room.rooms;
-export const selectOwnRooms = (state: RootState) => state.room.ownRooms;
+export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;
 export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
 
 export const roomReducer = roomSlice.reducer;

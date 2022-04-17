@@ -24,8 +24,10 @@ export const MessageInputForm = () => {
     const socket = io(serverUrl, {
       auth: { token: token },
     });
-    console.log("data", content);
-    socket.emit("messageToServer", content);
+    console.log("message content: ", content);
+    const roomId = currentRoom.id;
+    socket.emit("messageToServer", { roomId: roomId.toString(), content });
+    socket.on("messageToClient", (data) => console.log("content from server: ", data));
 
     const createMessageDTO = {
       content: content.message,
@@ -36,7 +38,7 @@ export const MessageInputForm = () => {
     reset();
   };
   return (
-    <>
+    <Box sx={{width: "100%"}}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flexGrow: 1 }}>
@@ -63,6 +65,6 @@ export const MessageInputForm = () => {
           </Button>
         </Box>
       </form>
-    </>
+    </Box>
   );
 };

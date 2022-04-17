@@ -55,7 +55,7 @@ export const RoomHeader = () => {
   const currentRoom = useAppSelector(selectCurrentRoom);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ width: '100%' }}>
       <AppBar position="static">
         <Toolbar>
           <RoomSettingsMenu />

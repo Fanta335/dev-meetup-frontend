@@ -15,7 +15,7 @@ export const Navbar = () => {
   const settings = ["Profile", "Account", "Logout"];
 
   return (
-    <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <Typography component={Link} to="/" variant="h6" noWrap sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}>
           Dev Meetup
