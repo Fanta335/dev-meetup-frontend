@@ -10,7 +10,7 @@ type FormInput = {
   message: string;
 };
 
-const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3000";
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 export const MessageInputForm = () => {
   const { handleSubmit, control, reset } = useForm<FormInput>();
@@ -27,7 +27,7 @@ export const MessageInputForm = () => {
     console.log("message content: ", content);
     const roomId = currentRoom.id;
     socket.emit("messageToServer", { roomId: roomId.toString(), content });
-    socket.on("messageToClient", (data) => console.log("content from server: ", data));
+    // socket.on("messageToClient", (data) => console.log("content from server: ", data));
 
     const createMessageDTO = {
       content: content.message,

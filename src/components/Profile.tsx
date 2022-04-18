@@ -34,7 +34,7 @@ const Profile: VFC = () => {
     const getUserMetaData = async () => {
       try {
         const claims = await getIdTokenClaims() as IdToken;
-        const namespace = process.env.REACT_APP_API_NAMESPACE || "https://target-api.example.com";
+        const namespace = process.env.REACT_APP_API_NAMESPACE;
         const userMetaData = claims[namespace + '/mysqlUser'];
         console.log(userMetaData);
         setMysqlUser(userMetaData);

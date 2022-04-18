@@ -3,9 +3,9 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Auth0ProviderWithHistory: FC = ({ children }) => {
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN || "domain";
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || "clientId";
-  const audience = process.env.REACT_APP_AUTH0_AUDIENCE || "audience";
+  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
   const navigate = useNavigate();
   const target = window.location.origin + "/app";

@@ -27,7 +27,8 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
         },
       });
       socket.emit("joinRoom", roomId);
-      socket.on("joinRoomFromServer", (roomId: string) => console.log("joined room: ", roomId));
+      socket.on("joinRoomFromServer", (data: string) => console.log("join room from server: ", data));
+      socket.on("messageToClient", data => console.log('message to client: ', data));
     };
 
     if (roomId !== undefined) {
