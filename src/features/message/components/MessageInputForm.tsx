@@ -1,44 +1,25 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { io } from "socket.io-client";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
-import { postMessage } from "../messageSlice";
+import { messageActions } from "../messageSlice";
 
 type FormInput = {
   message: string;
 };
 
-const serverUrl = process.env.REACT_APP_SERVER_URL;
-
 export const MessageInputForm = () => {
   const { handleSubmit, control, reset } = useForm<FormInput>();
-  const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    const token = await getAccessTokenSilently();
-
-    const socket = io(serverUrl, {
-      auth: { token: token },
-    });
-    console.log("message content: ", content);
-    const roomId = currentRoom.id;
-    socket.emit("messageToServer", { roomId: roomId.toString(), content });
-    // socket.on("messageToClient", (data) => console.log("content from server: ", data));
-
-    const createMessageDTO = {
-      content: content.message,
-      roomId: currentRoom.id,
-    };
-    await dispatch(postMessage({ token, createMessageDTO }));
+    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message }));
 
     reset();
   };
   return (
-    <Box sx={{width: "100%"}}>
+    <Box sx={{ width: "100%" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ display: "flex" }}>
           <Box sx={{ flexGrow: 1 }}>

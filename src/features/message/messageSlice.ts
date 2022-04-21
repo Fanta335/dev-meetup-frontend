@@ -3,10 +3,10 @@ import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
-import { CreateMessageDTO, CurrentMessages, Message } from "./types";
+import { CreateMessageDTO, Message, MessageType } from "./types";
 
-const apiUrl = process.env.REACT_APP_SERVER_URL;
-const initialState: { currentMessages: CurrentMessages } = {
+const apiUrl = process.env.REACT_APP_API_URL;
+const initialState: MessageType = {
   currentMessages: {
     byIds: {
       "0": {
@@ -23,6 +23,8 @@ const initialState: { currentMessages: CurrentMessages } = {
     },
     allIds: ["0"],
   },
+  isEstablishingConnection: false,
+  isConnected: false,
 };
 
 export const postMessage = createAsyncThunk<Message, { token: string; createMessageDTO: CreateMessageDTO }>(
@@ -57,7 +59,29 @@ export const fetchCurrenMessages = createAsyncThunk<Message[], { token: string; 
 const messageSlice = createSlice({
   name: "message",
   initialState,
-  reducers: {},
+  reducers: {
+    startConnecting: (state, action: PayloadAction<{ token: string; roomId: string }>) => {
+      state.isEstablishingConnection = true;
+      console.log("start connecting...");
+    },
+    connectionEstablished: (state) => {
+      state.isEstablishingConnection = false;
+      state.isConnected = true;
+      console.log("connection established.");
+    },
+    sendMessage: (state, action: PayloadAction<{ roomId: string; content: string }>) => {
+      console.log("send message: ", action.payload);
+    },
+    receiveMessage: (state, action: PayloadAction<Message>) => {
+      console.log("received message: ", action.payload);
+    },
+    joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+      console.log("join room");
+    },
+    leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+      console.log("leave room");
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(postMessage.fulfilled, (state, action: PayloadAction<Message>) => {
       const newMessage = action.payload;
@@ -66,12 +90,12 @@ const messageSlice = createSlice({
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
-      console.log('room messages: ', data.entities.messages, data.result.messages);
+      // console.log("room messages: ", data.entities.messages, data.result.messages);
       if (data.entities.messages !== undefined && data.result.messages !== undefined) {
         state.currentMessages.byIds = data.entities.messages;
         state.currentMessages.allIds = data.result.messages;
-      }else{
-        console.log('message is undefined!');
+      } else {
+        console.log("message is undefined!");
         state.currentMessages.byIds = initialState.currentMessages.byIds;
         state.currentMessages.allIds = initialState.currentMessages.allIds;
       }
@@ -79,6 +103,9 @@ const messageSlice = createSlice({
   },
 });
 
+export const messageActions = messageSlice.actions;
+
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
+export const selectIsConnected = (state: RootState) => state.message.isConnected;
 
 export const messageReducer = messageSlice.reducer;

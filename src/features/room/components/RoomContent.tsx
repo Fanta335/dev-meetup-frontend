@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { useEffect, VFC } from "react";
-import { io } from "socket.io-client";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { MessageContainer } from "../../message/components/MessageContainer";
+import { messageActions, selectIsConnected } from "../../message/messageSlice";
 import { UsersList } from "../../user/components/UsersList";
-import { fetchRoomContent, selectCurrentRoom } from "../roomSlice";
+import { fetchRoomContent } from "../roomSlice";
 
 type Props = {
   roomId: string | undefined;
@@ -14,28 +14,38 @@ type Props = {
 export const RoomContent: VFC<Props> = ({ roomId }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
-  const currentRoom = useAppSelector(selectCurrentRoom);
+  const isConnected = useAppSelector(selectIsConnected);
 
   useEffect(() => {
-    const fetchRoomDetail = async (id: string) => {
+    // Handle room joining.
+    const handleJoinRoom = async (newRoomId: string) => {
       const token = await getAccessTokenSilently();
-      await dispatch(fetchRoomContent({ token, roomId: id }));
 
-      const socket = io("http://localhost:3000", {
-        auth: {
-          token: token,
-        },
-      });
-      socket.emit("joinRoom", roomId);
-      socket.on("joinRoomFromServer", (data: string) => console.log("join room from server: ", data));
-      socket.on("messageToClient", data => console.log('message to client: ', data));
+      // Get room content from api.
+      await dispatch(fetchRoomContent({ token: token, roomId: newRoomId }));
+
+      // Establish new socket connection.
+      if (!isConnected) {
+        console.log("connecting new socket.");
+        dispatch(messageActions.startConnecting({ token: token, roomId: newRoomId }));
+      }
+
+      dispatch(messageActions.joinRoom({ roomId: newRoomId }));
     };
 
-    if (roomId !== undefined) {
-      fetchRoomDetail(roomId);
+    const handleLeaveRoom = (prevRoomId: string | undefined) => {
+      if (!prevRoomId) return;
+
+      dispatch(messageActions.leaveRoom({ roomId: prevRoomId }));
+    };
+
+    if (roomId) {
+      handleJoinRoom(roomId);
     }
-  }, [dispatch, getAccessTokenSilently, roomId]);
-  console.log("current room: ", currentRoom);
+
+    // Leave from previous room before moving to another room.
+    return () => handleLeaveRoom(roomId);
+  }, [dispatch, getAccessTokenSilently, roomId, isConnected]);
 
   return (
     <>
@@ -43,7 +53,7 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
         <Box sx={{ flexGrow: 1 }}>
           <MessageContainer />
         </Box>
-          <UsersList />
+        <UsersList />
       </Box>
     </>
   );
