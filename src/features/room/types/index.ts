@@ -1,6 +1,13 @@
 import { Message } from "../../message/types";
 import { User } from "../../user/types";
 
+export type RoomType = {
+  rooms: Room[];
+  belongingRooms: { byIds: { [key: string]: Room }; allIds: string[] };
+  currentRoom: CurrentRoom;
+  location: Location;
+};
+
 export type Room = {
   id: number;
   name: string;

@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location } from "../room/types";
+import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType } from "../room/types";
 
-const apiUrl = process.env.REACT_APP_SERVER_URL;
-const initialState: { rooms: Room[]; belongingRooms: { byIds: { [key: string]: Room }; allIds: string[] }; currentRoom: CurrentRoom; location: Location } = {
+const apiUrl = process.env.REACT_APP_API_URL;
+const initialState: RoomType = {
   rooms: [
     {
       id: 0,
