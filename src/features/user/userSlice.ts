@@ -5,7 +5,7 @@ import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
 import { CurrentUsers, User } from "./types";
 
-const apiUrl = process.env.REACT_APP_SERVER_URL;
+const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: { users: User[]; currentUsers: CurrentUsers } = {
   users: [
     {

@@ -8,7 +8,7 @@ const Profile: VFC = () => {
   const { user, isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
   const [mysqlUser, setMysqlUser] = useState<MysqlUser>();
   // const [responseData, setResponseData] = useState<any>();
-  // const serverUrl = process.env.REACT_APP_SERVER_URL || "http://localhost:3000";
+  // const serverUrl = process.env.REACT_APP_API_URL || "http://localhost:3000";
 
   useEffect(() => {
     // const getUserData = async () => {
