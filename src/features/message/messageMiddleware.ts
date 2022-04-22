@@ -19,12 +19,17 @@ export const messageMiddleware: Middleware = (store) => {
         },
       });
 
+      // After connection established, start listening to incoming message.
       socket.on("connect", () => {
         store.dispatch(messageActions.connectionEstablished());
+
+        socket.on(MessageEvent.ReceiveMessage, (message: Message) => {
+          store.dispatch(messageActions.receiveMessage(message));
+        });
       });
     }
 
-    // Handle each events on socket.
+    // Handle room joining & sending message.
     if (isConnectionEstablished) {
       if (messageActions.joinRoom.match(action)) {
         const roomId = action.payload.roomId;
@@ -36,12 +41,6 @@ export const messageMiddleware: Middleware = (store) => {
         const roomId = action.payload.roomId;
         socket.emit(MessageEvent.LeaveRoom, { roomId });
         socket.on("left_room", (data) => console.log("left from: ", data));
-      }
-
-      if (messageActions.receiveMessage.match(action)) {
-        socket.on(MessageEvent.ReceiveMessage, (message: Message) => {
-          store.dispatch(messageActions.receiveMessage(message));
-        });
       }
 
       if (messageActions.sendMessage.match(action)) {

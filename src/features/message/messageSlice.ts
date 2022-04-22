@@ -73,7 +73,10 @@ const messageSlice = createSlice({
       console.log("send message: ", action.payload);
     },
     receiveMessage: (state, action: PayloadAction<Message>) => {
-      console.log("received message: ", action.payload);
+      const message = action.payload;
+      console.log("received message: ", message);
+      state.currentMessages.allIds.push(message.id.toString());
+      state.currentMessages.byIds[message.id] = message;
     },
     joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
       console.log("join room");
