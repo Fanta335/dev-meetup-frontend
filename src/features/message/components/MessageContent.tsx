@@ -21,8 +21,13 @@ export const MessageContent: VFC<Props> = ({ message }) => {
         {isEditing ? (
           <EditMessageInputForm message={message} />
         ) : (
-          <Typography variant="body1" component="h5">
-            {message.content}
+          <div>
+            <Typography variant="body1">{message.content}</Typography>
+          </div>
+        )}
+        {isEdited && (
+          <Typography variant="subtitle2" color="text.secondary">
+            （編集済）
           </Typography>
         )}
       </Box>
