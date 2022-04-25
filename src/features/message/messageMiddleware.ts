@@ -46,6 +46,10 @@ export const messageMiddleware: Middleware = (store) => {
       if (messageActions.sendMessage.match(action)) {
         socket.emit(MessageEvent.SendMessage, action.payload);
       }
+
+      if (messageActions.updateMessage.match(action)) {
+        socket.emit(MessageEvent.UpdateMessage, action.payload);
+      }
     }
 
     next(action);

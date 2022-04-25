@@ -1,26 +1,36 @@
 import { Box } from "@mui/material";
+import { useEffect, useRef } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
 import { selectCurrentMessages } from "../messageSlice";
+import { MessageItem } from "./MessageItem";
 
 export const MessageBoard = () => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const currentMessages = useAppSelector(selectCurrentMessages);
   console.log("current users: ", currentUsers);
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(scrollToBottom, [currentMessages]);
+
   return (
     <>
-      <Box sx={{ bgcolor: "khaki"}}>
-        <ul>
+      <Box sx={{ bgcolor: "khaki" }}>
+        <ul style={{ listStyle: "none", padding: "0" }}>
           {currentMessages.allIds[0] !== "0" &&
             currentMessages.allIds.map((messageId) => (
               <li key={messageId}>
-                <strong>{currentUsers.members.byIds[currentMessages.byIds[messageId].authorId.toString()].name}</strong>
-                {": "}
-                <span>{currentMessages.byIds[messageId].content}</span>
+                <MessageItem messageId={messageId} />
               </li>
             ))}
         </ul>
+        <div ref={messagesEndRef} />
       </Box>
     </>
   );

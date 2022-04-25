@@ -2,6 +2,7 @@ export type MessageType = {
   currentMessages: CurrentMessages;
   isEstablishingConnection: boolean;
   isConnected: boolean;
+  messageEdit: MessageEdit;
 };
 
 export type Message = {
@@ -24,6 +25,11 @@ export type CurrentMessages = {
   allIds: string[];
 };
 
+export type MessageEdit = {
+  messageId: string;
+  isEditing: boolean;
+};
+
 export type CreateMessageDTO = {
   content: string;
   roomId: number;
@@ -35,6 +41,7 @@ export const MessageEvent = {
   ReceiveMessage: "receive_message",
   JoinRoom: "join_room",
   LeaveRoom: "leave_room",
+  UpdateMessage: "update_message",
 } as const;
 
 export type MessageEventType = typeof MessageEvent[keyof typeof MessageEvent];

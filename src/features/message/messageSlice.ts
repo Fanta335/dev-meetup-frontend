@@ -25,6 +25,10 @@ const initialState: MessageType = {
   },
   isEstablishingConnection: false,
   isConnected: false,
+  messageEdit: {
+    messageId: "0",
+    isEditing: false,
+  },
 };
 
 export const postMessage = createAsyncThunk<Message, { token: string; createMessageDTO: CreateMessageDTO }>(
@@ -75,14 +79,28 @@ const messageSlice = createSlice({
     receiveMessage: (state, action: PayloadAction<Message>) => {
       const message = action.payload;
       console.log("received message: ", message);
-      state.currentMessages.allIds.push(message.id.toString());
+
+      const isNewMessage = !(message.id in state.currentMessages.byIds);
+      if (isNewMessage) {
+        state.currentMessages.allIds.push(message.id.toString());
+      }
       state.currentMessages.byIds[message.id] = message;
+    },
+    updateMessage: (state, action: PayloadAction<{ roomId: string; messageId: number; content: string }>) => {
+      console.log("update message: ", action.payload);
     },
     joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
       console.log("join room");
     },
     leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
       console.log("leave room");
+    },
+    startEdit: (state, action: PayloadAction<{ messageId: string }>) => {
+      state.messageEdit.messageId = action.payload.messageId;
+      state.messageEdit.isEditing = true;
+    },
+    endEdit: (state) => {
+      state.messageEdit.isEditing = false;
     },
   },
   extraReducers: (builder) => {
@@ -98,7 +116,7 @@ const messageSlice = createSlice({
         state.currentMessages.byIds = data.entities.messages;
         state.currentMessages.allIds = data.result.messages;
       } else {
-        console.log("message is undefined!");
+        console.log("This room has no messages!");
         state.currentMessages.byIds = initialState.currentMessages.byIds;
         state.currentMessages.allIds = initialState.currentMessages.allIds;
       }
@@ -110,5 +128,6 @@ export const messageActions = messageSlice.actions;
 
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
+export const selectMessageEdit = (state: RootState) => state.message.messageEdit;
 
 export const messageReducer = messageSlice.reducer;
