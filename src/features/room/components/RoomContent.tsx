@@ -53,7 +53,9 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
         <Box sx={{ flexGrow: 1 }}>
           <MessageContainer />
         </Box>
-        <UsersList />
+        <Box>
+          <UsersList />
+        </Box>
       </Box>
     </>
   );
