@@ -21,12 +21,12 @@ const initialState: MessageType = {
         deletedAt: null,
       },
     },
-    allIds: ["0"],
+    allIds: [0],
   },
   isEstablishingConnection: false,
   isConnected: false,
   messageEdit: {
-    messageId: "0",
+    messageId: 0,
     isEditing: false,
   },
 };
@@ -76,15 +76,24 @@ const messageSlice = createSlice({
     sendMessage: (state, action: PayloadAction<{ roomId: string; content: string }>) => {
       console.log("send message: ", action.payload);
     },
+    removeMessage: (state, action: PayloadAction<{ roomId: string; messageId: number }>) => {
+      console.log("send message to remove: ", action.payload);
+    },
     receiveMessage: (state, action: PayloadAction<Message>) => {
       const message = action.payload;
       console.log("received message: ", message);
 
       const isNewMessage = !(message.id in state.currentMessages.byIds);
       if (isNewMessage) {
-        state.currentMessages.allIds.push(message.id.toString());
+        state.currentMessages.allIds.push(message.id);
       }
       state.currentMessages.byIds[message.id] = message;
+    },
+    receiveMessageRemoved: (state, action: PayloadAction<Message>) => {
+      const messageId = action.payload.id;
+      delete state.currentMessages.byIds[messageId];
+      const newAllIds = state.currentMessages.allIds.filter((i) => i !== messageId);
+      state.currentMessages.allIds = newAllIds;
     },
     updateMessage: (state, action: PayloadAction<{ roomId: string; messageId: number; content: string }>) => {
       console.log("update message: ", action.payload);
@@ -95,7 +104,7 @@ const messageSlice = createSlice({
     leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
       console.log("leave room");
     },
-    startEdit: (state, action: PayloadAction<{ messageId: string }>) => {
+    startEdit: (state, action: PayloadAction<{ messageId: number }>) => {
       state.messageEdit.messageId = action.payload.messageId;
       state.messageEdit.isEditing = true;
     },
@@ -107,7 +116,7 @@ const messageSlice = createSlice({
     builder.addCase(postMessage.fulfilled, (state, action: PayloadAction<Message>) => {
       const newMessage = action.payload;
       state.currentMessages.byIds[newMessage.id] = newMessage;
-      state.currentMessages.allIds.push(newMessage.id.toString());
+      state.currentMessages.allIds.push(newMessage.id);
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;

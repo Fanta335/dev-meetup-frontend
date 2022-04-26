@@ -12,7 +12,7 @@ type Props = {
 export const MessageContent: VFC<Props> = ({ message }) => {
   const messageEdit = useAppSelector(selectMessageEdit);
 
-  const isEditing = Number(messageEdit.messageId) === message.id && messageEdit.isEditing;
+  const isEditing = messageEdit.messageId === message.id && messageEdit.isEditing;
   const isEdited = message.createdAt !== message.updatedAt;
 
   return (

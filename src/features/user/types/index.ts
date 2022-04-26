@@ -13,8 +13,8 @@ export type CurrentUsers = {
     byIds: {
       [key: string]: User;
     };
-    allIds: string[];
+    allIds: number[];
   };
   // In order to avoid duplication of users, owners are managed with only id.
-  owners: string[];
+  owners: number[];
 };

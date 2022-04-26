@@ -28,9 +28,9 @@ const initialState: { users: User[]; currentUsers: CurrentUsers } = {
           deletedAt: null,
         },
       },
-      allIds: ["0"],
+      allIds: [0],
     },
-    owners: ["0"],
+    owners: [0],
   },
 };
 

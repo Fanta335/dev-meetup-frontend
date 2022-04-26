@@ -8,7 +8,7 @@ import { MessageMenu } from "./MessageMenu";
 import { MessageContent } from "./MessageContent";
 
 type Props = {
-  messageId: string;
+  messageId: number;
 };
 
 export const MessageItem: VFC<Props> = ({ messageId }) => {
@@ -32,7 +32,7 @@ export const MessageItem: VFC<Props> = ({ messageId }) => {
           <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
             {formattedDate}
           </Typography>
-          <MessageMenu messageId={message.id.toString()} />
+          <MessageMenu messageId={message.id} />
         </Box>
         <Box>
           <MessageContent message={message} />

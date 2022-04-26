@@ -19,12 +19,16 @@ export const messageMiddleware: Middleware = (store) => {
         },
       });
 
-      // After connection established, start listening to incoming message.
+      // After connection established, listen to messages from server.
       socket.on("connect", () => {
         store.dispatch(messageActions.connectionEstablished());
 
         socket.on(MessageEvent.ReceiveMessage, (message: Message) => {
           store.dispatch(messageActions.receiveMessage(message));
+        });
+
+        socket.on(MessageEvent.ReceiveMessageRemoved, (message: Message) => {
+          store.dispatch(messageActions.receiveMessageRemoved(message));
         });
       });
     }
@@ -49,6 +53,10 @@ export const messageMiddleware: Middleware = (store) => {
 
       if (messageActions.updateMessage.match(action)) {
         socket.emit(MessageEvent.UpdateMessage, action.payload);
+      }
+
+      if (messageActions.removeMessage.match(action)) {
+        socket.emit(MessageEvent.RemoveMessage, action.payload);
       }
     }
 

@@ -5,7 +5,7 @@ import { messageActions, selectMessageEdit } from "../messageSlice";
 import { VFC } from "react";
 
 type Props = {
-  messageId: string;
+  messageId: number;
 };
 
 export const EditMessageButton: VFC<Props> = ({ messageId }) => {

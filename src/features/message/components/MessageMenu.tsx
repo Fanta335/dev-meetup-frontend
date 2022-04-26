@@ -8,7 +8,7 @@ import { ReplyButton } from "./ReplyButton";
 import { StopEditingButton } from "./StopEditingButton";
 
 type Props = {
-  messageId: string;
+  messageId: number;
 };
 
 export const MessageMenu: VFC<Props> = ({ messageId }) => {
@@ -23,7 +23,7 @@ export const MessageMenu: VFC<Props> = ({ messageId }) => {
         <div>
           <ReplyButton />
           <EditMessageButton messageId={messageId} />
-          <DeleteMessageButton />
+          <DeleteMessageButton messageId={messageId} />
         </div>
       )}
     </ButtonGroup>

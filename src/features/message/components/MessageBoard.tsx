@@ -9,6 +9,7 @@ export const MessageBoard = () => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const currentMessages = useAppSelector(selectCurrentMessages);
   console.log("current users: ", currentUsers);
+  console.log("current messages: ", currentMessages);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -23,7 +24,7 @@ export const MessageBoard = () => {
     <>
       <Box sx={{ bgcolor: "khaki" }}>
         <ul style={{ listStyle: "none", padding: "0" }}>
-          {currentMessages.allIds[0] !== "0" &&
+          {currentMessages.allIds[0] !== 0 &&
             currentMessages.allIds.map((messageId) => (
               <li key={messageId}>
                 <MessageItem messageId={messageId} />
