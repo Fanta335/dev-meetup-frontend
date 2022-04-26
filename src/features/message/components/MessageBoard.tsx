@@ -22,7 +22,7 @@ export const MessageBoard = () => {
 
   return (
     <>
-      <Box sx={{ bgcolor: "khaki" }}>
+      <Box sx={{ bgcolor: "khaki", mt: "70px" }}>
         <ul style={{ listStyle: "none", padding: "0" }}>
           {currentMessages.allIds[0] !== 0 &&
             currentMessages.allIds.map((messageId) => (
