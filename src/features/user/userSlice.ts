@@ -3,10 +3,10 @@ import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
-import { CurrentUsers, User } from "./types";
+import { User, UserType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const initialState: { users: User[]; currentUsers: CurrentUsers } = {
+const initialState: UserType = {
   users: [
     {
       id: 0,

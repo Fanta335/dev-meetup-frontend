@@ -1,3 +1,8 @@
+export type UserType = {
+  users: User[];
+  currentUsers: CurrentUsers;
+};
+
 export type User = {
   id: number;
   subId?: string;
