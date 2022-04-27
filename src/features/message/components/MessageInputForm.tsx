@@ -14,7 +14,7 @@ export const MessageInputForm = () => {
   const currentRoom = useAppSelector(selectCurrentRoom);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message }));
+    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message, parentId: null }));
 
     reset();
   };

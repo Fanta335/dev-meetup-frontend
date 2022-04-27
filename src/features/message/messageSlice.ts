@@ -14,8 +14,7 @@ const initialState: MessageType = {
         authorId: 0,
         roomId: 0,
         content: "",
-        parent: null,
-        children: null,
+        parentId: null,
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -73,7 +72,7 @@ const messageSlice = createSlice({
       state.isConnected = true;
       console.log("connection established.");
     },
-    sendMessage: (state, action: PayloadAction<{ roomId: string; content: string }>) => {
+    sendMessage: (state, action: PayloadAction<{ roomId: string; content: string; parentId: number | null }>) => {
       console.log("send message: ", action.payload);
     },
     removeMessage: (state, action: PayloadAction<{ roomId: string; messageId: number }>) => {
