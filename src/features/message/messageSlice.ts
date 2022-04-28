@@ -28,6 +28,10 @@ const initialState: MessageType = {
     messageId: 0,
     isEditing: false,
   },
+  messageReply: {
+    parentMessageId: null,
+    isReplying: false,
+  },
 };
 
 export const postMessage = createAsyncThunk<Message, { token: string; createMessageDTO: CreateMessageDTO }>(
@@ -110,6 +114,14 @@ const messageSlice = createSlice({
     endEdit: (state) => {
       state.messageEdit.isEditing = false;
     },
+    startReplying: (state, action: PayloadAction<{ parentMessageId: number }>) => {
+      state.messageReply.parentMessageId = action.payload.parentMessageId;
+      state.messageReply.isReplying = true;
+    },
+    endReplying: (state) => {
+      state.messageReply.parentMessageId = null;
+      state.messageReply.isReplying = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postMessage.fulfilled, (state, action: PayloadAction<Message>) => {
@@ -137,5 +149,6 @@ export const messageActions = messageSlice.actions;
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
 export const selectMessageEdit = (state: RootState) => state.message.messageEdit;
+export const selectMessageReply = (state: RootState) => state.message.messageReply;
 
 export const messageReducer = messageSlice.reducer;

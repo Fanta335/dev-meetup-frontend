@@ -34,7 +34,7 @@ export const MessageMenu: VFC<Props> = ({ messageId }) => {
         <StopEditingButton />
       ) : (
         <div>
-          <ReplyButton />
+          <ReplyButton messageId={messageId} />
           {isOwnMessage && <EditMessageButton messageId={messageId} />}
           {isOwnMessage && <DeleteMessageButton messageId={messageId} />}
         </div>

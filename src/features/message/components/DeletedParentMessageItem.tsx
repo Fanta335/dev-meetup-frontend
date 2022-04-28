@@ -10,7 +10,9 @@ export const DeletedParentMessageItem = () => {
         </Avatar>
       </Box>
       <Box sx={{ pl: 1 }}>
-        <Typography variant="caption">元のメッセージは削除されました。</Typography>
+        <Typography variant="caption" sx={{ fontStyle: "italic" }}>
+          元のメッセージは削除されました。
+        </Typography>
       </Box>
     </Box>
   );

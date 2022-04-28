@@ -1,8 +1,10 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Paper, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
-import { messageActions } from "../messageSlice";
+import { selectCurrentUsers } from "../../user/userSlice";
+import { messageActions, selectCurrentMessages, selectMessageReply } from "../messageSlice";
+import { StopReplyingButton } from "./StopReplyingButton";
 
 type FormInput = {
   message: string;
@@ -12,12 +14,20 @@ export const MessageInputForm = () => {
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
+  const currentMessages = useAppSelector(selectCurrentMessages);
+  const currentUsers = useAppSelector(selectCurrentUsers);
+  const messageReply = useAppSelector(selectMessageReply);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message, parentId: null }));
+    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message, parentId: messageReply.parentMessageId }));
+
+    if (messageReply.isReplying) {
+      dispatch(messageActions.endReplying());
+    }
 
     reset();
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -25,15 +35,24 @@ export const MessageInputForm = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Controller
               render={({ field }) => (
-                <TextField
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  id="messageInputForm"
-                  fullWidth
-                  // multiline
-                  autoComplete="off"
-                />
+                <div>
+                  {(messageReply.isReplying  && messageReply.parentMessageId) && (
+                    <Paper sx={{ bgcolor: "#62b7eb" }} elevation={0}>
+                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId].name}
+                      {' '}に返信中
+                      <StopReplyingButton />
+                    </Paper>
+                  )}
+                  <TextField
+                    value={field.value}
+                    onChange={field.onChange}
+                    inputRef={field.ref}
+                    id="messageInputForm"
+                    fullWidth
+                    // multiline
+                    autoComplete="off"
+                  />
+                </div>
               )}
               name="message"
               control={control}

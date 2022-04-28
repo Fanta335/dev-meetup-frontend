@@ -3,6 +3,7 @@ export type MessageType = {
   isEstablishingConnection: boolean;
   isConnected: boolean;
   messageEdit: MessageEdit;
+  messageReply: MessageReply;
 };
 
 export type Message = {
@@ -27,6 +28,11 @@ export type MessageEdit = {
   messageId: number;
   isEditing: boolean;
 };
+
+export type MessageReply = {
+  parentMessageId: number | null;
+  isReplying: boolean;
+}
 
 export type CreateMessageDTO = {
   content: string;
