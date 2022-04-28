@@ -51,7 +51,7 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
   const { handleSubmit, control, reset } = useForm<FormInput>();
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    console.log("post room: ", data);
+    // console.log("post room: ", data);
 
     const token = await getAccessTokenSilently();
     const createRoomDTO = data;

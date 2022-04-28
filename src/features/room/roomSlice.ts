@@ -89,7 +89,7 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
     const mySchema = { owners: [owner], members: [member], messages: [message] };
     const normalizedData = normalize(res.data, mySchema) as NormalizedRoomContent;
 
-    console.log("normalizedData: ", normalizedData);
+    // console.log("normalizedData: ", normalizedData);
 
     return normalizedData;
   }

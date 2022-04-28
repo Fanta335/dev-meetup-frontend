@@ -38,13 +38,13 @@ export const messageMiddleware: Middleware = (store) => {
       if (messageActions.joinRoom.match(action)) {
         const roomId = action.payload.roomId;
         socket.emit(MessageEvent.JoinRoom, { roomId });
-        socket.on("joined_room", (data) => console.log("room id you joined is: ", data));
+        // socket.on("joined_room", (data) => console.log("room id you joined is: ", data));
       }
 
       if (messageActions.leaveRoom.match(action)) {
         const roomId = action.payload.roomId;
         socket.emit(MessageEvent.LeaveRoom, { roomId });
-        socket.on("left_room", (data) => console.log("left from: ", data));
+        // socket.on("left_room", (data) => console.log("left from: ", data));
       }
 
       if (messageActions.sendMessage.match(action)) {

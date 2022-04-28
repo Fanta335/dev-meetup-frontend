@@ -17,7 +17,7 @@ export const DeleteMessageButton: VFC<Props> = ({ messageId }) => {
 
   const handleDelete = () => {
     dispatch(messageActions.removeMessage({ roomId: currentRoom.id.toString(), messageId: messageId }));
-    console.log("remove message id: ", messageId);
+    // console.log("remove message id: ", messageId);
     setOpen(false);
   };
 

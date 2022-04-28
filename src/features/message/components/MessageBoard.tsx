@@ -1,15 +1,13 @@
 import { Box } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useAppSelector } from "../../../stores/hooks";
-import { selectCurrentUsers } from "../../user/userSlice";
 import { selectCurrentMessages } from "../messageSlice";
 import { MessageItem } from "./MessageItem";
 
 export const MessageBoard = () => {
-  const currentUsers = useAppSelector(selectCurrentUsers);
   const currentMessages = useAppSelector(selectCurrentMessages);
-  console.log("current users: ", currentUsers);
-  console.log("current messages: ", currentMessages);
+  // console.log("current users: ", currentUsers);
+  // console.log("current messages: ", currentMessages);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
