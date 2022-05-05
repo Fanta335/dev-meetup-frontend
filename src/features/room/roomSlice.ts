@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType } from "../room/types";
+import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchOptions, SearchedRoom } from "../room/types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: RoomType = {
@@ -35,6 +35,20 @@ const initialState: RoomType = {
     deletedAt: null,
     owners: [],
     members: [],
+  },
+  searchedRooms: {
+    byIds: {
+      "0": {
+        id: 0,
+        name: "",
+        description: "",
+        createdAt: "",
+        updatedAt: "",
+        deletedAt: null,
+        numOfMembers: 0,
+      },
+    },
+    allIds: ["0"],
   },
   location: "home",
 };
@@ -73,7 +87,7 @@ export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: str
   return res.data;
 });
 
-// This method is shared between 3 reducers: Room, User, Message.
+// [Attention] This method is shared between 3 reducers: Room, User, Message.
 export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }>(
   "room/fetchRoomContent",
   async ({ token, roomId: id }) => {
@@ -92,6 +106,20 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
     // console.log("normalizedData: ", normalizedData);
 
     return normalizedData;
+  }
+);
+
+export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string; searchOptions: SearchOptions }>(
+  "room/search-rooms",
+  async ({ token, searchOptions }) => {
+    const { query, offset, limit, sort, order } = searchOptions;
+    const res = await axios.get<SearchedRoom[]>(`${apiUrl}/rooms/search?query=${query}&offset=${offset}&limit=${limit}&sort=${sort}&order=${order}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
   }
 );
 
@@ -136,6 +164,22 @@ const roomSlice = createSlice({
       };
       state.currentRoom = currentRoom;
     });
+    builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<SearchedRoom[]>) => {
+      const rooms = action.payload;
+
+      // console.log("searched rooms: ", rooms);
+
+      const searchedRoomEntity = new schema.Entity<SearchedRoom>("searchedRooms");
+      const searchedRoomSchema = { searchedRooms: [searchedRoomEntity] };
+      const normalizedSearchedRoomsData = normalize({ searchedRooms: rooms }, searchedRoomSchema);
+
+      // console.log('normalized searched rooms: ', normalizedSearchedRoomsData);
+
+      if (normalizedSearchedRoomsData.entities.searchedRooms) {
+        state.searchedRooms.byIds = normalizedSearchedRoomsData.entities.searchedRooms;
+        state.searchedRooms.allIds = normalizedSearchedRoomsData.result.searchedRooms;
+      }
+    });
   },
 });
 
@@ -144,6 +188,7 @@ export const { changeLocation } = roomSlice.actions;
 export const selectRooms = (state: RootState) => state.room.rooms;
 export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;
 export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
+export const selectSearchedrooms = (state: RootState) => state.room.searchedRooms;
 export const selectLocation = (state: RootState) => state.room.location;
 
 export const roomReducer = roomSlice.reducer;
