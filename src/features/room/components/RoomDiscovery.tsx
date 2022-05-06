@@ -2,26 +2,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { useAppDispatch } from "../../../stores/hooks";
 import { searchAsyncRooms } from "../roomSlice";
-import { SearchOptions } from "../types";
-import { SearchCard } from "./SearchCard";
+import { SearchHeader } from "./SearchHeader";
 import { TopRoomList } from "./TopRoomList";
 
 export const RoomDiscovery = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
 
-  const testSearchOptions: SearchOptions = {
-    query: "",
-    offset: 0,
-    limit: 6,
-    sort: "date",
-    order: "d",
-  };
+  const testSearchParams = 'query=&offset=0&limit=6&sort=date&order=a';
 
   const searchRooms = async () => {
     const token = await getAccessTokenSilently();
 
-    dispatch(searchAsyncRooms({ token: token, searchOptions: testSearchOptions }));
+    await dispatch(searchAsyncRooms({ token: token, searchParams: testSearchParams }));
   };
 
   searchRooms();
@@ -30,7 +23,7 @@ export const RoomDiscovery = () => {
     <>
       <Box sx={{ display: "flex", flexDirection: "column", bgcolor: "gray", height: "100%" }}>
         <Box sx={{ bgcolor: "pink", display: "flex", justifyContent: "center" }}>
-          <SearchCard />
+          <SearchHeader />
         </Box>
         <Box sx={{ flexGrow: 1, bgcolor: "navy" }}>
           <TopRoomList />

@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectSearchedrooms } from "../roomSlice";
-import { RoomCard } from "./RoomCard";
+import { SmallRoomCard } from "./SmallRoomCard";
 
 export const TopRoomList = () => {
   const searchedRooms = useAppSelector(selectSearchedrooms);
@@ -18,7 +18,7 @@ export const TopRoomList = () => {
               const room = searchedRooms.byIds[id];
               return (
                 <Grid key={id} item xs={6} md={4} lg={3}>
-                  <RoomCard room={room} />
+                  <SmallRoomCard room={room} />
                 </Grid>
               );
             })}

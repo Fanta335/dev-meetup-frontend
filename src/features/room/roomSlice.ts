@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchOptions, SearchedRoom } from "../room/types";
+import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: RoomType = {
@@ -109,16 +109,16 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
   }
 );
 
-export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string; searchOptions: SearchOptions }>(
+export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string; searchParams: string }>(
   "room/search-rooms",
-  async ({ token, searchOptions }) => {
-    const { query, offset, limit, sort, order } = searchOptions;
-    const res = await axios.get<SearchedRoom[]>(`${apiUrl}/rooms/search?query=${query}&offset=${offset}&limit=${limit}&sort=${sort}&order=${order}`, {
+  async ({ token, searchParams }) => {
+    const res = await axios.get<SearchedRoom[]>(`${apiUrl}/rooms/search?${searchParams}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
+    console.log('searched rooms: ', res.data);
     return res.data;
   }
 );
@@ -178,6 +178,9 @@ const roomSlice = createSlice({
       if (normalizedSearchedRoomsData.entities.searchedRooms) {
         state.searchedRooms.byIds = normalizedSearchedRoomsData.entities.searchedRooms;
         state.searchedRooms.allIds = normalizedSearchedRoomsData.result.searchedRooms;
+      } else {
+        state.searchedRooms.byIds = initialState.searchedRooms.byIds;
+        state.searchedRooms.allIds = initialState.searchedRooms.allIds;
       }
     });
   },

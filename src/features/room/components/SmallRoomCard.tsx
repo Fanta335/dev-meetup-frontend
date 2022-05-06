@@ -6,7 +6,7 @@ type Props = {
   room: SearchedRoom;
 };
 
-export const RoomCard: VFC<Props> = ({ room }) => {
+export const SmallRoomCard: VFC<Props> = ({ room }) => {
   return (
     <Card sx={{ m: 1 }}>
       <CardActionArea>

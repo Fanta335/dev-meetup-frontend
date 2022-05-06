@@ -76,10 +76,11 @@ export type SearchedRoom = {
   numOfMembers: number;
 } & Room;
 
-export type SearchOptions = {
+// 'offset' and 'limit' are actually numeral values, but search parameter itself should be string type.
+export type SearchParamsType = {
   query: string;
-  offset: number;
-  limit: number;
+  offset: string;
+  limit: string;
   sort: SortOptionsType;
   order: OrderOptionsType;
 };
