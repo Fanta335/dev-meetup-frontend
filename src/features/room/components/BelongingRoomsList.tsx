@@ -5,21 +5,22 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { changeLocation, fetchAsyncGetBelongingRooms, selectBelongingRooms } from "../roomSlice";
 import PeopleIcon from "@mui/icons-material/People";
 import { Link } from "react-router-dom";
+import { Auth0User } from "../../auth/types";
 
 export const BelongingRoomsList = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const dispatch = useAppDispatch();
   const belongingRooms = useAppSelector(selectBelongingRooms);
 
   useEffect(() => {
     const fetchBelongingRooms = async () => {
       const token = await getAccessTokenSilently();
-      await dispatch(fetchAsyncGetBelongingRooms({ token }));
+      const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
+
+      await dispatch(fetchAsyncGetBelongingRooms({ token, userId: currentUser.id }));
     };
     fetchBelongingRooms();
-  }, [dispatch, getAccessTokenSilently]);
-
-  // console.log("belonging rooms: ", belongingRooms);
+  }, [dispatch, getAccessTokenSilently, user]);
 
   const handleClick = () => {
     dispatch(changeLocation("room"));

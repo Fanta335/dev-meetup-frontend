@@ -1,7 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Auth0User } from "../auth/types";
 
 export const Home = () => {
-  const { user } = useAuth0();
+  const { user } = useAuth0<Auth0User>();
 
   return (
     <div>
