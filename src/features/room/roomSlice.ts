@@ -78,14 +78,17 @@ export const fetchAsyncGetAllRooms = createAsyncThunk<Room[], { token: string }>
   return res.data;
 });
 
-export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: string }>("room/fetchBelongingRooms", async ({ token }) => {
-  const res = await axios.get<Room[]>(`${apiUrl}/rooms/belonging-rooms`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return res.data;
-});
+export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: string; userId: string }>(
+  "room/fetchBelongingRooms",
+  async ({ token, userId }) => {
+    const res = await axios.get<Room[]>(`${apiUrl}/users/${userId}/belonging-rooms`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  }
+);
 
 // [Attention] This method is shared between 3 reducers: Room, User, Message.
 export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }>(
@@ -118,7 +121,7 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
       },
     });
 
-    console.log('searched rooms: ', res.data);
+    console.log("searched rooms: ", res.data);
     return res.data;
   }
 );
