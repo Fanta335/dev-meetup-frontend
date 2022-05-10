@@ -5,7 +5,6 @@ import { SmallRoomCard } from "./SmallRoomCard";
 
 export const TopRoomList = () => {
   const searchedRooms = useAppSelector(selectSearchedrooms);
-  console.log("searched rooms: ", searchedRooms);
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", my: 3, mx: 4 }}>

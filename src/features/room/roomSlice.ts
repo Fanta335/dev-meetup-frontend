@@ -3,6 +3,7 @@ import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
 import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
+import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: RoomType = {
@@ -126,6 +127,41 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
   }
 );
 
+export const addMemberToRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
+  "room/addMemberToRoom",
+  async ({ token, userId, roomId }) => {
+    console.log("add member: ");
+    const res = await axios.put<Room[]>(
+      `${apiUrl}/users/${userId}/belonging-rooms/add/${roomId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  }
+);
+
+export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
+  "room/removeMemberFromRoom",
+  async ({ token, userId, roomId }) => {
+    const res = await axios.put<Room[]>(
+      `${apiUrl}/users/${userId}/belonging-rooms/remove/${roomId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  }
+);
+
 const roomSlice = createSlice({
   name: "room",
   initialState,
@@ -144,10 +180,7 @@ const roomSlice = createSlice({
       state.rooms = action.payload;
     });
     builder.addCase(fetchAsyncGetBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
-      const data = action.payload;
-      const belongingRoomEntity = new schema.Entity<Room>("belongingRooms");
-      const belongingRoomSchema = { belongingRooms: [belongingRoomEntity] };
-      const normalizedBelongingRoomsData = normalize({ belongingRooms: data }, belongingRoomSchema);
+      const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
       if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
         state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
@@ -186,6 +219,18 @@ const roomSlice = createSlice({
         state.searchedRooms.allIds = initialState.searchedRooms.allIds;
       }
     });
+    builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
+      const belongingRooms = action.payload;
+
+      console.log("new belonging rooms: ", belongingRooms);
+
+      const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
+      if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
+        state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
+        state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
+      }
+    });
+    builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {});
   },
 });
 
