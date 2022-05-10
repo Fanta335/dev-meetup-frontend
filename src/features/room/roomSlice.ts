@@ -220,17 +220,19 @@ const roomSlice = createSlice({
       }
     });
     builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
-      const belongingRooms = action.payload;
-
-      console.log("new belonging rooms: ", belongingRooms);
-
       const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
       if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
         state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
       }
     });
-    builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {});
+    builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
+      const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
+      if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
+        state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
+        state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
+      }
+    });
   },
 });
 
