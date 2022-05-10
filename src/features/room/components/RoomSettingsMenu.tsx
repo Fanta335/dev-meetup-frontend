@@ -3,6 +3,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
+import { LeaveRoomButton } from "./LeaveRoomButton";
 
 const options = ["友達の招待", "サーバー設定", "カテゴリー追加", "プライバシー設定"];
 
@@ -14,7 +15,7 @@ export const RoomSettingsMenu = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
@@ -37,7 +38,7 @@ export const RoomSettingsMenu = () => {
         }}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
@@ -46,10 +47,11 @@ export const RoomSettingsMenu = () => {
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option} onClick={handleClose}>
+          <MenuItem key={option} onClick={handleCloseMenu}>
             {option}
           </MenuItem>
         ))}
+        <LeaveRoomButton handleCloseMenu={handleCloseMenu} />
       </Menu>
     </div>
   );
