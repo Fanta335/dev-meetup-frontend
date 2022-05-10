@@ -122,7 +122,7 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
       },
     });
 
-    console.log("searched rooms: ", res.data);
+    // console.log("searched rooms: ", res.data);
     return res.data;
   }
 );

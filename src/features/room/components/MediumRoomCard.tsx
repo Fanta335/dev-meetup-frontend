@@ -6,13 +6,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch } from "../../../stores/hooks";
 import { addMemberToRoom } from "../roomSlice";
 import { Link } from "react-router-dom";
+import { Auth0User } from "../../auth/types";
 
 type Props = {
   room: SearchedRoom;
 };
 
 export const MediumRoomCard: VFC<Props> = ({ room }) => {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + '/mysqlUser'];
   const dispatch = useAppDispatch();
 
