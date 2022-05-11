@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../../stores/hooks";
 import { Auth0User } from "../auth/types";
 import { changeLocation } from "../room/roomSlice";
@@ -6,7 +7,10 @@ import { changeLocation } from "../room/roomSlice";
 export const Home = () => {
   const { user } = useAuth0<Auth0User>();
   const dispatch = useAppDispatch();
-  dispatch(changeLocation("home"));
+
+  useEffect(() => {
+    dispatch(changeLocation("home"));
+  }, [dispatch]);
 
   return (
     <div>

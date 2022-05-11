@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
+import { useEffect } from "react";
 import { useAppDispatch } from "../../../stores/hooks";
 import { changeLocation, searchAsyncRooms } from "../roomSlice";
 import { SearchHeader } from "./SearchHeader";
@@ -9,9 +10,11 @@ export const RoomDiscovery = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
 
-  dispatch(changeLocation("discovery"));
+  useEffect(() => {
+    dispatch(changeLocation("discovery"));
+  }, [dispatch]);
 
-  const testSearchParams = 'query=&offset=0&limit=6&sort=date&order=a';
+  const testSearchParams = "query=&offset=0&limit=6&sort=date&order=a";
 
   const searchRooms = async () => {
     const token = await getAccessTokenSilently();
