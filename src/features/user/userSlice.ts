@@ -3,6 +3,7 @@ import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
+import { normalizeRoomMembers } from "./libs/normalizr/normalizeRoomMembers";
 import { User, UserType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -46,7 +47,16 @@ export const fetchAllUsers = createAsyncThunk<User[], { token: string }>("user/f
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    refreshCurrentUsers(state, action: PayloadAction<User[]>) {
+      const normalizedRoomMembers = normalizeRoomMembers(action.payload);
+      console.log("normalized room members: ", normalizedRoomMembers);
+      if (normalizedRoomMembers.entities.members !== undefined) {
+        state.currentUsers.members.byIds = normalizedRoomMembers.entities.members;
+        state.currentUsers.members.allIds = normalizedRoomMembers.result.members;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
       state.users = action.payload;
@@ -57,8 +67,11 @@ const userSlice = createSlice({
       state.currentUsers.members.allIds = data.result.members;
       state.currentUsers.owners = data.result.owners;
     });
+    // builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<)=> {})
   },
 });
+
+export const { refreshCurrentUsers } = userSlice.actions;
 
 export const selectUsers = (state: RootState) => state.user.users;
 export const selectCurrentUsers = (state: RootState) => state.user.currentUsers;

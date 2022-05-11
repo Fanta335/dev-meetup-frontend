@@ -1,5 +1,6 @@
 import { Middleware } from "@reduxjs/toolkit";
 import { io, Socket } from "socket.io-client";
+import { refreshCurrentUsers } from "../user/userSlice";
 import { messageActions } from "./messageSlice";
 import { Message, MessageEvent } from "./types";
 
@@ -38,13 +39,17 @@ export const messageMiddleware: Middleware = (store) => {
       if (messageActions.joinRoom.match(action)) {
         const roomId = action.payload.roomId;
         socket.emit(MessageEvent.JoinRoom, { roomId });
-        // socket.on("joined_room", (data) => console.log("room id you joined is: ", data));
+        socket.on("joined_room", (data) => {
+          store.dispatch(refreshCurrentUsers(data));
+        })
       }
 
       if (messageActions.leaveRoom.match(action)) {
         const roomId = action.payload.roomId;
         socket.emit(MessageEvent.LeaveRoom, { roomId });
-        // socket.on("left_room", (data) => console.log("left from: ", data));
+        socket.on("left_room", (data) => {
+          store.dispatch(refreshCurrentUsers(data));
+        })
       }
 
       if (messageActions.sendMessage.match(action)) {
