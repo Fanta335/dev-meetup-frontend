@@ -7,6 +7,7 @@ import { selectCurrentMessages } from "../messageSlice";
 import { MessageMenu } from "./MessageMenu";
 import { MessageContent } from "./MessageContent";
 import { ReplyAccessory } from "./ReplyAccessory";
+import { User } from "../../user/types";
 
 type Props = {
   messageId: number;
@@ -17,7 +18,8 @@ export const MessageItem: VFC<Props> = ({ messageId }) => {
   const currentMessages = useAppSelector(selectCurrentMessages);
 
   const authorId = currentMessages.byIds[messageId].authorId;
-  const author = currentUsers.members.byIds[authorId.toString()];
+  // If the author is removed from the room (not a member of the room), the author will be 'undefined'.
+  const author = currentUsers.members.byIds[authorId.toString()] as User | undefined;
   const message = currentMessages.byIds[messageId];
   const parentMessageId = currentMessages.byIds[messageId].parentId;
 
@@ -29,11 +31,17 @@ export const MessageItem: VFC<Props> = ({ messageId }) => {
       <Box>{parentMessageId && <ReplyAccessory parentMessageId={parentMessageId} />}</Box>
       <Box component="div" sx={[{ display: "flex", pb: 3, px: 1, bgcolor: "#ffa" }, { "&:hover": { bgcolor: "#eee" } }]}>
         <Box>
-          <Avatar alt={author.name} sx={{ mr: 1 }} />
+          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1 }} />
         </Box>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: 1 }}>
           <Box sx={{ display: "flex", alignItems: "baseline" }}>
-            <Typography variant="body1">{author.name}</Typography>
+            {author ? (
+              <Typography variant="body1">{author.name}</Typography>
+            ) : (
+              <Typography variant="body2" sx={{ fontStyle: "italic" }}>
+                脱退したユーザー
+              </Typography>
+            )}
             <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
               {formattedDate}
             </Typography>
