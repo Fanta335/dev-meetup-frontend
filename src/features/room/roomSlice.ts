@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { CreateRoomDTO, Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
+import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, UpdateRoomDTO, CreateRoomDTO } from "../room/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -11,6 +11,7 @@ const initialState: RoomType = {
     {
       id: 0,
       name: "",
+      description: "",
       createdAt: "",
       updatedAt: "",
       deletedAt: null,
@@ -21,6 +22,7 @@ const initialState: RoomType = {
       "0": {
         id: 0,
         name: "",
+        description: "",
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -31,6 +33,7 @@ const initialState: RoomType = {
   currentRoom: {
     id: 0,
     name: "",
+    description: "",
     createdAt: "",
     updatedAt: "",
     deletedAt: null,
@@ -55,11 +58,12 @@ const initialState: RoomType = {
 };
 
 export const postRoom = createAsyncThunk<Room, { token: string; createRoomDTO: CreateRoomDTO }>("room/postRoom", async ({ token, createRoomDTO }) => {
-  const { name } = createRoomDTO;
+  const { name, description } = createRoomDTO;
   const res = await axios.post(
     `${apiUrl}/rooms`,
     {
       name: name,
+      description: description,
     },
     {
       headers: {
@@ -67,6 +71,24 @@ export const postRoom = createAsyncThunk<Room, { token: string; createRoomDTO: C
       },
     }
   );
+  return res.data;
+});
+
+export const updateRoom = createAsyncThunk<Room, { token: string; updateRoomDTO: UpdateRoomDTO }>("room/updateRoom", async ({ token, updateRoomDTO }) => {
+  const { id, name, description } = updateRoomDTO;
+  const res = await axios.put<Room>(
+    `${apiUrl}/rooms/${id}`,
+    {
+      name: name,
+      description: description,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return res.data;
 });
 
@@ -176,6 +198,14 @@ const roomSlice = createSlice({
       state.belongingRooms.byIds[newRoom.id] = newRoom;
       state.belongingRooms.allIds.push(newRoom.id.toString());
     });
+    builder.addCase(updateRoom.fulfilled, (state, action: PayloadAction<Room>) => {
+      const updatedRoom = action.payload;
+      console.log("updated room: ", updatedRoom);
+      // Reflesh belongingRooms and currentRoom state.
+      state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
+      state.currentRoom.name = updatedRoom.name;
+      state.currentRoom.description = updatedRoom.description;
+    });
     builder.addCase(fetchAsyncGetAllRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       state.rooms = action.payload;
     });
@@ -192,6 +222,7 @@ const roomSlice = createSlice({
       const currentRoom: CurrentRoom = {
         id: data.result.id,
         name: data.result.name,
+        description: data.result.description,
         owners: data.result.owners,
         members: data.result.members,
         createdAt: data.result.createdAt,

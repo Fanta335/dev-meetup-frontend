@@ -1,10 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from "@mui/material";
 import { FC, VFC } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch } from "../../../stores/hooks";
-import { postRoom } from "../roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { selectCurrentRoom, updateRoom } from "../roomSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -36,9 +36,10 @@ const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
   );
 };
 
-export type CreateToomDialogProps = {
+type EditRoomProfileDialogProps = {
   open: boolean;
-  handleClose: () => void;
+  handleCloseDialog: () => void;
+  handleEdit: () => void;
 };
 
 type FormInput = {
@@ -46,35 +47,37 @@ type FormInput = {
   description: string;
 };
 
-export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose }) => {
+export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog, handleEdit }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
+  const currentRoom = useAppSelector(selectCurrentRoom);
   const { handleSubmit, control, reset } = useForm<FormInput>();
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    // console.log("post room: ", data);
-
     const token = await getAccessTokenSilently();
-    await dispatch(postRoom({ token, createRoomDTO: data }));
+    console.log("input val: ", data);
+    const updateRoomDTO = {
+      id: currentRoom.id,
+      ...data,
+    };
+    await dispatch(updateRoom({ token, updateRoomDTO }));
     reset();
-    handleClose();
+    handleCloseDialog();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleCloseDialog}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleClose}>
-          部屋をつくる
+        <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
+          部屋の設定
         </BootstrapDialogTitle>
         <DialogContent>
-          <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
           <Controller
             render={({ field }) => (
               <TextField
                 value={field.value}
                 onChange={field.onChange}
                 inputRef={field.ref}
-                autoFocus
                 margin="dense"
                 id="name"
                 label="部屋の名前"
@@ -84,7 +87,7 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
             )}
             name="name"
             control={control}
-            defaultValue=""
+            defaultValue={currentRoom.name}
             rules={{ required: true }}
           />
           <Controller
@@ -102,13 +105,13 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
             )}
             name="description"
             control={control}
-            defaultValue=""
+            defaultValue={currentRoom.description}
             rules={{ required: true }}
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" type="submit">
-            新規作成
+          <Button variant="contained" type="submit" color="success">
+            変更を保存する
           </Button>
         </DialogActions>
       </form>

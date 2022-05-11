@@ -4,8 +4,9 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { LeaveRoomButton } from "./LeaveRoomButton";
+import { EditRoomProfileButton } from "./EditRoomProfileButton";
 
-const options = ["友達の招待", "サーバー設定", "カテゴリー追加", "プライバシー設定"];
+const options = ["友達の招待"];
 
 const ITEM_HEIGHT = 48;
 
@@ -51,6 +52,7 @@ export const RoomSettingsMenu = () => {
             {option}
           </MenuItem>
         ))}
+        <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />
         <LeaveRoomButton handleCloseMenu={handleCloseMenu} />
       </Menu>
     </div>

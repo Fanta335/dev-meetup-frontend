@@ -12,6 +12,7 @@ export type RoomType = {
 export type Room = {
   id: number;
   name: string;
+  description: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -19,6 +20,13 @@ export type Room = {
 
 export type CreateRoomDTO = {
   name: string;
+  description: string;
+};
+
+export type UpdateRoomDTO = {
+  id: number;
+  name: string;
+  description: string;
 };
 
 export type BelongingRooms = {
