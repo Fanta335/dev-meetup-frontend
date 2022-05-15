@@ -8,10 +8,17 @@ export type User = {
   subId?: string;
   name: string;
   email?: string;
+  avatar: Avatar;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
 };
+
+export type Avatar = {
+  id: number;
+  key: string;
+  url: string;
+}
 
 export type CurrentUsers = {
   members: {

@@ -26,7 +26,7 @@ export const UsersList = () => {
       <Toolbar />
       <List sx={{ bgcolor: "background.paper" }}>
         {currentUsers.members.allIds.map((id) => (
-          <UserItem key={id} name={currentUsers.members.byIds[id].name} />
+          <UserItem key={id} user={currentUsers.members.byIds[id]} />
         ))}
       </List>
     </Drawer>

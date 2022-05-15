@@ -13,10 +13,11 @@ export const ParentMessageItem: VFC<Props> = ({ parentMessage }) => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const authorId = parentMessage?.authorId;
   const author = currentUsers.members.byIds[authorId] as User | undefined;
+
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Box>
-        <Avatar alt={author ? author.name : "removed user"} sx={{ mr: 1, width: 24, height: 24 }} />
+        <Avatar alt={author ? author.name : "removed user"} src={author?.avatar ? author?.avatar.url : ""} sx={{ mr: 1, width: 24, height: 24 }} />
       </Box>
       <Box>
         {author ? (

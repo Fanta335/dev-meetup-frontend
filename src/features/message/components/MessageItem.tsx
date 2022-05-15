@@ -31,7 +31,7 @@ export const MessageItem: VFC<Props> = ({ messageId }) => {
       <Box>{parentMessageId && <ReplyAccessory parentMessageId={parentMessageId} />}</Box>
       <Box component="div" sx={[{ display: "flex", pb: 3, px: 1, bgcolor: "#ffa" }, { "&:hover": { bgcolor: "#eee" } }]}>
         <Box>
-          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1 }} />
+          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1 }} src={author?.avatar ? author.avatar.url : ""} />
         </Box>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: 1 }}>
           <Box sx={{ display: "flex", alignItems: "baseline" }}>

@@ -14,6 +14,11 @@ const initialState: UserType = {
       subId: "",
       name: "",
       email: "",
+      avatar: {
+        id: 0,
+        key: "",
+        url: "",
+      },
       createdAt: "",
       updatedAt: "",
     },
@@ -24,6 +29,11 @@ const initialState: UserType = {
         "0": {
           id: 0,
           name: "",
+          avatar: {
+            id: 0,
+            key: "",
+            url: "",
+          },
           createdAt: "",
           updatedAt: "",
           deletedAt: null,
@@ -50,7 +60,6 @@ const userSlice = createSlice({
   reducers: {
     refreshCurrentUsers(state, action: PayloadAction<User[]>) {
       const normalizedRoomMembers = normalizeRoomMembers(action.payload);
-      console.log("normalized room members: ", normalizedRoomMembers);
       if (normalizedRoomMembers.entities.members !== undefined) {
         state.currentUsers.members.byIds = normalizedRoomMembers.entities.members;
         state.currentUsers.members.allIds = normalizedRoomMembers.result.members;
@@ -67,7 +76,6 @@ const userSlice = createSlice({
       state.currentUsers.members.allIds = data.result.members;
       state.currentUsers.owners = data.result.owners;
     });
-    // builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<)=> {})
   },
 });
 
