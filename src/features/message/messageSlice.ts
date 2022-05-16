@@ -3,7 +3,7 @@ import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
-import { CreateMessageDTO, Message, MessageType } from "./types";
+import { Message, MessageType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: MessageType = {
@@ -33,26 +33,6 @@ const initialState: MessageType = {
     isReplying: false,
   },
 };
-
-export const postMessage = createAsyncThunk<Message, { token: string; createMessageDTO: CreateMessageDTO }>(
-  "message/postMessage",
-  async ({ token, createMessageDTO }) => {
-    const { content, roomId } = createMessageDTO;
-    const res = await axios.post<Message>(
-      `${apiUrl}/messages`,
-      {
-        content: content,
-        roomId: roomId,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return res.data;
-  }
-);
 
 export const fetchCurrenMessages = createAsyncThunk<Message[], { token: string; roomId: number }>("room/fetchCurrentMessages", async ({ token, roomId }) => {
   const res = await axios.get<Message[]>(`${apiUrl}/messages/${roomId}`, {
@@ -124,11 +104,6 @@ const messageSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(postMessage.fulfilled, (state, action: PayloadAction<Message>) => {
-      const newMessage = action.payload;
-      state.currentMessages.byIds[newMessage.id] = newMessage;
-      state.currentMessages.allIds.push(newMessage.id);
-    });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
       // console.log("room messages: ", data.entities.messages, data.result.messages);
