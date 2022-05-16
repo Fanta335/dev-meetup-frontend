@@ -12,6 +12,11 @@ const initialState: RoomType = {
       id: 0,
       name: "",
       description: "",
+      avatar: {
+        id: 0,
+        key: "",
+        url: "",
+      },
       createdAt: "",
       updatedAt: "",
       deletedAt: null,
@@ -23,6 +28,11 @@ const initialState: RoomType = {
         id: 0,
         name: "",
         description: "",
+        avatar: {
+          id: 0,
+          key: "",
+          url: "",
+        },
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -34,6 +44,11 @@ const initialState: RoomType = {
     id: 0,
     name: "",
     description: "",
+    avatar: {
+      id: 0,
+      key: "",
+      url: "",
+    },
     createdAt: "",
     updatedAt: "",
     deletedAt: null,
@@ -46,6 +61,11 @@ const initialState: RoomType = {
         id: 0,
         name: "",
         description: "",
+        avatar: {
+          id: 0,
+          key: "",
+          url: "",
+        },
         createdAt: "",
         updatedAt: "",
         deletedAt: null,
@@ -144,7 +164,7 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
       },
     });
 
-    // console.log("searched rooms: ", res.data);
+    console.log("searched rooms: ", res.data);
     return res.data;
   }
 );
@@ -223,6 +243,7 @@ const roomSlice = createSlice({
         id: data.result.id,
         name: data.result.name,
         description: data.result.description,
+        avatar: data.result.avatar,
         owners: data.result.owners,
         members: data.result.members,
         createdAt: data.result.createdAt,

@@ -13,10 +13,17 @@ export type Room = {
   id: number;
   name: string;
   description: string;
+  avatar: Avatar;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
 };
+
+export type Avatar = {
+  id: number;
+  key: string;
+  url: string;
+}
 
 export type CreateRoomDTO = {
   name: string;

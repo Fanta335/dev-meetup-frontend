@@ -14,22 +14,23 @@ type Props = {
 
 export const MediumRoomCard: VFC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
-  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + '/mysqlUser'];
+  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
   const dispatch = useAppDispatch();
 
   const handleClick = async () => {
     const token = await getAccessTokenSilently();
-    await dispatch(addMemberToRoom({token, userId: currentUser.id, roomId: room.id}));
+    await dispatch(addMemberToRoom({ token, userId: currentUser.id, roomId: room.id }));
   };
+
+  console.log("room:", room.avatar);
 
   return (
     <Card sx={{ my: 3 }}>
-      <CardActionArea
-        onClick={handleClick}
-        component={Link}
-        to={`/app/rooms/${room.id}`}
-      >
-        <CardHeader avatar={<Avatar variant="rounded"></Avatar>} title={<Typography variant="subtitle1">{room.name}</Typography>} />
+      <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
+        <CardHeader
+          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""}></Avatar>}
+          title={<Typography variant="subtitle1">{room.name}</Typography>}
+        />
         <CardContent>
           <Typography variant="body1">{room.description}</Typography>
         </CardContent>

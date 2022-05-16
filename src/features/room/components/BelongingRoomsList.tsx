@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { IconButton, List, ListItem, Tooltip, Zoom } from "@mui/material";
+import { Avatar, IconButton, List, ListItem, Tooltip, Zoom } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchAsyncGetBelongingRooms, selectBelongingRooms } from "../roomSlice";
@@ -29,7 +29,11 @@ export const BelongingRoomsList = () => {
           <Tooltip key={roomId} title={belongingRooms.byIds[roomId].name} placement="right" arrow TransitionComponent={Zoom}>
             <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
               <IconButton aria-label={belongingRooms.byIds[roomId].name} component={Link} to={`rooms/${roomId}`}>
-                <PeopleIcon sx={{ fontSize: "48px" }} />
+                {belongingRooms.byIds[roomId].avatar ? (
+                  <Avatar src={belongingRooms.byIds[roomId].avatar.url} sx={{ height: "45px", width: "45px" }} />
+                ) : (
+                  <PeopleIcon sx={{ fontSize: "48px" }} />
+                )}
               </IconButton>
             </ListItem>
           </Tooltip>
