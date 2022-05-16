@@ -22,12 +22,11 @@ export const MessageBoard = () => {
     <>
       <Box sx={{ bgcolor: "khaki", mt: "70px" }}>
         <ul style={{ listStyle: "none", padding: "0" }}>
-          {currentMessages.allIds[0] !== 0 &&
+          {
             currentMessages.allIds.map((messageId) => (
-              <li key={messageId}>
-                <MessageItem messageId={messageId} />
-              </li>
-            ))}
+              <li key={messageId}>{messageId === 0 ? <p>send message!</p> : <MessageItem messageId={messageId} />}</li>
+            ))
+          }
         </ul>
         <div ref={messagesEndRef} />
       </Box>
