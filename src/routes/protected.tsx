@@ -1,14 +1,14 @@
 import { MainLayout } from "../components/Layouts/MainLayout";
 import { Home } from "../features/misc/Home";
-import { Landing } from "../features/misc/Landing";
 import { Room } from "../features/room/components/Room";
 import { RoomDiscovery } from "../features/room/components/RoomDiscovery";
 import { SearchRoomResult } from "../features/room/components/SearchRoomResult";
+import { RouteAuthGuard } from "./RouteAuthGuard";
 
 export const protectedRoutes = [
   {
     path: "/app",
-    element: <MainLayout />,
+    element: <RouteAuthGuard component={<MainLayout />} redirect='/' />,
     children: [
       {
         index: true,
@@ -20,17 +20,12 @@ export const protectedRoutes = [
       },
       {
         path: "room-discovery/search",
-        element: <SearchRoomResult />
+        element: <SearchRoomResult />,
       },
       {
         path: "rooms/:id",
         element: <Room />,
       },
     ],
-  },
-  {
-    // path: "/",
-    index: true,
-    element: <Landing />,
   },
 ];
