@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { ReactComponent as NotFound } from "../../assets/page_not_found.svg";
+import { ReactComponent as NotFound } from "../../assets/images/page_not_found.svg";
 
 export const NotFoundPage = () => {
   return (

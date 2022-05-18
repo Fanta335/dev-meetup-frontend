@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../components/Loading";
-import { ReactComponent as GoodTeam } from "../../assets/good_team.svg";
+import { ReactComponent as GoodTeam } from "../../assets/images/good_team.svg";
 
 export const Landing = () => {
   const navigate = useNavigate();
