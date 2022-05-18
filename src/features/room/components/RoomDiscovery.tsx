@@ -14,7 +14,7 @@ export const RoomDiscovery = () => {
     dispatch(changeLocation("discovery"));
   }, [dispatch]);
 
-  const testSearchParams = "query=&offset=0&limit=6&sort=date&order=a";
+  const testSearchParams = "query=&offset=0&limit=6&sort=date&order=d";
 
   const searchRooms = async () => {
     const token = await getAccessTokenSilently();
