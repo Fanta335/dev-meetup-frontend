@@ -4,6 +4,7 @@ import { VFC } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
+import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { addMemberToRoom } from "../roomSlice";
 import { SearchedRoom } from "../types";
 
@@ -13,10 +14,12 @@ type Props = {
 
 export const SmallRoomCard: VFC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
-  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
+  const currentUser = getCurrentUser(user);
   const dispatch = useAppDispatch();
 
   const handleClick = async () => {
+    if (!currentUser) return;
+
     const token = await getAccessTokenSilently();
     await dispatch(addMemberToRoom({ token, userId: currentUser.id, roomId: room.id }));
   };

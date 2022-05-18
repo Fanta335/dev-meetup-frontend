@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../../stores/hooks";
 import { addMemberToRoom } from "../roomSlice";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
+import { getCurrentUser } from "../../user/utils/getCurrentUser";
 
 type Props = {
   room: SearchedRoom;
@@ -14,10 +15,12 @@ type Props = {
 
 export const MediumRoomCard: VFC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
-  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
+  const currentUser = getCurrentUser(user);
   const dispatch = useAppDispatch();
 
   const handleClick = async () => {
+    if (!currentUser) return;
+
     const token = await getAccessTokenSilently();
     await dispatch(addMemberToRoom({ token, userId: currentUser.id, roomId: room.id }));
   };
@@ -29,7 +32,11 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
         <CardHeader
           avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}></Avatar>}
-          title={<Typography variant="h5" fontWeight='bold'>{room.name}</Typography>}
+          title={
+            <Typography variant="h5" fontWeight="bold">
+              {room.name}
+            </Typography>
+          }
         />
         <CardContent>
           <Typography variant="body1">{room.description}</Typography>
@@ -39,7 +46,7 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
             <PersonIcon color="action" />
           </Grid>
           <Grid item>
-            <Typography variant='body1'>{room.numOfMembers}人が参加中</Typography>
+            <Typography variant="body1">{room.numOfMembers}人が参加中</Typography>
           </Grid>
         </Grid>
       </CardActionArea>

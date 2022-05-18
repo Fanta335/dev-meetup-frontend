@@ -2,6 +2,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ButtonGroup } from "@mui/material";
 import { VFC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
+import { Auth0User } from "../../auth/types";
+import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { selectCurrentMessages, selectMessageEdit } from "../messageSlice";
 import { DeleteMessageButton } from "./DeleteMessageButton";
 import { EditMessageButton } from "./EditMessageButton";
@@ -18,15 +20,14 @@ export const MessageMenu: VFC<Props> = ({ messageId }) => {
 
   // Check if current user is the author of this message.
   // Get current user id from auth0 context.
-  const { user } = useAuth0();
-  const claim = process.env.REACT_APP_API_NAMESPACE + "/mysqlUser";
-  const currentUserId: number = user?.[claim].id;
+  const { user } = useAuth0<Auth0User>();
+  const currentUser = getCurrentUser(user);
 
   // Get author id.
   const currentMessages = useAppSelector(selectCurrentMessages);
   const authorId = currentMessages.byIds[messageId].authorId;
 
-  const isOwnMessage = authorId === currentUserId;
+  const isOwnMessage = authorId === currentUser?.id;
 
   return (
     <ButtonGroup size="small" aria-label="outlined primary button group" sx={{ px: 1 }}>

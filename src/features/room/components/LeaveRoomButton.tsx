@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
 import { removeMemberFromRoom, selectCurrentRoom } from "../roomSlice";
 import { ConfirmLeavingDialog } from "./ConfirmLeavingDialog";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
+import { getCurrentUser } from "../../user/utils/getCurrentUser";
 
 type Props = {
   handleCloseMenu: () => void;
@@ -15,17 +16,19 @@ type Props = {
 export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
-  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + '/mysqlUser'];
+  const currentUser = getCurrentUser(user);
   const currentRoom = useAppSelector(selectCurrentRoom);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleLeave = async () => {
-    console.log("handle leave room.");
-    const token = await getAccessTokenSilently();
-    await dispatch(removeMemberFromRoom({ token, userId: currentUser.id, roomId: currentRoom.id }));
+    if (currentUser) {
+      const token = await getAccessTokenSilently();
+      await dispatch(removeMemberFromRoom({ token, userId: currentUser.id, roomId: currentRoom.id }));
+    }
+
     handleCloseMenu();
-    navigate('/app/room-discovery');
+    navigate("/app/room-discovery");
   };
 
   const handleClickOpen = () => {
@@ -39,7 +42,10 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
 
   return (
     <>
-      <MenuItem onClick={handleClickOpen} sx={{color: '#e53e3e'}} ><LogoutIcon sx={{mr: 1}} />部屋から脱退</MenuItem>
+      <MenuItem onClick={handleClickOpen} sx={{ color: "#e53e3e" }}>
+        <LogoutIcon sx={{ mr: 1 }} />
+        部屋から脱退
+      </MenuItem>
       <ConfirmLeavingDialog open={open} handleCloseDialog={handleCloseDialog} handleLeave={handleLeave} />
     </>
   );

@@ -8,6 +8,8 @@ import { EditRoomProfileButton } from "./EditRoomProfileButton";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../roomSlice";
 import { useAuth0 } from "@auth0/auth0-react";
+import { getCurrentUser } from "../../user/utils/getCurrentUser";
+import { Auth0User } from "../../auth/types";
 
 const options = ["友達の招待"];
 
@@ -15,19 +17,21 @@ const ITEM_HEIGHT = 48;
 
 export const RoomSettingsMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user } = useAuth0();
+  const { user } = useAuth0<Auth0User>();
+
+  const currentRoom = useAppSelector(selectCurrentRoom);
+  const currentUser = getCurrentUser(user);
+  const isOwner = currentRoom.owners.some((id) => id === currentUser?.id);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-  const currentRoom = useAppSelector(selectCurrentRoom);
-  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
-  console.log("current user: ", currentUser);
-  const isOwner = currentRoom.owners.some((id) => id === currentUser.id);
 
   return (
     <div>
