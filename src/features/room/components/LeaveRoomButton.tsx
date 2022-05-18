@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
 import { removeMemberFromRoom, selectCurrentRoom } from "../roomSlice";
 import { ConfirmLeavingDialog } from "./ConfirmLeavingDialog";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 type Props = {
   handleCloseMenu: () => void;
@@ -38,7 +39,7 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
 
   return (
     <>
-      <MenuItem onClick={handleClickOpen}>部屋から脱退</MenuItem>
+      <MenuItem onClick={handleClickOpen} sx={{color: '#e53e3e'}} ><LogoutIcon sx={{mr: 1}} />部屋から脱退</MenuItem>
       <ConfirmLeavingDialog open={open} handleCloseDialog={handleCloseDialog} handleLeave={handleLeave} />
     </>
   );

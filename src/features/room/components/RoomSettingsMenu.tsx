@@ -5,6 +5,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { LeaveRoomButton } from "./LeaveRoomButton";
 import { EditRoomProfileButton } from "./EditRoomProfileButton";
+import { useAppSelector } from "../../../stores/hooks";
+import { selectCurrentRoom } from "../roomSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const options = ["友達の招待"];
 
@@ -12,6 +15,7 @@ const ITEM_HEIGHT = 48;
 
 export const RoomSettingsMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { user } = useAuth0();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,6 +23,11 @@ export const RoomSettingsMenu = () => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
+  const currentRoom = useAppSelector(selectCurrentRoom);
+  const currentUser = user?.[process.env.REACT_APP_API_NAMESPACE + "/mysqlUser"];
+  console.log("current user: ", currentUser);
+  const isOwner = currentRoom.owners.some((id) => id === currentUser.id);
 
   return (
     <div>
@@ -52,7 +61,7 @@ export const RoomSettingsMenu = () => {
             {option}
           </MenuItem>
         ))}
-        <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />
+        {isOwner && <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />}
         <LeaveRoomButton handleCloseMenu={handleCloseMenu} />
       </Menu>
     </div>

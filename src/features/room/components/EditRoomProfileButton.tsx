@@ -1,6 +1,7 @@
 import { MenuItem } from "@mui/material";
 import { useState, VFC } from "react";
 import { EditRoomProfileDialog } from "./EditRoomProfileDialog";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 type Props = {
   handleCloseMenu: () => void;
@@ -24,7 +25,7 @@ export const EditRoomProfileButton: VFC<Props> = ({ handleCloseMenu }) => {
 
   return (
     <>
-      <MenuItem onClick={handleClickOpen}>部屋の設定</MenuItem>
+      <MenuItem onClick={handleClickOpen}><SettingsIcon sx={{mr: 1}} />部屋の設定</MenuItem>
       <EditRoomProfileDialog open={open} handleCloseDialog={handleCloseDialog} handleEdit={handleEdit} />
     </>
   );
