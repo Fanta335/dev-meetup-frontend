@@ -3,12 +3,12 @@ import { Home } from "../features/misc/Home";
 import { Room } from "../features/room/components/Room";
 import { RoomDiscovery } from "../features/room/components/RoomDiscovery";
 import { SearchRoomResult } from "../features/room/components/SearchRoomResult";
-import { RouteAuthGuard } from "./RouteAuthGuard";
+import { RouteGuard } from "./RouteGuard";
 
 export const protectedRoutes = [
   {
     path: "/app",
-    element: <RouteAuthGuard component={<MainLayout />} redirect='/' />,
+    element: <RouteGuard component={MainLayout} />,
     children: [
       {
         index: true,
