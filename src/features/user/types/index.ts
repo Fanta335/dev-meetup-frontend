@@ -18,7 +18,7 @@ export type Avatar = {
   id: number;
   key: string;
   url: string;
-}
+};
 
 export type CurrentUsers = {
   members: {
@@ -29,4 +29,12 @@ export type CurrentUsers = {
   };
   // In order to avoid duplication of users, owners are managed with only id.
   owners: number[];
+};
+
+export type CurrentUser = {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
 };
