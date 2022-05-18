@@ -28,8 +28,8 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
     <Card sx={{ my: 3 }}>
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
         <CardHeader
-          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""}></Avatar>}
-          title={<Typography variant="subtitle1">{room.name}</Typography>}
+          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}></Avatar>}
+          title={<Typography variant="h5" fontWeight='bold'>{room.name}</Typography>}
         />
         <CardContent>
           <Typography variant="body1">{room.description}</Typography>
@@ -39,7 +39,7 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
             <PersonIcon color="action" />
           </Grid>
           <Grid item>
-            <Typography>{room.numOfMembers}人</Typography>
+            <Typography variant='body1'>{room.numOfMembers}人が参加中</Typography>
           </Grid>
         </Grid>
       </CardActionArea>
