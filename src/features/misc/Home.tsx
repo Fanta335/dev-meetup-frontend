@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useAppDispatch } from "../../stores/hooks";
 import { Auth0User } from "../auth/types";
 import { changeLocation } from "../room/roomSlice";
-import { UploadAndDisplayImage } from "./components/UploadAndDisplayImage";
 
 export const Home = () => {
   const { user } = useAuth0<Auth0User>();
@@ -19,7 +18,6 @@ export const Home = () => {
       <img src={user?.picture} alt={user?.name} />
       <h2>{user?.name}</h2>
       <p>{user?.email}</p>
-      <UploadAndDisplayImage />
     </div>
   );
 };
