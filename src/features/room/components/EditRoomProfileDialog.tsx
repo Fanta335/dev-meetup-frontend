@@ -1,5 +1,5 @@
-import { FC, VFC } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
+import { FC, useEffect, useState, VFC } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -45,22 +45,49 @@ type EditRoomProfileDialogProps = {
 type FormInput = {
   name: string;
   description: string;
+  avatar: FileList;
 };
 
 export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog, handleEdit }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
-  const { handleSubmit, control, reset } = useForm<FormInput>();
+  const { handleSubmit, control, reset, register } = useForm<FormInput>();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [preview, setPreview] = useState<string>();
+
+  useEffect(() => {
+    if (!selectedFile) {
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+
+    setSelectedFile(e.target.files[0]);
+  };
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
+    const { name, description } = data;
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append("file", selectedFile);
+    }
+    formData.append("name", name);
+    formData.append("description", description);
+
+    console.log("form data: ", formData.values());
+
     const token = await getAccessTokenSilently();
-    console.log("input val: ", data);
-    const updateRoomDTO = {
-      id: currentRoom.id,
-      ...data,
-    };
-    await dispatch(updateRoom({ token, updateRoomDTO }));
+    await dispatch(updateRoom({ token, roomId: currentRoom.id, formData }));
     reset();
     handleCloseDialog();
   };
@@ -72,6 +99,9 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
           部屋の設定
         </BootstrapDialogTitle>
         <DialogContent>
+          <input type="file" {...register("avatar")} onChange={onSelectFile} />
+          <Typography variant="h6">image preview</Typography>
+          {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
           <Controller
             render={({ field }) => (
               <TextField

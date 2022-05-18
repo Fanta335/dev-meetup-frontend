@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from "@mui/material";
-import { FC, VFC } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
+import { FC, useEffect, useState, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch } from "../../../stores/hooks";
@@ -44,18 +44,52 @@ export type CreateToomDialogProps = {
 type FormInput = {
   name: string;
   description: string;
+  avatar: FileList;
 };
 
 export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
-  const { handleSubmit, control, reset } = useForm<FormInput>();
+  const { handleSubmit, control, reset, register } = useForm<FormInput>();
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const [preview, setPreview] = useState<string>();
+
+  useEffect(() => {
+    if (!selectedFile) {
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+
+    setSelectedFile(e.target.files[0]);
+  };
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     // console.log("post room: ", data);
+    if (!selectedFile) {
+      return;
+    }
+
+    const { name, description } = data;
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("name", name);
+    formData.append("description", description);
 
     const token = await getAccessTokenSilently();
-    await dispatch(postRoom({ token, createRoomDTO: data }));
+    console.log("data: ", data);
+    console.log("form data: ", formData.get("file"));
+
+    await dispatch(postRoom({ token, formData }));
     reset();
     handleClose();
   };
@@ -68,6 +102,9 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
         </BootstrapDialogTitle>
         <DialogContent>
           <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
+          <input type="file" {...register("avatar")} onChange={onSelectFile} />
+          <Typography variant="h6">image preview</Typography>
+          {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
           <Controller
             render={({ field }) => (
               <TextField

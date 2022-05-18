@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { RootState } from "../../stores/store";
-import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, UpdateRoomDTO, CreateRoomDTO } from "../room/types";
+import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -77,40 +77,27 @@ const initialState: RoomType = {
   location: "home",
 };
 
-export const postRoom = createAsyncThunk<Room, { token: string; createRoomDTO: CreateRoomDTO }>("room/postRoom", async ({ token, createRoomDTO }) => {
-  const { name, description } = createRoomDTO;
-  const res = await axios.post(
-    `${apiUrl}/rooms`,
-    {
-      name: name,
-      description: description,
+export const postRoom = createAsyncThunk<Room, { token: string; formData: FormData }>("room/postRoom", async ({ token, formData }) => {
+  const res = await axios.post(`${apiUrl}/rooms`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  });
   return res.data;
 });
 
-export const updateRoom = createAsyncThunk<Room, { token: string; updateRoomDTO: UpdateRoomDTO }>("room/updateRoom", async ({ token, updateRoomDTO }) => {
-  const { id, name, description } = updateRoomDTO;
-  const res = await axios.put<Room>(
-    `${apiUrl}/rooms/${id}`,
-    {
-      name: name,
-      description: description,
-    },
-    {
+export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number; formData: FormData }>(
+  "room/updateRoom",
+  async ({ token, roomId, formData }) => {
+    const res = await axios.put(`${apiUrl}/rooms/${roomId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
-  );
+    });
 
-  return res.data;
-});
+    return res.data;
+  }
+);
 
 export const fetchAsyncGetAllRooms = createAsyncThunk<Room[], { token: string }>("room/fetchAllRooms", async ({ token }) => {
   const res = await axios.get(`${apiUrl}/rooms`, {
@@ -164,7 +151,7 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
       },
     });
 
-    console.log("searched rooms: ", res.data);
+    // console.log("searched rooms: ", res.data);
     return res.data;
   }
 );

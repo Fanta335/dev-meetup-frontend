@@ -28,6 +28,7 @@ export type Avatar = {
 export type CreateRoomDTO = {
   name: string;
   description: string;
+  file: File;
 };
 
 export type UpdateRoomDTO = {
