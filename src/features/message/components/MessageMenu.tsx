@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ButtonGroup } from "@mui/material";
-import { VFC } from "react";
+import { memo, VFC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -14,7 +14,7 @@ type Props = {
   messageId: number;
 };
 
-export const MessageMenu: VFC<Props> = ({ messageId }) => {
+export const MessageMenu: VFC<Props> = memo(({ messageId }) => {
   const messageEdit = useAppSelector(selectMessageEdit);
   const isEditing = messageEdit.isEditing && messageId === messageEdit.messageId;
 
@@ -42,4 +42,4 @@ export const MessageMenu: VFC<Props> = ({ messageId }) => {
       )}
     </ButtonGroup>
   );
-};
+});

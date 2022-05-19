@@ -2,8 +2,9 @@ import { IconButton, Tooltip } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useAppDispatch } from "../../../stores/hooks";
 import { messageActions } from "../messageSlice";
+import { memo } from "react";
 
-export const StopEditingButton = () => {
+export const StopEditingButton = memo(() => {
   const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(messageActions.endEdit());
@@ -16,4 +17,4 @@ export const StopEditingButton = () => {
       </IconButton>
     </Tooltip>
   );
-};
+});

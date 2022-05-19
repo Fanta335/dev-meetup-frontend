@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { VFC } from "react";
+import { memo, VFC } from "react";
 import dayjs from "dayjs";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
@@ -13,7 +13,7 @@ type Props = {
   messageId: number;
 };
 
-export const MessageItem: VFC<Props> = ({ messageId }) => {
+export const MessageItem: VFC<Props> = memo(({ messageId }) => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const currentMessages = useAppSelector(selectCurrentMessages);
 
@@ -54,4 +54,4 @@ export const MessageItem: VFC<Props> = ({ messageId }) => {
       </Box>
     </>
   );
-};
+});

@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentMessages } from "../messageSlice";
 import { MessageItem } from "./MessageItem";
 
-export const MessageBoard = () => {
+export const MessageBoard = memo(() => {
   const currentMessages = useAppSelector(selectCurrentMessages);
   // console.log("current users: ", currentUsers);
   // console.log("current messages: ", currentMessages);
@@ -32,4 +32,4 @@ export const MessageBoard = () => {
       </Box>
     </>
   );
-};
+});

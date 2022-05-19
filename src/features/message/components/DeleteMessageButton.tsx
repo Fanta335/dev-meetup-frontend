@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState, VFC } from "react";
+import { memo, useCallback, useState, VFC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { messageActions } from "../messageSlice";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -10,24 +10,24 @@ type Props = {
   messageId: number;
 };
 
-export const DeleteMessageButton: VFC<Props> = ({ messageId }) => {
+export const DeleteMessageButton: VFC<Props> = memo(({ messageId }) => {
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const [open, setOpen] = useState(false);
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     dispatch(messageActions.removeMessage({ roomId: currentRoom.id.toString(), messageId: messageId }));
     // console.log("remove message id: ", messageId);
     setOpen(false);
-  };
+  }, [dispatch, currentRoom, messageId]);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, []);
 
   return (
     <>
@@ -39,4 +39,4 @@ export const DeleteMessageButton: VFC<Props> = ({ messageId }) => {
       <ConfirmDeletionDialog open={open} handleClose={handleClose} handleDelelte={handleDelete} />
     </>
   );
-};
+});
