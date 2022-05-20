@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector } from "reselect";
 import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
@@ -9,18 +10,18 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: MessageType = {
   currentMessages: {
     byIds: {
-      "0": {
-        id: 0,
-        authorId: 0,
-        roomId: 0,
-        content: "",
-        parentId: null,
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-      },
+      // "0": {
+      //   id: 0,
+      //   authorId: 0,
+      //   roomId: 0,
+      //   content: "",
+      //   parentId: null,
+      //   createdAt: "",
+      //   updatedAt: "",
+      //   deletedAt: null,
+      // },
     },
-    allIds: [0],
+    allIds: [],
   },
   isEstablishingConnection: false,
   isConnected: false,
@@ -122,8 +123,11 @@ const messageSlice = createSlice({
 export const messageActions = messageSlice.actions;
 
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
+export const selectCurrentMessageId = (state: RootState, messageId: number) => messageId;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
 export const selectMessageEdit = (state: RootState) => state.message.messageEdit;
 export const selectMessageReply = (state: RootState) => state.message.messageReply;
+
+export const selectMessageById = createSelector([selectCurrentMessages, selectCurrentMessageId], (messages, messageId) => messages.byIds[messageId.toString()]);
 
 export const messageReducer = messageSlice.reducer;
