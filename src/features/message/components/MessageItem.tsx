@@ -3,7 +3,7 @@ import { memo, VFC } from "react";
 import dayjs from "dayjs";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
-import { selectCurrentMessages } from "../messageSlice";
+import { selectMessageById } from "../messageSlice";
 import { MessageMenu } from "./MessageMenu";
 import { MessageContent } from "./MessageContent";
 import { ReplyAccessory } from "./ReplyAccessory";
@@ -15,14 +15,11 @@ type Props = {
 
 export const MessageItem: VFC<Props> = memo(({ messageId }) => {
   const currentUsers = useAppSelector(selectCurrentUsers);
-  const currentMessages = useAppSelector(selectCurrentMessages);
 
-  const authorId = currentMessages.byIds[messageId].authorId;
-  // If the author is removed from the room (not a member of the room), the author will be 'undefined'.
+  const message = useAppSelector((state) => selectMessageById(state, messageId));
+  const parentMessageId = message.parentId;
+  const authorId = message.authorId;
   const author = currentUsers.members.byIds[authorId.toString()] as User | undefined;
-  const message = currentMessages.byIds[messageId];
-  const parentMessageId = currentMessages.byIds[messageId].parentId;
-
   const formattedDate = dayjs(message.createdAt).format("YYYY/MM/DD HH:mm");
 
   return (
