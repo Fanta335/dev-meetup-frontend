@@ -24,21 +24,21 @@ const initialState: RoomType = {
   ],
   belongingRooms: {
     byIds: {
-      "0": {
-        id: 0,
-        name: "",
-        description: "",
-        avatar: {
-          id: 0,
-          key: "",
-          url: "",
-        },
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-      },
+      // "0": {
+      //   id: 0,
+      //   name: "",
+      //   description: "",
+      //   avatar: {
+      //     id: 0,
+      //     key: "",
+      //     url: "",
+      //   },
+      //   createdAt: "",
+      //   updatedAt: "",
+      //   deletedAt: null,
+      // },
     },
-    allIds: ["0"],
+    allIds: [],
   },
   currentRoom: {
     id: 0,
@@ -116,6 +116,7 @@ export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: str
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log('fetch belonging rooms: ', res.data);
     return res.data;
   }
 );
@@ -159,7 +160,6 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
 export const addMemberToRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
   "room/addMemberToRoom",
   async ({ token, userId, roomId }) => {
-    console.log("add member: ");
     const res = await axios.put<Room[]>(
       `${apiUrl}/users/${userId}/belonging-rooms/add/${roomId}`,
       {},
@@ -197,6 +197,12 @@ const roomSlice = createSlice({
   reducers: {
     changeLocation(state, action: PayloadAction<Location>) {
       state.location = action.payload;
+    },
+    joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+      console.log("join room");
+    },
+    leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+      console.log("leave room");
     },
   },
   extraReducers: (builder) => {
@@ -275,7 +281,7 @@ const roomSlice = createSlice({
   },
 });
 
-export const { changeLocation } = roomSlice.actions;
+export const roomActions = roomSlice.actions;
 
 export const selectRooms = (state: RootState) => state.room.rooms;
 export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;

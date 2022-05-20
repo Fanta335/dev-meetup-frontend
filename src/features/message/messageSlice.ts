@@ -82,12 +82,12 @@ const messageSlice = createSlice({
     updateMessage: (state, action: PayloadAction<{ roomId: string; messageId: number; content: string }>) => {
       console.log("update message: ", action.payload);
     },
-    joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
-      console.log("join room");
-    },
-    leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
-      console.log("leave room");
-    },
+    // joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+    //   console.log("join room");
+    // },
+    // leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
+    //   console.log("leave room");
+    // },
     startEdit: (state, action: PayloadAction<{ messageId: number }>) => {
       state.messageEdit.messageId = action.payload.messageId;
       state.messageEdit.isEditing = true;
@@ -103,6 +103,10 @@ const messageSlice = createSlice({
       state.messageReply.parentMessageId = null;
       state.messageReply.isReplying = false;
     },
+    clearCurrentMessages: (state) => {
+      state.currentMessages.byIds = {};
+      state.currentMessages.allIds = [];
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
