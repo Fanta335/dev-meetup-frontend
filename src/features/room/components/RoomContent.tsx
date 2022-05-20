@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { MessageContainer } from "../../message/components/MessageContainer";
 import { messageActions, selectIsConnected } from "../../message/messageSlice";
 import { UsersList } from "../../user/components/UsersList";
-import { fetchRoomContent } from "../roomSlice";
+import { fetchRoomContent, roomActions } from "../roomSlice";
 
 type Props = {
   roomId: string | undefined;
@@ -30,13 +30,15 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
         dispatch(messageActions.startConnecting({ token: token, roomId: newRoomId }));
       }
 
-      dispatch(messageActions.joinRoom({ roomId: newRoomId }));
+      dispatch(roomActions.joinRoom({ roomId: newRoomId }));
     };
 
     const handleLeaveRoom = (prevRoomId: string | undefined) => {
       if (!prevRoomId) return;
 
-      dispatch(messageActions.leaveRoom({ roomId: prevRoomId }));
+      dispatch(messageActions.clearCurrentMessages());
+
+      dispatch(roomActions.leaveRoom({ roomId: prevRoomId }));
     };
 
     if (roomId) {

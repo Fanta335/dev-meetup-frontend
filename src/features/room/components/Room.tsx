@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../stores/hooks";
-import { changeLocation } from "../roomSlice";
+import { roomActions } from "../roomSlice";
 import { RoomContent } from "./RoomContent";
 
 export const Room = () => {
@@ -10,7 +10,7 @@ export const Room = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(changeLocation("room"));
+    dispatch(roomActions.changeLocation("room"));
   }, [dispatch]);
 
   return (

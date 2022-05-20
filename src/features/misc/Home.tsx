@@ -2,14 +2,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../stores/hooks";
 import { Auth0User } from "../auth/types";
-import { changeLocation } from "../room/roomSlice";
+import { roomActions } from "../room/roomSlice";
 
 export const Home = () => {
   const { user } = useAuth0<Auth0User>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(changeLocation("home"));
+    dispatch(roomActions.changeLocation("home"));
   }, [dispatch]);
 
   return (
