@@ -60,7 +60,7 @@ export const RoomHeader = () => {
         <Toolbar>
           <RoomSettingsMenu />
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            {currentRoom.name}
+            {currentRoom.entity.name}
           </Typography>
           <Search>
             <SearchIconWrapper>

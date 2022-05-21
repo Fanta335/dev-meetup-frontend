@@ -87,7 +87,7 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
     console.log("form data: ", formData.values());
 
     const token = await getAccessTokenSilently();
-    await dispatch(updateRoom({ token, roomId: currentRoom.id, formData }));
+    await dispatch(updateRoom({ token, roomId: currentRoom.entity.id, formData }));
     reset();
     handleCloseDialog();
   };
@@ -117,7 +117,7 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
             )}
             name="name"
             control={control}
-            defaultValue={currentRoom.name}
+            defaultValue={currentRoom.entity.name}
             rules={{ required: true }}
           />
           <Controller
@@ -135,7 +135,7 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
             )}
             name="description"
             control={control}
-            defaultValue={currentRoom.description}
+            defaultValue={currentRoom.entity.description}
             rules={{ required: true }}
           />
         </DialogContent>

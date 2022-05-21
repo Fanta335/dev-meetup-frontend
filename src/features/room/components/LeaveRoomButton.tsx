@@ -24,7 +24,7 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
   const handleLeave = async () => {
     if (currentUser) {
       const token = await getAccessTokenSilently();
-      await dispatch(removeMemberFromRoom({ token, userId: currentUser.id, roomId: currentRoom.id }));
+      await dispatch(removeMemberFromRoom({ token, userId: currentUser.id, roomId: currentRoom.entity.id }));
     }
 
     handleCloseMenu();

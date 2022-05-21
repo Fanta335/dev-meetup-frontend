@@ -21,7 +21,7 @@ export const RoomSettingsMenu = () => {
 
   const currentRoom = useAppSelector(selectCurrentRoom);
   const currentUser = getCurrentUser(user);
-  const isOwner = currentRoom.owners.some((id) => id === currentUser?.id);
+  const isOwner = currentRoom.entity.owners.some((id) => id === currentUser?.id);
 
   const open = Boolean(anchorEl);
 

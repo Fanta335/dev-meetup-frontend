@@ -15,7 +15,7 @@ export const LocationName: VFC<Prop> = ({ location }) => {
     <>
       {location === "room" && (
         <Typography variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
-          {currentRoom.name}
+          {currentRoom.entity.name}
         </Typography>
       )}
       {location === "home" && (

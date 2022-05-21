@@ -16,7 +16,7 @@ export const DeleteMessageButton: VFC<Props> = memo(({ messageId }) => {
   const [open, setOpen] = useState(false);
 
   const handleDelete = useCallback(() => {
-    dispatch(messageActions.removeMessage({ roomId: currentRoom.id.toString(), messageId: messageId }));
+    dispatch(messageActions.removeMessage({ roomId: currentRoom.entity.id.toString(), messageId: messageId }));
     // console.log("remove message id: ", messageId);
     setOpen(false);
   }, [dispatch, currentRoom, messageId]);

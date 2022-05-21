@@ -19,7 +19,7 @@ export const MessageInputForm = () => {
   const messageReply = useAppSelector(selectMessageReply);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    dispatch(messageActions.sendMessage({ roomId: currentRoom.id.toString(), content: content.message, parentId: messageReply.parentMessageId }));
+    dispatch(messageActions.sendMessage({ roomId: currentRoom.entity.id.toString(), content: content.message, parentId: messageReply.parentMessageId }));
 
     if (messageReply.isReplying) {
       dispatch(messageActions.endReplying());
@@ -38,7 +38,7 @@ export const MessageInputForm = () => {
                 <div>
                   {(messageReply.isReplying  && messageReply.parentMessageId) && (
                     <Paper sx={{ bgcolor: "#62b7eb" }} elevation={0}>
-                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId].name}
+                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name}
                       {' '}に返信中
                       <StopReplyingButton />
                     </Paper>

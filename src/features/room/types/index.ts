@@ -2,7 +2,6 @@ import { Message } from "../../message/types";
 import { User } from "../../user/types";
 
 export type RoomType = {
-  rooms: Room[];
   belongingRooms: BelongingRooms;
   currentRoom: CurrentRoom;
   searchedRooms: SearchedRooms;
@@ -23,7 +22,7 @@ export type Avatar = {
   id: number;
   key: string;
   url: string;
-}
+};
 
 export type CreateRoomDTO = {
   name: string;
@@ -46,9 +45,14 @@ export type BelongingRooms = {
 
 // Does not contain messageIds because the frequency of updates of messages would be very high.
 export type CurrentRoom = {
-  owners: number[];
-  members: number[];
-} & Room;
+  entity: {
+    owners: number[];
+    members: number[];
+  } & Room;
+  loading: LoadingRoomType;
+};
+
+export type LoadingRoomType = "idle" | "pending" | "succeeded" | "failed";
 
 export type SearchedRooms = {
   byIds: {

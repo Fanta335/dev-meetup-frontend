@@ -20,7 +20,7 @@ export const EditMessageInputForm: VFC<Props> = ({ message }) => {
   const currentRoom = useAppSelector(selectCurrentRoom);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    dispatch(messageActions.updateMessage({ roomId: currentRoom.id.toString(), messageId: message.id, content: content.message }));
+    dispatch(messageActions.updateMessage({ roomId: currentRoom.entity.id.toString(), messageId: message.id, content: content.message }));
     dispatch(messageActions.endEdit());
 
     reset();
