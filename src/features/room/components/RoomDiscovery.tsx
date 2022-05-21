@@ -26,7 +26,7 @@ export const RoomDiscovery = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", bgcolor: "gray", height: "100%" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", bgcolor: "gray", height: "100%", pt: 8 }}>
         <Box sx={{ bgcolor: "pink", display: "flex", justifyContent: "center" }}>
           <SearchHeader />
         </Box>
