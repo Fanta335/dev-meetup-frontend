@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
-import { RootState } from "../../stores/store";
+import { AsyncThunkConfig, RootState } from "../../stores/store";
 import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: RoomType = {
-  rooms: [
-    {
+  belongingRooms: {
+    byIds: {},
+    allIds: [],
+  },
+  currentRoom: {
+    entity: {
       id: 0,
       name: "",
       description: "",
@@ -20,59 +24,14 @@ const initialState: RoomType = {
       createdAt: "",
       updatedAt: "",
       deletedAt: null,
+      owners: [],
+      members: [],
     },
-  ],
-  belongingRooms: {
-    byIds: {
-      // "0": {
-      //   id: 0,
-      //   name: "",
-      //   description: "",
-      //   avatar: {
-      //     id: 0,
-      //     key: "",
-      //     url: "",
-      //   },
-      //   createdAt: "",
-      //   updatedAt: "",
-      //   deletedAt: null,
-      // },
-    },
-    allIds: [],
-  },
-  currentRoom: {
-    id: 0,
-    name: "",
-    description: "",
-    avatar: {
-      id: 0,
-      key: "",
-      url: "",
-    },
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: null,
-    owners: [],
-    members: [],
+    loading: "idle",
   },
   searchedRooms: {
-    byIds: {
-      "0": {
-        id: 0,
-        name: "",
-        description: "",
-        avatar: {
-          id: 0,
-          key: "",
-          url: "",
-        },
-        createdAt: "",
-        updatedAt: "",
-        deletedAt: null,
-        numOfMembers: 0,
-      },
-    },
-    allIds: ["0"],
+    byIds: {},
+    allIds: [],
   },
   location: "home",
 };
@@ -99,15 +58,6 @@ export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number
   }
 );
 
-export const fetchAsyncGetAllRooms = createAsyncThunk<Room[], { token: string }>("room/fetchAllRooms", async ({ token }) => {
-  const res = await axios.get(`${apiUrl}/rooms`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return res.data;
-});
-
 export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: string; userId: string }>(
   "room/fetchBelongingRooms",
   async ({ token, userId }) => {
@@ -116,26 +66,30 @@ export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: str
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log('fetch belonging rooms: ', res.data);
+    console.log("fetch belonging rooms: ", res.data);
     return res.data;
   }
 );
 
 // [Attention] This method is shared between 3 reducers: Room, User, Message.
-export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }>(
+export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }, AsyncThunkConfig<{ errorMessage: string }>>(
   "room/fetchRoomContent",
-  async ({ token, roomId: id }) => {
-    const res = await axios.get<RoomContent>(`${apiUrl}/rooms/${id}/detail`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+  async ({ token, roomId: id }, thunkAPI) => {
+    let res;
+    try {
+      res = await axios.get<RoomContent>(`${apiUrl}/rooms/${id}/detail`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (e) {
+      return thunkAPI.rejectWithValue({ errorMessage: "You are not a member of this room." });
+    }
     const owner = new schema.Entity("owners");
     const member = new schema.Entity("members");
     const message = new schema.Entity("messages");
     const mySchema = { owners: [owner], members: [member], messages: [message] };
-    const normalizedData = normalize(res.data, mySchema) as NormalizedRoomContent;
+    const normalizedData = normalize(res?.data, mySchema) as NormalizedRoomContent;
 
     // console.log("normalizedData: ", normalizedData);
 
@@ -216,11 +170,8 @@ const roomSlice = createSlice({
       console.log("updated room: ", updatedRoom);
       // Reflesh belongingRooms and currentRoom state.
       state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
-      state.currentRoom.name = updatedRoom.name;
-      state.currentRoom.description = updatedRoom.description;
-    });
-    builder.addCase(fetchAsyncGetAllRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
-      state.rooms = action.payload;
+      state.currentRoom.entity.name = updatedRoom.name;
+      state.currentRoom.entity.description = updatedRoom.description;
     });
     builder.addCase(fetchAsyncGetBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
@@ -229,21 +180,33 @@ const roomSlice = createSlice({
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
       }
     });
+    builder.addCase(fetchRoomContent.pending, (state) => {
+      console.log("room content pending...");
+      state.currentRoom.loading = "pending";
+    });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
       // Do not monitor message referenses in currentRoom state.
       const currentRoom: CurrentRoom = {
-        id: data.result.id,
-        name: data.result.name,
-        description: data.result.description,
-        avatar: data.result.avatar,
-        owners: data.result.owners,
-        members: data.result.members,
-        createdAt: data.result.createdAt,
-        updatedAt: data.result.updatedAt,
-        deletedAt: data.result.deletedAt,
+        entity: {
+          id: data.result.id,
+          name: data.result.name,
+          description: data.result.description,
+          avatar: data.result.avatar,
+          owners: data.result.owners,
+          members: data.result.members,
+          createdAt: data.result.createdAt,
+          updatedAt: data.result.updatedAt,
+          deletedAt: data.result.deletedAt,
+        },
+        loading: "idle",
       };
       state.currentRoom = currentRoom;
+    });
+    builder.addCase(fetchRoomContent.rejected, (state, action) => {
+      console.log("fetch room content rejected.");
+      console.log(action.payload?.errorMessage);
+      state.currentRoom.loading = 'failed';
     });
     builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<SearchedRoom[]>) => {
       const rooms = action.payload;
@@ -283,9 +246,9 @@ const roomSlice = createSlice({
 
 export const roomActions = roomSlice.actions;
 
-export const selectRooms = (state: RootState) => state.room.rooms;
 export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;
 export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
+export const selectCurrentRoomLoading = (state: RootState) => state.room.currentRoom.loading;
 export const selectSearchedrooms = (state: RootState) => state.room.searchedRooms;
 export const selectLocation = (state: RootState) => state.room.location;
 
