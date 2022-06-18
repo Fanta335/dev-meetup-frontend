@@ -7,6 +7,6 @@ type Props = {
 };
 
 export const RouteGuard: VFC<Props> = ({ component }) => {
-  const Component = withAuthenticationRequired(component, {onRedirecting: () => <Loading />});
+  const Component = withAuthenticationRequired(component, { onRedirecting: () => <Loading /> });
   return <Component />;
 };

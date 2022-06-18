@@ -1,11 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { useEffect, VFC } from "react";
+import { ForbiddenPage } from "../../../components/Layouts/ForbiddenPage";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { MessageContainer } from "../../message/components/MessageContainer";
 import { messageActions, selectIsConnected } from "../../message/messageSlice";
 import { UsersList } from "../../user/components/UsersList";
-import { fetchRoomContent, roomActions } from "../roomSlice";
+import { fetchRoomContent, roomActions, selectCurrentRoomLoading } from "../roomSlice";
 
 type Props = {
   roomId: string | undefined;
@@ -14,7 +15,10 @@ type Props = {
 export const RoomContent: VFC<Props> = ({ roomId }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectCurrentRoomLoading);
   const isConnected = useAppSelector(selectIsConnected);
+
+  console.log("loading: ", loading);
 
   useEffect(() => {
     // Handle room joining.
@@ -51,14 +55,18 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
 
   return (
     <>
-      <Box sx={{ display: "flex", height: "100%" }}>
-        <Box sx={{ flexGrow: 1 }}>
-          <MessageContainer />
+      {loading === "failed" ? (
+        <ForbiddenPage />
+      ) : (
+        <Box sx={{ display: "flex", height: "100%" }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <MessageContainer />
+          </Box>
+          <Box>
+            <UsersList />
+          </Box>
         </Box>
-        <Box>
-          <UsersList />
-        </Box>
-      </Box>
+      )}
     </>
   );
 };

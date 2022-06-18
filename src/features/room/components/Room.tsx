@@ -15,7 +15,7 @@ export const Room = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", bgcolor: "lightgreen", height: "100%" }}>
+      <Box sx={{ display: "flex", bgcolor: "lightgreen", height: "100%" }}>
         <Box sx={{ flexGrow: 1 }}>
           <RoomContent roomId={id} />
         </Box>
