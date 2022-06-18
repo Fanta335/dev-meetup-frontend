@@ -58,7 +58,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    refreshCurrentUsers(state, action: PayloadAction<User[]>) {
+    syncCurrentUsersWithServer(state, action: PayloadAction<User[]>) {
       const normalizedRoomMembers = normalizeRoomMembers(action.payload);
       if (normalizedRoomMembers.entities.members !== undefined) {
         state.currentUsers.members.byIds = normalizedRoomMembers.entities.members;
@@ -79,7 +79,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { refreshCurrentUsers } = userSlice.actions;
+export const { syncCurrentUsersWithServer } = userSlice.actions;
 
 export const selectUsers = (state: RootState) => state.user.users;
 export const selectCurrentUsers = (state: RootState) => state.user.currentUsers;
