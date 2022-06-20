@@ -25,8 +25,6 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
     await dispatch(addMemberToRoom({ token, userId: currentUser.id, roomId: room.id }));
   };
 
-  console.log("room:", room.avatar);
-
   return (
     <Card sx={{ my: 3 }}>
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
