@@ -27,7 +27,10 @@ export const SmallRoomCard: VFC<Props> = ({ room }) => {
   return (
     <Card sx={{ m: 1 }}>
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
-        <CardHeader avatar={<Avatar variant="rounded"></Avatar>} title={<Typography variant="subtitle1">{room.name}</Typography>} />
+        <CardHeader
+          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}></Avatar>}
+          title={<Typography variant="subtitle1">{room.name}</Typography>}
+        />
         <CardContent>
           <Typography variant="body1">{room.description}</Typography>
         </CardContent>
