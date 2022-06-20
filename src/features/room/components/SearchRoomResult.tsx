@@ -30,13 +30,13 @@ export const SearchRoomResult = () => {
 
   return (
     <>
-      <Box sx={{ maxWidth: "800px", p: 3 }}>
+      <Box sx={{ maxWidth: "800px", px: 3, pt: 10 }}>
         <Box sx={{ display: "flex" }}>
           <IconButton component={Link} to="/app/room-discovery">
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h5">
-            「{queryInput}」の部屋が {searchedRooms.allIds.length} 件あります
+            {searchedRooms.allIds.length === 0 ? `「${queryInput}」の部屋は見つかりませんでした。` : `「${queryInput}」の部屋が${searchedRooms.allIds.length} 件あります`}
           </Typography>
         </Box>
         <SearchBox defaultValue={defaultValue} />
