@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
 import { useState } from "react";
 import { RoomSettingsMenu } from "../../features/room/components/RoomSettingsMenu";
-import { selectLocation } from "../../features/room/roomSlice";
+import { selectCurrentRoomLoading, selectLocation } from "../../features/room/roomSlice";
 import { UserSettingsButton } from "../../features/user/components/UserSettingsButton";
 import { useAppSelector } from "../../stores/hooks";
 import LogoutButton from "../auth/LogoutButton";
@@ -9,6 +9,7 @@ import { LocationName } from "./LocationName";
 
 export const Navbar = () => {
   const location = useAppSelector(selectLocation);
+  const loading = useAppSelector(selectCurrentRoomLoading);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -23,11 +24,16 @@ export const Navbar = () => {
       <Toolbar>
         <Box sx={{ flexGrow: 1, pl: "50px", display: "flex", alignItems: "center" }}>
           <LocationName location={location} />
-          {location === "room" && <RoomSettingsMenu />}
+          {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
         <LogoutButton />
         <Box sx={{ flexGrow: 0 }}>
-          <UserSettingsButton handleOpenUserMenu={handleOpenUserMenu} handleCloseUserMenu={handleCloseUserMenu} anchorElUser={anchorElUser} settings={settings} />
+          <UserSettingsButton
+            handleOpenUserMenu={handleOpenUserMenu}
+            handleCloseUserMenu={handleCloseUserMenu}
+            anchorElUser={anchorElUser}
+            settings={settings}
+          />
         </Box>
       </Toolbar>
     </AppBar>
