@@ -66,7 +66,7 @@ export const RoomSettingsMenu = () => {
           </MenuItem>
         ))}
         {isOwner && <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />}
-        <LeaveRoomButton handleCloseMenu={handleCloseMenu} />
+        {!isOwner && <LeaveRoomButton handleCloseMenu={handleCloseMenu} />}
       </Menu>
     </div>
   );
