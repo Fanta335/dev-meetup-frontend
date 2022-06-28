@@ -1,7 +1,7 @@
 import { Divider, Drawer, Toolbar } from "@mui/material";
 import { VFC } from "react";
 import { HomeButton } from "../../features/misc/components/HomeButton";
-import { BelongingRoomsList } from "../../features/room/components/BelongingRoomsList";
+import { BelongingRoomIconsList } from "../../features/room/components/BelongingRoomIconsList";
 import { CreateRoomButton } from "../../features/room/components/CreateRoomButton";
 import { DiscoverRoomButton } from "../../features/room/components/DiscoverRoomButton";
 
@@ -23,7 +23,7 @@ const Sidebar: VFC = () => {
     >
       <Toolbar />
       <HomeButton />
-      <BelongingRoomsList />
+      <BelongingRoomIconsList />
       <Divider />
       <CreateRoomButton />
       <DiscoverRoomButton />
