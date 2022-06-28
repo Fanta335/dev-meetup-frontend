@@ -8,21 +8,19 @@ import { User, UserType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: UserType = {
-  users: [
-    {
+  currentUser: {
+    id: 0,
+    name: "",
+    email: "",
+    avatar: {
       id: 0,
-      subId: "",
-      name: "",
-      email: "",
-      avatar: {
-        id: 0,
-        key: "",
-        url: "",
-      },
-      createdAt: "",
-      updatedAt: "",
+      key: "",
+      url: "",
     },
-  ],
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: null,
+  },
   currentUsers: {
     members: {
       byIds: {
@@ -54,6 +52,15 @@ export const fetchAllUsers = createAsyncThunk<User[], { token: string }>("user/f
   return res.data;
 });
 
+export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/fetchUserProfile", async ({ token }) => {
+  const res = await axios.get(`${apiUrl}/users/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -67,8 +74,8 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchAllUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
-      state.users = action.payload;
+    builder.addCase(fetchUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
+      state.currentUser = action.payload;
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
       const data = action.payload;
@@ -81,7 +88,7 @@ const userSlice = createSlice({
 
 export const { syncCurrentUsersWithServer } = userSlice.actions;
 
-export const selectUsers = (state: RootState) => state.user.users;
+export const selectCurrentUser = (state: RootState) => state.user.currentUser;
 export const selectCurrentUsers = (state: RootState) => state.user.currentUsers;
 
 export const userReducer = userSlice.reducer;
