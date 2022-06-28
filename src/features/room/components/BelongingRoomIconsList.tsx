@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
 
-export const BelongingRoomsList = () => {
+export const BelongingRoomIconsList = () => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const dispatch = useAppDispatch();
   const belongingRooms = useAppSelector(selectBelongingRooms);
