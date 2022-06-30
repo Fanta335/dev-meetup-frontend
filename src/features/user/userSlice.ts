@@ -61,6 +61,18 @@ export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/
   return res.data;
 });
 
+export const updateUserAvatar = createAsyncThunk<User, { token: string; userId: string; formData: FormData }>(
+  "user/fetchUserProfile",
+  async ({ token, userId, formData }) => {
+    const res = await axios.put(`${apiUrl}/users/${userId}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
