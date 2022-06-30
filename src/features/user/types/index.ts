@@ -1,5 +1,5 @@
 export type UserType = {
-  users: User[];
+  currentUser: User;
   currentUsers: CurrentUsers;
 };
 
