@@ -3,10 +3,11 @@ import { useEffect, VFC } from "react";
 import { Loading } from "./Loading";
 import { fetchUserProfile, selectCurrentUser } from "../features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
-import { Avatar, Button } from "@mui/material";
+import { Avatar } from "@mui/material";
+import { EditUserAvatarButton } from "../features/user/components/EditUerAvatarButton";
 
 export const Profile: VFC = () => {
-  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently, user } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -28,10 +29,10 @@ export const Profile: VFC = () => {
 
   return isAuthenticated ? (
     <>
-      <Avatar src={currentUser.avatar.url} sx={{ width: "100px", height: "100px" }} />
+      <Avatar src={currentUser.avatar ? currentUser.avatar.url : user?.picture} sx={{ width: "100px", height: "100px" }} />
+      <EditUserAvatarButton />
       <p>id: {currentUser.id}</p>
       <p>name: {currentUser.name}</p>
-      <Button variant="contained">プロフィールを編集</Button>
     </>
   ) : (
     <h2>Not authenticated!</h2>
