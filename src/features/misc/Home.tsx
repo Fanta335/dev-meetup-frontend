@@ -1,11 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { Box } from "@mui/material";
 import { useEffect } from "react";
+import { Profile } from "../../components/Profile";
 import { useAppDispatch } from "../../stores/hooks";
-import { Auth0User } from "../auth/types";
 import { roomActions } from "../room/roomSlice";
 
 export const Home = () => {
-  const { user } = useAuth0<Auth0User>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -13,11 +12,8 @@ export const Home = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h1>home page.</h1>
-      <img src={user?.picture} alt={user?.name} />
-      <h2>{user?.name}</h2>
-      <p>{user?.email}</p>
-    </div>
+    <Box sx={{pt: 12, px: 4, bgcolor: '#888'}}>
+      <Profile />
+    </Box>
   );
 };
