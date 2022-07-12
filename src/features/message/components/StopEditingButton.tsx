@@ -12,7 +12,7 @@ export const StopEditingButton = memo(() => {
   };
   return (
     <Tooltip title="編集をやめる" placement="top" arrow>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} color="secondary">
         <CancelIcon />
       </IconButton>
     </Tooltip>

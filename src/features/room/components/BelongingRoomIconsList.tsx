@@ -3,7 +3,7 @@ import { Avatar, IconButton, List, ListItem, Tooltip, Zoom } from "@mui/material
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchAsyncGetBelongingRooms, selectBelongingRooms } from "../roomSlice";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -34,7 +34,7 @@ export const BelongingRoomIconsList = () => {
                 {belongingRooms.byIds[roomId].avatar ? (
                   <Avatar src={belongingRooms.byIds[roomId].avatar.url} sx={{ height: "45px", width: "45px" }} />
                 ) : (
-                  <AccountCircleIcon sx={{ fontSize: "54px" }} />
+                  <AccountCircleIcon sx={{ fontSize: "54px" }} color="secondary" />
                 )}
               </IconButton>
             </ListItem>

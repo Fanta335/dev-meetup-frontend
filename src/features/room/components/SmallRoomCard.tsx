@@ -32,7 +32,9 @@ export const SmallRoomCard: VFC<Props> = ({ room }) => {
           title={<Typography variant="subtitle1">{room.name}</Typography>}
         />
         <CardContent>
-          <Typography variant="body1">{room.description}</Typography>
+          <Typography variant="body1" color="textSecondary">
+            {room.description}
+          </Typography>
         </CardContent>
         <Typography sx={{ textAlign: "end", pr: 2, pb: 2 }}>{room.numOfMembers}人</Typography>
       </CardActionArea>

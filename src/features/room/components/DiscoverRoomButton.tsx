@@ -6,7 +6,7 @@ export const DiscoverRoomButton = () => {
   return (
     <Tooltip title="公開された部屋を探す" placement="right" arrow TransitionComponent={Zoom}>
       <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
-        <IconButton aria-label="discover room" component={Link} to="/app/room-discovery" >
+        <IconButton aria-label="discover room" component={Link} to="/app/room-discovery" color="success">
           <ExploreIcon sx={{ fontSize: "54px" }} />
         </IconButton>
       </ListItem>

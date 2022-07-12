@@ -17,7 +17,7 @@ export const CreateRoomButton = () => {
   return (
     <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
       <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
-        <IconButton aria-label="create room" onClick={handleClickOpen}>
+        <IconButton aria-label="create room" onClick={handleClickOpen} color="success">
           <AddCircleOutlinedIcon sx={{ fontSize: "54px" }} />
         </IconButton>
         <CreateRoomDialog open={open} handleClose={handleClose} />

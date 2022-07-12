@@ -32,7 +32,7 @@ export const DeleteMessageButton: VFC<Props> = memo(({ messageId }) => {
   return (
     <>
       <Tooltip title="削除する" placement="top" arrow>
-        <IconButton onClick={handleClickOpen}>
+        <IconButton onClick={handleClickOpen} color="secondary">
           <DeleteIcon />
         </IconButton>
       </Tooltip>

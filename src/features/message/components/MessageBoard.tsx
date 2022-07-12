@@ -18,7 +18,7 @@ export const MessageBoard = memo(() => {
 
   return (
     <>
-      <Box sx={{ bgcolor: "khaki", mt: "70px" }}>
+      <Box sx={{ mt: "70px" }}>
         {currentMessages.allIds.length === 0 ? (
           <p>send message.</p>
         ) : (

@@ -30,7 +30,7 @@ export const MessageMenu: VFC<Props> = memo(({ messageId }) => {
   const isOwnMessage = authorId === currentUser?.id;
 
   return (
-    <ButtonGroup size="small" aria-label="outlined primary button group" sx={{ px: 1 }}>
+    <ButtonGroup size="small" aria-label="outlined primary button group" sx={{ px: 1 }} variant="contained" color='secondary'>
       {isEditing ? (
         <StopEditingButton />
       ) : (

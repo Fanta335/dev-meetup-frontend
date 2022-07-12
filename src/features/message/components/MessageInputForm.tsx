@@ -37,7 +37,7 @@ export const MessageInputForm = () => {
               render={({ field }) => (
                 <div>
                   {(messageReply.isReplying  && messageReply.parentMessageId) && (
-                    <Paper sx={{ bgcolor: "#62b7eb" }} elevation={0}>
+                    <Paper sx={{pl: 3}} elevation={0}>
                       {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name}
                       {' '}に返信中
                       <StopReplyingButton />

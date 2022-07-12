@@ -16,7 +16,7 @@ export const ReplyButton: VFC<Props> = memo(({ messageId }) => {
 
   return (
     <Tooltip title="返信する" placement="top" arrow>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} color="secondary">
         <ReplyIcon />
       </IconButton>
     </Tooltip>

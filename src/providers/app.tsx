@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
@@ -17,12 +17,42 @@ const ErrorFallback = () => {
   );
 };
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1A374D",
+    },
+    secondary: {
+      main: "#B1D0E0"
+    },
+    background: {
+      default: "#406882",
+      paper: "#1A374D",
+    },
+    text: {
+      primary: "#fff",
+      secondary: "#ccc",
+    },
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#1A374D",
+        },
+      },
+    },
+  },
+});
+
 export const AppProvider: FC = ({ children }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <BrowserRouter>
         <Auth0ProviderWithHistory>
-          <Provider store={store}>{children}</Provider>
+          <Provider store={store}>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </Provider>
         </Auth0ProviderWithHistory>
       </BrowserRouter>
     </ErrorBoundary>

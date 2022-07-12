@@ -17,7 +17,7 @@ export const EditMessageButton: VFC<Props> = memo(({ messageId }) => {
   }, [dispatch, messageId]);
   return (
     <Tooltip title="編集する" placement="top" arrow>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} color="secondary">
         <EditIcon />
       </IconButton>
     </Tooltip>

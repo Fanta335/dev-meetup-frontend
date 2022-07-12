@@ -10,7 +10,7 @@ export const StopReplyingButton = () => {
   };
   return (
     <Tooltip title="返信をやめる" placement="top" arrow>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} color="secondary">
         <CancelIcon />
       </IconButton>
     </Tooltip>

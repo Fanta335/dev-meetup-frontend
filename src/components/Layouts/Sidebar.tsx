@@ -23,9 +23,9 @@ const Sidebar: VFC = () => {
     >
       <Toolbar />
       <HomeButton />
-      <Divider sx={{my: 1}} />
+      <Divider sx={{ my: 1 }} />
       <BelongingRoomIconsList />
-      <Divider sx={{my: 1}} />
+      <Divider sx={{ my: 1 }} />
       <CreateRoomButton />
       <DiscoverRoomButton />
     </Drawer>

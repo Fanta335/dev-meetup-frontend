@@ -15,8 +15,10 @@ export const EditUserAvatarButton = () => {
 
   return (
     <>
-      <Button onClick={handleClickOpen} variant="contained">アバターの変更</Button>
+      <Button onClick={handleClickOpen} variant="contained" color="primary">
+        アバターの変更
+      </Button>
       <EditUserAvatarDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>
-  )
-}
+  );
+};
