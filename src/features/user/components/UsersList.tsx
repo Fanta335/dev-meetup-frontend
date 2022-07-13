@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../userSlice";
 import { UserItem } from "./UserItem";
 import PeopleIcon from "@mui/icons-material/People";
+import { ShowRoomMemberDrawerButton } from "./ShowRoomMemberDrawerButton";
 
 export const UsersList = () => {
   const currentUsers = useAppSelector(selectCurrentUsers);
@@ -20,7 +21,7 @@ export const UsersList = () => {
 
   return (
     <>
-      <Button onClick={toggleDrawer(true)} sx={{position: 'fixed', right: '10px', top: '80px'}} startIcon={<PeopleIcon />} variant='contained'>メンバー</Button>
+      <ShowRoomMemberDrawerButton toggleDrawer={toggleDrawer} />
       <Drawer
         sx={{
           width: drawerWidth,
