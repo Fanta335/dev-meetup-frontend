@@ -3,6 +3,7 @@ import { memo, useEffect, useRef } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentMessages } from "../messageSlice";
 import { MessageItem } from "./MessageItem";
+import { WelcomeMessage } from "./WelcomeMessage";
 
 export const MessageBoard = memo(() => {
   const currentMessages = useAppSelector(selectCurrentMessages);
@@ -20,7 +21,9 @@ export const MessageBoard = memo(() => {
     <>
       <Box sx={{ mt: "70px" }}>
         {currentMessages.allIds.length === 0 ? (
-          <p>send message.</p>
+          <Box>
+            <WelcomeMessage />
+          </Box>
         ) : (
           currentMessages.allIds.map((messageId) => {
             return <MessageItem key={messageId} messageId={messageId} />;

@@ -12,9 +12,5 @@ export const ToggleRoomMemberDrawerButton = () => {
     }
     dispatch(roomActions.toggleRoomMemberDrawer({ open }));
   };
-  return (
-    <Button onClick={toggleDrawer(!isRoomMemberDrawerOpen)} sx={{}} startIcon={<PeopleIcon />} variant="contained">
-      メンバー
-    </Button>
-  );
+  return <Button onClick={toggleDrawer(!isRoomMemberDrawerOpen)} startIcon={<PeopleIcon />} variant="contained" />;
 };
