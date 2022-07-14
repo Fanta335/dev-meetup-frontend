@@ -1,27 +1,25 @@
-import { Button, Drawer, List, Toolbar } from "@mui/material";
-import { useState } from "react";
-import { useAppSelector } from "../../../stores/hooks";
+import { Drawer, List, Toolbar } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../userSlice";
 import { UserItem } from "./UserItem";
-import PeopleIcon from "@mui/icons-material/People";
-import { ShowRoomMemberDrawerButton } from "./ShowRoomMemberDrawerButton";
+import { roomActions, selectIsRoomMemberDrawerOpen } from "../../room/roomSlice";
 
 export const UsersList = () => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   // console.log("current users: ", currentUsers);
-  const [isOpen, setDrawerOpen] = useState(false);
+  const isRoomMemberDrawerOpen = useAppSelector(selectIsRoomMemberDrawerOpen);
+  const dispatch = useAppDispatch();
   const drawerWidth = "200px";
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === "keydown" && ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")) {
       return;
     }
-    setDrawerOpen(open);
+    dispatch(roomActions.toggleRoomMemberDrawer({ open }));
   };
 
   return (
     <>
-      <ShowRoomMemberDrawerButton toggleDrawer={toggleDrawer} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -33,7 +31,7 @@ export const UsersList = () => {
           justifyContent: "center",
         }}
         anchor="right"
-        open={isOpen}
+        open={isRoomMemberDrawerOpen}
         onClose={toggleDrawer(false)}
       >
         <Toolbar />

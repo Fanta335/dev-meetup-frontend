@@ -6,6 +6,7 @@ export type RoomType = {
   currentRoom: CurrentRoom;
   searchedRooms: SearchedRooms;
   location: Location;
+  isRoomMemberDrawerOpen: boolean;
 };
 
 export type Room = {

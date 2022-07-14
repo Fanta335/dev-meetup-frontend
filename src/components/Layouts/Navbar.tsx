@@ -2,6 +2,7 @@ import { AppBar, Box, Toolbar } from "@mui/material";
 import { useState } from "react";
 import { RoomSettingsMenu } from "../../features/room/components/RoomSettingsMenu";
 import { selectCurrentRoomLoading, selectLocation } from "../../features/room/roomSlice";
+import { ShowRoomMemberDrawerButton } from "../../features/user/components/ShowRoomMemberDrawerButton";
 import { UserSettingsButton } from "../../features/user/components/UserSettingsButton";
 import { useAppSelector } from "../../stores/hooks";
 import LogoutButton from "../auth/LogoutButton";
@@ -27,6 +28,7 @@ export const Navbar = () => {
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
         <LogoutButton />
+        <ShowRoomMemberDrawerButton />
         <Box sx={{ flexGrow: 0 }}>
           <UserSettingsButton
             handleOpenUserMenu={handleOpenUserMenu}
