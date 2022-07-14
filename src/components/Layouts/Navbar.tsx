@@ -19,6 +19,7 @@ export const Navbar = () => {
     setAnchorElUser(null);
   };
   const settings = ["Profile", "Account", "Logout"];
+  // const isInRoom = location === "room" && loading === "idle";
 
   return (
     <AppBar position="fixed" sx={{ mr: "12px", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -28,7 +29,7 @@ export const Navbar = () => {
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
         <LogoutButton />
-        <ToggleRoomMemberDrawerButton />
+        {location === "room" && <ToggleRoomMemberDrawerButton />}
         <Box sx={{ flexGrow: 0 }}>
           <UserSettingsButton
             handleOpenUserMenu={handleOpenUserMenu}
