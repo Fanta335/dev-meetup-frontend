@@ -5,6 +5,7 @@ import { selectCurrentRoom } from "../../room/roomSlice";
 import { selectCurrentUsers } from "../../user/userSlice";
 import { messageActions, selectCurrentMessages, selectMessageReply } from "../messageSlice";
 import { StopReplyingButton } from "./StopReplyingButton";
+import SendIcon from "@mui/icons-material/Send";
 
 type FormInput = {
   message: string;
@@ -36,10 +37,9 @@ export const MessageInputForm = () => {
             <Controller
               render={({ field }) => (
                 <div>
-                  {(messageReply.isReplying  && messageReply.parentMessageId) && (
-                    <Paper sx={{pl: 3}} elevation={0}>
-                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name}
-                      {' '}に返信中
+                  {messageReply.isReplying && messageReply.parentMessageId && (
+                    <Paper sx={{ pl: 3 }} elevation={0}>
+                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name} に返信中
                       <StopReplyingButton />
                     </Paper>
                   )}
@@ -51,6 +51,8 @@ export const MessageInputForm = () => {
                     fullWidth
                     // multiline
                     autoComplete="off"
+                    placeholder={`${currentRoom.entity.name} へメッセージを送信`}
+                    sx={{ bgcolor: "#00000023", borderRadius: "5px" }}
                   />
                 </div>
               )}
@@ -60,8 +62,8 @@ export const MessageInputForm = () => {
               rules={{ required: true }}
             />
           </Box>
-          <Button variant="contained" type="submit" sx={{ ml: 2 }}>
-            Send
+          <Button variant="contained" type="submit" sx={{ ml: 2 }} endIcon={<SendIcon />}>
+            送信
           </Button>
         </Box>
       </form>

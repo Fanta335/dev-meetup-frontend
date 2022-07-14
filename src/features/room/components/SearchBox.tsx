@@ -50,6 +50,7 @@ export const SearchBox: VFC<Props> = ({ defaultValue = "" }) => {
                 </InputAdornment>
               ),
             }}
+            sx={{ bgcolor: "#ffffff26", borderRadius: "5px" }}
           />
         )}
         name="roomName"

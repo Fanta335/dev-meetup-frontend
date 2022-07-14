@@ -23,7 +23,10 @@ const theme = createTheme({
       main: "#1A374D",
     },
     secondary: {
-      main: "#B1D0E0"
+      main: "#B1D0E0",
+    },
+    success: {
+      main: "#8cda7d",
     },
     background: {
       default: "#406882",

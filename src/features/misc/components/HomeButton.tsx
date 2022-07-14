@@ -6,8 +6,8 @@ export const HomeButton = () => {
   return (
     <Tooltip title="ホーム" placement="right" arrow TransitionComponent={Zoom}>
       <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
-        <IconButton aria-label="home" component={Link} to="/app">
-          <HomeIcon sx={{ fontSize: "54px" }} color="secondary" />
+        <IconButton aria-label="home" component={Link} to="/app" color="success">
+          <HomeIcon sx={{ fontSize: "54px" }} />
         </IconButton>
       </ListItem>
     </Tooltip>
