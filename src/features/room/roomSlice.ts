@@ -34,6 +34,7 @@ const initialState: RoomType = {
     allIds: [],
   },
   location: "home",
+  isRoomMemberDrawerOpen: false,
 };
 
 export const postRoom = createAsyncThunk<Room, { token: string; formData: FormData }>("room/postRoom", async ({ token, formData }) => {
@@ -158,6 +159,9 @@ const roomSlice = createSlice({
     leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
       console.log("leave room");
     },
+    toggleRoomMemberDrawer: (state, action: PayloadAction<{ open: boolean }>) => {
+      state.isRoomMemberDrawerOpen = action.payload.open;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postRoom.fulfilled, (state, action: PayloadAction<Room>) => {
@@ -206,7 +210,7 @@ const roomSlice = createSlice({
     builder.addCase(fetchRoomContent.rejected, (state, action) => {
       console.log("fetch room content rejected.");
       console.log(action.payload?.errorMessage);
-      state.currentRoom.loading = 'failed';
+      state.currentRoom.loading = "failed";
     });
     builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<SearchedRoom[]>) => {
       const rooms = action.payload;
@@ -251,5 +255,6 @@ export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
 export const selectCurrentRoomLoading = (state: RootState) => state.room.currentRoom.loading;
 export const selectSearchedrooms = (state: RootState) => state.room.searchedRooms;
 export const selectLocation = (state: RootState) => state.room.location;
+export const selectIsRoomMemberDrawerOpen = (state: RootState) => state.room.isRoomMemberDrawerOpen;
 
 export const roomReducer = roomSlice.reducer;
