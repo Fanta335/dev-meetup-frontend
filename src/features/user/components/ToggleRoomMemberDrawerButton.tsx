@@ -3,7 +3,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { roomActions, selectIsRoomMemberDrawerOpen } from "../../room/roomSlice";
 
-export const ShowRoomMemberDrawerButton = () => {
+export const ToggleRoomMemberDrawerButton = () => {
   const dispatch = useAppDispatch();
   const isRoomMemberDrawerOpen = useAppSelector(selectIsRoomMemberDrawerOpen);
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
