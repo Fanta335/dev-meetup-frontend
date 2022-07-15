@@ -10,6 +10,7 @@ import { selectCurrentRoom } from "../roomSlice";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { Auth0User } from "../../auth/types";
+import { DeleteRoomButton } from "./DeleteRoomButton";
 
 const options = ["友達の招待"];
 
@@ -66,6 +67,7 @@ export const RoomSettingsMenu = () => {
           </MenuItem>
         ))}
         {isOwner && <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />}
+        {isOwner && <DeleteRoomButton handleCloseMenu={handleCloseMenu} />}
         {!isOwner && <LeaveRoomButton handleCloseMenu={handleCloseMenu} />}
       </Menu>
     </div>

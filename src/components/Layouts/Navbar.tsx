@@ -18,7 +18,7 @@ export const Navbar = () => {
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
         <LogoutButton />
-        {location === "room" && <ToggleRoomMemberDrawerButton />}
+        {location === "room" && loading === "idle" && <ToggleRoomMemberDrawerButton />}
       </Toolbar>
     </AppBar>
   );

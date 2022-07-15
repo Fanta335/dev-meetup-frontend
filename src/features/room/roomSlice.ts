@@ -146,6 +146,16 @@ export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; us
   }
 );
 
+export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/deleteRoom", async ({ token, roomId }) => {
+  const res = await axios.delete<Room>(`${apiUrl}/rooms/${roomId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+});
+
 const roomSlice = createSlice({
   name: "room",
   initialState,
