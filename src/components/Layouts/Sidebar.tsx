@@ -6,7 +6,7 @@ import { CreateRoomButton } from "../../features/room/components/CreateRoomButto
 import { DiscoverRoomButton } from "../../features/room/components/DiscoverRoomButton";
 
 const Sidebar: VFC = () => {
-  const drawerWidth = 70;
+  const drawerWidth = 75;
   return (
     <Drawer
       sx={{
