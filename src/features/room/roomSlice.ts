@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
+import { history } from "../../routes/history";
 import { AsyncThunkConfig, RootState } from "../../stores/store";
 import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
@@ -43,6 +44,11 @@ export const postRoom = createAsyncThunk<Room, { token: string; formData: FormDa
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (res.data) {
+    history.push(`/app/rooms/${res.data.id}`);
+  }
+
   return res.data;
 });
 
@@ -178,6 +184,7 @@ const roomSlice = createSlice({
       const newRoom = action.payload;
       state.belongingRooms.byIds[newRoom.id] = newRoom;
       state.belongingRooms.allIds.push(newRoom.id.toString());
+      // history.push(`/app/rooms/${newRoom.id}`);
     });
     builder.addCase(updateRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const updatedRoom = action.payload;

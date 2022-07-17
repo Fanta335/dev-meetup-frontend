@@ -2,9 +2,10 @@ import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { store } from "../stores/store";
 import Auth0ProviderWithHistory from "../features/auth/providers/auth0-provider-with-history";
+import { history } from "../routes/history";
 
 const ErrorFallback = () => {
   return (
@@ -51,13 +52,13 @@ const theme = createTheme({
 export const AppProvider: FC = ({ children }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <BrowserRouter>
+      <HistoryRouter history={history}>
         <Auth0ProviderWithHistory>
           <Provider store={store}>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </Provider>
         </Auth0ProviderWithHistory>
-      </BrowserRouter>
+      </HistoryRouter>
     </ErrorBoundary>
   );
 };
