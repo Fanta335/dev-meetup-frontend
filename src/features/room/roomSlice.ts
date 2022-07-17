@@ -36,6 +36,7 @@ const initialState: RoomType = {
   },
   location: "home",
   isRoomMemberDrawerOpen: false,
+  roomAvatarPreviewUrl: null,
 };
 
 export const postRoom = createAsyncThunk<Room, { token: string; formData: FormData }>("room/postRoom", async ({ token, formData }) => {
@@ -178,6 +179,9 @@ const roomSlice = createSlice({
     toggleRoomMemberDrawer: (state, action: PayloadAction<{ open: boolean }>) => {
       state.isRoomMemberDrawerOpen = action.payload.open;
     },
+    setRoomAvatarPreview: (state, action: PayloadAction<{ url: string | null }>) => {
+      state.roomAvatarPreviewUrl = action.payload.url;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(postRoom.fulfilled, (state, action: PayloadAction<Room>) => {
@@ -273,5 +277,6 @@ export const selectCurrentRoomLoading = (state: RootState) => state.room.current
 export const selectSearchedrooms = (state: RootState) => state.room.searchedRooms;
 export const selectLocation = (state: RootState) => state.room.location;
 export const selectIsRoomMemberDrawerOpen = (state: RootState) => state.room.isRoomMemberDrawerOpen;
+export const selectRoomAvatarPreviewUrl = (state: RootState) => state.room.roomAvatarPreviewUrl;
 
 export const roomReducer = roomSlice.reducer;

@@ -7,6 +7,7 @@ export type RoomType = {
   searchedRooms: SearchedRooms;
   location: Location;
   isRoomMemberDrawerOpen: boolean;
+  roomAvatarPreviewUrl: string | null;
 };
 
 export type Room = {

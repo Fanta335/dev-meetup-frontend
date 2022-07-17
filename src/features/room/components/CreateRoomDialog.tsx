@@ -1,9 +1,9 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
-import { FC, useEffect, useState, VFC } from "react";
+import { FC, useEffect, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch } from "../../../stores/hooks";
-import { postRoom } from "../roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { postRoom, roomActions, selectRoomAvatarPreviewUrl } from "../roomSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 export type DialogTitleProps = {
@@ -36,9 +36,11 @@ const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
   );
 };
 
-export type CreateToomDialogProps = {
+export type CreateRoomDialogProps = {
   open: boolean;
   handleClose: () => void;
+  selectedFile: File | undefined;
+  setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 };
 
 type FormInput = {
@@ -47,12 +49,11 @@ type FormInput = {
   avatar: FileList;
 };
 
-export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose }) => {
+export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const { handleSubmit, control, reset, register } = useForm<FormInput>();
-  const [selectedFile, setSelectedFile] = useState<File>();
-  const [preview, setPreview] = useState<string>();
+  const preview = useAppSelector(selectRoomAvatarPreviewUrl);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -60,10 +61,10 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
     }
 
     const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
+    dispatch(roomActions.setRoomAvatarPreview({ url: objectUrl }));
 
     return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+  }, [selectedFile, dispatch]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -75,13 +76,10 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
     // console.log("post room: ", data);
-    if (!selectedFile) {
-      return;
-    }
 
     const { name, description } = data;
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    if (selectedFile !== undefined) formData.append("file", selectedFile);
     formData.append("name", name);
     formData.append("description", description);
 
@@ -144,7 +142,10 @@ export const CreateRoomDialog: VFC<CreateToomDialogProps> = ({ open, handleClose
           />
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" type="submit">
+          <Button variant="contained" onClick={handleClose} color="secondary">
+            キャンセル
+          </Button>
+          <Button variant="contained" type="submit" color="success">
             新規作成
           </Button>
         </DialogActions>
