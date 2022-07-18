@@ -10,6 +10,7 @@ const Sidebar: VFC = () => {
   return (
     <Drawer
       sx={{
+
         width: drawerWidth,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
@@ -21,7 +22,7 @@ const Sidebar: VFC = () => {
       variant="permanent"
       anchor="left"
     >
-      <Toolbar />
+      <Toolbar sx={{mb: 1}} />
       <HomeButton />
       <Divider sx={{ my: 1 }} />
       <BelongingRoomIconsList />

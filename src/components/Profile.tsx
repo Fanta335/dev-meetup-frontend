@@ -4,7 +4,7 @@ import { Loading } from "./Loading";
 import { fetchUserProfile, selectCurrentUser } from "../features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
 import { Avatar } from "@mui/material";
-import { EditUserAvatarButton } from "../features/user/components/EditUerAvatarButton";
+import { EditUserAvatarButton } from "../features/user/components/EditUserAvatarButton";
 
 export const Profile: VFC = () => {
   const { isAuthenticated, isLoading, getAccessTokenSilently, user } = useAuth0();

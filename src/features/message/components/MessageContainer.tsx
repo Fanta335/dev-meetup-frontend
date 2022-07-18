@@ -19,7 +19,7 @@ export const MessageContainer = () => {
           <Box sx={{ flexGrow: 1, pt: 1, px: 1, pb: 10 }}>
             <MessageBoard />
           </Box>
-          <Box sx={{ position: "fixed", bottom: 0, width: "calc(100% - 82px)", px: 1, pb: 3, bgcolor: 'background.default' }}>
+          <Box sx={{ position: "fixed", bottom: 0, width: "calc(100% - 89px)", px: 1, pb: 3, bgcolor: 'background.default' }}>
             <MessageInputForm />
           </Box>
         </Box>

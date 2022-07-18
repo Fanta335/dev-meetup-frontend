@@ -90,7 +90,7 @@ export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, han
     <Dialog open={open} onClose={handleCloseDialog}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
-          部屋の設定
+          プロフィール画像の設定
         </BootstrapDialogTitle>
         <DialogContent>
           <input type="file" {...register("avatar")} onChange={onSelectFile} />

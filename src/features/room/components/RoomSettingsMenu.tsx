@@ -44,7 +44,7 @@ export const RoomSettingsMenu = () => {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MoreVertIcon />
+        <MoreVertIcon color="secondary" />
       </IconButton>
       <Menu
         id="long-menu"
