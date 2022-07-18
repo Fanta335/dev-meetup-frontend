@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { postRoom, roomActions, selectRoomAvatarPreviewUrl } from "../roomSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export type DialogTitleProps = {
   id: string;
@@ -52,6 +53,7 @@ type FormInput = {
 export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { handleSubmit, control, reset, register } = useForm<FormInput>();
   const preview = useAppSelector(selectRoomAvatarPreviewUrl);
 
@@ -87,7 +89,10 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
     console.log("data: ", data);
     console.log("form data: ", formData.get("file"));
 
-    await dispatch(postRoom({ token, formData }));
+    await dispatch(postRoom({ token, formData }))
+      .unwrap()
+      .then((data) => navigate(`/app/rooms/${data.id}`));
+
     reset();
     handleClose();
   };
