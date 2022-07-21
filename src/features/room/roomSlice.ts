@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { AsyncThunkConfig, RootState } from "../../stores/store";
-import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom } from "../room/types";
+import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, Invitation } from "../room/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -36,6 +36,7 @@ const initialState: RoomType = {
   location: "home",
   isRoomMemberDrawerOpen: false,
   roomAvatarPreviewUrl: null,
+  invitation: null,
 };
 
 export const postRoom = createAsyncThunk<Room, { token: string; formData: FormData }>("room/postRoom", async ({ token, formData }) => {
@@ -158,6 +159,23 @@ export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: number
   return res.data;
 });
 
+export const createInviteLink = createAsyncThunk<Invitation, { token: string; roomId: number; secondsExpirationLifetime: number }>(
+  "room/createInvitation",
+  async ({ token, roomId, secondsExpirationLifetime }) => {
+    const res = await axios.post<Invitation>(
+      `${apiUrl}/invite`,
+      { roomId, secondsExpirationLifetime },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  }
+);
+
 const roomSlice = createSlice({
   name: "room",
   initialState,
@@ -261,6 +279,11 @@ const roomSlice = createSlice({
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
       }
     });
+    builder.addCase(createInviteLink.fulfilled, (state, action: PayloadAction<Invitation>) => {
+      const invitation = action.payload;
+      const url = process.env.REACT_APP_CLIENT_URL + "/invite/" + invitation.id;
+      state.invitation = { id: invitation.id, roomId: invitation.roomId, url };
+    });
   },
 });
 
@@ -273,5 +296,6 @@ export const selectSearchedrooms = (state: RootState) => state.room.searchedRoom
 export const selectLocation = (state: RootState) => state.room.location;
 export const selectIsRoomMemberDrawerOpen = (state: RootState) => state.room.isRoomMemberDrawerOpen;
 export const selectRoomAvatarPreviewUrl = (state: RootState) => state.room.roomAvatarPreviewUrl;
+export const selectInvitation = (state: RootState) => state.room.invitation;
 
 export const roomReducer = roomSlice.reducer;

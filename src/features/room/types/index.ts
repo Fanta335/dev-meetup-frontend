@@ -8,6 +8,7 @@ export type RoomType = {
   location: Location;
   isRoomMemberDrawerOpen: boolean;
   roomAvatarPreviewUrl: string | null;
+  invitation: Invitation | null;
 };
 
 export type Room = {
@@ -119,3 +120,9 @@ export const OrderOptions = {
 } as const;
 export type KeyOfOrderOptions = keyof typeof OrderOptions;
 export type OrderOptionsType = typeof OrderOptions[KeyOfOrderOptions];
+
+export type Invitation = {
+  id: string;
+  roomId: number;
+  url: string;
+}
