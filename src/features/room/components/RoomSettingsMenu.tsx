@@ -1,6 +1,5 @@
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { LeaveRoomButton } from "./LeaveRoomButton";
@@ -11,8 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { Auth0User } from "../../auth/types";
 import { DeleteRoomButton } from "./DeleteRoomButton";
-
-const options = ["友達の招待"];
+import { InviteMemberButton } from "./InviteMemberButton";
 
 const ITEM_HEIGHT = 48;
 
@@ -61,11 +59,7 @@ export const RoomSettingsMenu = () => {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} onClick={handleCloseMenu}>
-            {option}
-          </MenuItem>
-        ))}
+        {isOwner && <InviteMemberButton handleCloseMenu={handleCloseMenu} />}
         {isOwner && <EditRoomProfileButton handleCloseMenu={handleCloseMenu} />}
         {isOwner && <DeleteRoomButton handleCloseMenu={handleCloseMenu} />}
         {!isOwner && <LeaveRoomButton handleCloseMenu={handleCloseMenu} />}
