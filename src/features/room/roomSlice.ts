@@ -176,6 +176,16 @@ export const createInviteLink = createAsyncThunk<Invitation, { token: string; ro
   }
 );
 
+export const accessByInvitation = createAsyncThunk<Room, { token: string; uuid: string }>("room/accessByInvitation", async ({ token, uuid }) => {
+  const res = await axios.get<Room>(`${apiUrl}/invite/${uuid}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+});
+
 const roomSlice = createSlice({
   name: "room",
   initialState,
