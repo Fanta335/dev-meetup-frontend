@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import { VFC } from "react";
 
 const LogoutButton: VFC = () => {
@@ -9,13 +9,9 @@ const LogoutButton: VFC = () => {
     // clear the current user's access token.
     localStorage.removeItem("access_token");
     logout({ returnTo: window.location.origin });
-  }
+  };
 
-  return (
-    <Button variant="contained" onClick={handleLogout}>
-      Log out
-    </Button>
-  );
+  return <MenuItem onClick={handleLogout}>Log out</MenuItem>;
 };
 
 export default LogoutButton;

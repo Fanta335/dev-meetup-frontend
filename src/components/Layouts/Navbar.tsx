@@ -1,14 +1,22 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
+import { useState } from "react";
 import { RoomSettingsMenu } from "../../features/room/components/RoomSettingsMenu";
 import { selectCurrentRoomLoading, selectLocation } from "../../features/room/roomSlice";
+import { ProfileIcon } from "../../features/user/components/ProfileIcon";
 import { ToggleRoomMemberDrawerButton } from "../../features/user/components/ToggleRoomMemberDrawerButton";
 import { useAppSelector } from "../../stores/hooks";
-import LogoutButton from "../auth/LogoutButton";
 import { LocationName } from "./LocationName";
 
 export const Navbar = () => {
   const location = useAppSelector(selectLocation);
   const loading = useAppSelector(selectCurrentRoomLoading);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   return (
     <AppBar position="fixed" sx={{ mr: "12px", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -17,8 +25,8 @@ export const Navbar = () => {
           <LocationName location={location} />
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
-        <LogoutButton />
         {location === "room" && loading === "idle" && <ToggleRoomMemberDrawerButton />}
+        <ProfileIcon handleOpenUserMenu={handleOpenUserMenu} handleCloseUserMenu={handleCloseUserMenu} anchorElUser={anchorElUser} />
       </Toolbar>
     </AppBar>
   );
