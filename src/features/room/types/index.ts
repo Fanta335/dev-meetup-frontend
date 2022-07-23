@@ -92,7 +92,7 @@ export type NormalizedRoomContent = {
   } & Room;
 };
 
-export type Location = "home" | "room" | "discovery";
+export type Location = "profile" | "room" | "discovery";
 
 export type SearchedRoom = {
   description: string;

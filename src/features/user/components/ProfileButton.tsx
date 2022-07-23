@@ -1,10 +1,15 @@
 import { MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { VFC } from "react";
 
-export const ProfileButton = () => {
+type Props = {
+  handleClose: () => void;
+};
+
+export const ProfileButton:VFC<Props> = ({handleClose}) => {
   return (
-    <MenuItem component={Link} to="/app/profile">
+    <MenuItem component={Link} to="/app/profile" onClick={handleClose}>
       <AccountCircleIcon sx={{ mr: 1 }} />
       プロフィール
     </MenuItem>

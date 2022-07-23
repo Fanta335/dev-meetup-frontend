@@ -33,7 +33,7 @@ const initialState: RoomType = {
     byIds: {},
     allIds: [],
   },
-  location: "home",
+  location: "discovery",
   isRoomMemberDrawerOpen: false,
   roomAvatarPreviewUrl: null,
   invitation: null,

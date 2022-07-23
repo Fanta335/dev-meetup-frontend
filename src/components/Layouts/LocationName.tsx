@@ -18,9 +18,9 @@ export const LocationName: VFC<Prop> = ({ location }) => {
           {currentRoom.entity.name}
         </Typography>
       )}
-      {location === "home" && (
+      {location === "profile" && (
         <Typography variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
-          ホーム
+          プロフィール
         </Typography>
       )}
       {location === "discovery" && (

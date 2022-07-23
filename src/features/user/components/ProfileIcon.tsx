@@ -48,8 +48,8 @@ export const ProfileIcon: VFC<Props> = ({ handleOpenUserMenu, handleCloseUserMen
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <LogoutButton />
-        <ProfileButton />
+        <LogoutButton handleClose={handleCloseUserMenu} />
+        <ProfileButton handleClose={handleCloseUserMenu} />
       </Menu>
     </>
   );

@@ -8,7 +8,7 @@ export const Home = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(roomActions.changeLocation("home"));
+    dispatch(roomActions.changeLocation("profile"));
   }, [dispatch]);
 
   return (
