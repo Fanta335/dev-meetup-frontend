@@ -1,29 +1,33 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box } from "@mui/material";
-import { useEffect } from "react";
+import { Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../stores/hooks";
 import { accessByInvitation } from "../room/roomSlice";
+import { InvalidInvitation } from "./components/InvalidInvitation";
 
 export const InvitationRedirectPage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
+  const [passed, setPassed] = useState<boolean | null>(null);
 
   useEffect(() => {
     const asyncAccessByInvitation = async () => {
       const token = await getAccessTokenSilently();
       if (uuid === undefined) {
-        // navigate("/");
+        navigate("/");
         console.log("uuid is undefined");
       } else {
         await dispatch(accessByInvitation({ token, uuid }))
           .unwrap()
           .then((room) => {
+            setPassed(true);
             navigate(`/app/rooms/${room.id}`);
           })
           .catch(() => {
+            setPassed(false);
             console.log("access failed.");
           });
       }
@@ -34,9 +38,13 @@ export const InvitationRedirectPage = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", height: "100vh", overflow: "auto", bgcolor: "background.default" }}>
-        <h1>redirect page here.</h1>
-      </Box>
+      <Grid container justifyContent="center" alignItems="center" sx={{ height: "100vh", overflow: "auto", bgcolor: "background.default" }}>
+        {passed === false && (
+          <Grid item>
+            <InvalidInvitation />
+          </Grid>
+        )}
+      </Grid>
     </>
   );
 };
