@@ -1,4 +1,5 @@
 import { MainLayout } from "../components/Layouts/MainLayout";
+import { Home } from "../features/misc/Home";
 import { InvitationRedirectPage } from "../features/misc/InvitationRedirectPage";
 import { Room } from "../features/room/components/Room";
 import { RoomDiscovery } from "../features/room/components/RoomDiscovery";
@@ -13,6 +14,10 @@ export const protectedRoutes = [
       {
         index: true,
         element: <RoomDiscovery />,
+      },
+      {
+        path: "profile",
+        element: <Home />
       },
       {
         path: "search",

@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuItem } from "@mui/material";
-import { VFC } from "react";
+import LogoutIcon from '@mui/icons-material/Logout';
 
-const LogoutButton: VFC = () => {
+const LogoutButton = () => {
   const { logout } = useAuth0();
 
   const handleLogout = () => {
@@ -11,7 +11,7 @@ const LogoutButton: VFC = () => {
     logout({ returnTo: window.location.origin });
   };
 
-  return <MenuItem onClick={handleLogout}>Log out</MenuItem>;
+  return <MenuItem onClick={handleLogout}><LogoutIcon sx={{mr: 1}} />ログアウト</MenuItem>;
 };
 
 export default LogoutButton;

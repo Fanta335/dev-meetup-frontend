@@ -4,6 +4,7 @@ import { useEffect, VFC } from "react";
 import LogoutButton from "../../../components/auth/LogoutButton";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchUserProfile, selectCurrentUser } from "../userSlice";
+import { ProfileButton } from "./ProfileButton";
 
 type Props = {
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void;
@@ -48,6 +49,7 @@ export const ProfileIcon: VFC<Props> = ({ handleOpenUserMenu, handleCloseUserMen
         onClose={handleCloseUserMenu}
       >
         <LogoutButton />
+        <ProfileButton />
       </Menu>
     </>
   );
