@@ -28,7 +28,7 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     }
 
     handleCloseMenu();
-    navigate("/app/room-discovery");
+    navigate("/app/");
   };
 
   const handleClickOpen = () => {

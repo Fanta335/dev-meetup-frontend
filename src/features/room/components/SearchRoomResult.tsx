@@ -32,7 +32,7 @@ export const SearchRoomResult = () => {
     <>
       <Box sx={{ maxWidth: "800px", px: 3, pt: 10 }}>
         <Box sx={{ display: "flex" }}>
-          <IconButton component={Link} to="/app/room-discovery">
+          <IconButton component={Link} to="/app/">
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h5">

@@ -25,7 +25,7 @@ export const SearchBox: VFC<Props> = ({ defaultValue = "" }) => {
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
     navigate({
-      pathname: "/app/room-discovery/search",
+      pathname: "/app/search",
       search: createSearchParams([["query", content.roomName], ...Object.entries(defaultSearchParams)]).toString(),
     });
   };
