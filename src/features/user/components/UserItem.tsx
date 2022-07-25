@@ -8,7 +8,7 @@ type Props = {
 
 export const UserItem: VFC<Props> = ({ user }) => {
   return (
-    <ListItem>
+    <ListItem sx={{ pl: 0 }}>
       <ListItemAvatar>
         <Avatar alt="Remy Sharp" src={user.avatar ? user.avatar.url : ""} />
       </ListItemAvatar>

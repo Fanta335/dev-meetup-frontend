@@ -1,4 +1,4 @@
-import { Drawer, List, Toolbar } from "@mui/material";
+import { Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../userSlice";
 import { UserItem } from "./UserItem";
@@ -27,6 +27,8 @@ export const UsersList = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            pl: 2,
+            pt: 2,
           },
           justifyContent: "center",
         }}
@@ -35,10 +37,25 @@ export const UsersList = () => {
         onClose={toggleDrawer(false)}
       >
         <Toolbar />
+        <Typography variant="body1" color="text.secondary" fontWeight="bold">
+          OWNER
+        </Typography>
         <List sx={{ bgcolor: "background.paper" }}>
-          {currentUsers.members.allIds.map((id) => (
+          {currentUsers.owners.map((id) => (
             <UserItem key={id} user={currentUsers.members.byIds[id]} />
           ))}
+        </List>
+        <Divider sx={{ my: 1 }} />
+        <Typography variant="body1" color="text.secondary" fontWeight="bold">
+          MEMBER
+        </Typography>
+        <List sx={{ bgcolor: "background.paper" }}>
+          {currentUsers.members.allIds.map((id) => {
+            if (!currentUsers.owners.includes(id)) {
+              return <UserItem key={id} user={currentUsers.members.byIds[id]} />;
+            }
+            return null;
+          })}
         </List>
       </Drawer>
     </>
