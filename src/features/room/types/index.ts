@@ -15,6 +15,7 @@ export type Room = {
   id: number;
   name: string;
   description: string;
+  isPrivate: boolean;
   avatar: Avatar;
   createdAt: string;
   updatedAt: string;
@@ -30,6 +31,7 @@ export type Avatar = {
 export type CreateRoomDTO = {
   name: string;
   description: string;
+  isPrivate: boolean;
   file: File;
 };
 
@@ -37,6 +39,7 @@ export type UpdateRoomDTO = {
   id: number;
   name: string;
   description: string;
+  isPrivate: boolean;
 };
 
 export type BelongingRooms = {
@@ -125,4 +128,4 @@ export type Invitation = {
   id: string;
   roomId: number;
   url: string;
-}
+};

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState, VFC } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, Switch, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -45,6 +45,7 @@ type EditRoomProfileDialogProps = {
 type FormInput = {
   name: string;
   description: string;
+  isPrivate: boolean;
   avatar: FileList;
 };
 
@@ -75,14 +76,15 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
     setSelectedFile(e.target.files[0]);
   };
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    const { name, description } = data;
+  const onSubmit: SubmitHandler<FormInput> = async ({ name, description, isPrivate }) => {
+    const data: { [key: string]: string | boolean } = { name, description, isPrivate };
     const formData = new FormData();
-    if (selectedFile) {
+    for (const key in data) {
+      formData.append(key.toString(), JSON.stringify(data[key]));
+    }
+    if (selectedFile !== undefined) {
       formData.append("file", selectedFile);
     }
-    formData.append("name", name);
-    formData.append("description", description);
 
     console.log("form data: ", formData.values());
 
@@ -137,6 +139,16 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
             control={control}
             defaultValue={currentRoom.entity.description}
             rules={{ required: true }}
+          />
+          <FormControlLabel
+            control={
+              <Controller
+                name="isPrivate"
+                control={control}
+                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" />}
+              />
+            }
+            label="部屋を非公開にする"
           />
         </DialogContent>
         <DialogActions>

@@ -1,4 +1,16 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+  IconButton,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { FC, useEffect, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -47,6 +59,7 @@ export type CreateRoomDialogProps = {
 type FormInput = {
   name: string;
   description: string;
+  isPrivate: boolean;
   avatar: FileList;
 };
 
@@ -76,18 +89,18 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
     setSelectedFile(e.target.files[0]);
   };
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    // console.log("post room: ", data);
-
-    const { name, description } = data;
+  const onSubmit: SubmitHandler<FormInput> = async ({ name, description, isPrivate }) => {
+    // define data type so that it can be refered as data[key].
+    const data: { [key: string]: string | boolean } = { name, description, isPrivate };
     const formData = new FormData();
+    for (const key in data) {
+      formData.append(key.toString(), JSON.stringify(data[key]));
+    }
     if (selectedFile !== undefined) formData.append("file", selectedFile);
-    formData.append("name", name);
-    formData.append("description", description);
 
     const token = await getAccessTokenSilently();
-    console.log("data: ", data);
-    console.log("form data: ", formData.get("file"));
+    // console.log("data: ", data);
+    // console.log("form data: ", formData.get("file"));
 
     await dispatch(postRoom({ token, formData }))
       .unwrap()
@@ -144,6 +157,16 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
             control={control}
             defaultValue=""
             rules={{ required: true }}
+          />
+          <FormControlLabel
+            control={
+              <Controller
+                name="isPrivate"
+                control={control}
+                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" />}
+              />
+            }
+            label="部屋を非公開にする"
           />
         </DialogContent>
         <DialogActions>

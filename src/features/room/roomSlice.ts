@@ -16,6 +16,7 @@ const initialState: RoomType = {
       id: 0,
       name: "",
       description: "",
+      isPrivate: false,
       avatar: {
         id: 0,
         key: "",
@@ -240,6 +241,7 @@ const roomSlice = createSlice({
           id: data.result.id,
           name: data.result.name,
           description: data.result.description,
+          isPrivate: data.result.isPrivate,
           avatar: data.result.avatar,
           owners: data.result.owners,
           members: data.result.members,
