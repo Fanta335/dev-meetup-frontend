@@ -46,14 +46,14 @@ type FormInput = {
 };
 
 export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, handleCloseDialog }) => {
-  const {getAccessTokenSilently} = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, reset, register } = useForm<FormInput>();
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
 
-  useEffect(()=> {
+  useEffect(() => {
     if (!selectedFile) {
       return;
     }
@@ -93,7 +93,10 @@ export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, han
           プロフィール画像の設定
         </BootstrapDialogTitle>
         <DialogContent>
-          <input type="file" {...register("avatar")} onChange={onSelectFile} />
+          <Button variant="contained" component="label" color="success">
+            画像をアップロード
+            <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+          </Button>
           <Typography variant="h6">image preview</Typography>
           {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
         </DialogContent>

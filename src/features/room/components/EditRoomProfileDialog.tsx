@@ -53,7 +53,11 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
-  const { handleSubmit, control, reset, register } = useForm<FormInput>();
+  const { handleSubmit, control, reset, register } = useForm<FormInput>({
+    defaultValues: {
+      isPrivate: currentRoom.entity.isPrivate,
+    },
+  });
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
 
@@ -96,12 +100,20 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
 
   return (
     <Dialog open={open} onClose={handleCloseDialog}>
+      {/* <Button variant="contained" component="label">
+        Upload File
+        <input type="file" hidden />
+      </Button> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
           部屋の設定
         </BootstrapDialogTitle>
         <DialogContent>
-          <input type="file" {...register("avatar")} onChange={onSelectFile} />
+          {/* <input type="file" {...register("avatar")} onChange={onSelectFile} /> */}
+          <Button variant="contained" component="label" color="success">
+            画像をアップロード
+            <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+          </Button>
           <Typography variant="h6">image preview</Typography>
           {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
           <Controller
@@ -145,7 +157,7 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
               <Controller
                 name="isPrivate"
                 control={control}
-                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" />}
+                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />}
               />
             }
             label="部屋を非公開にする"

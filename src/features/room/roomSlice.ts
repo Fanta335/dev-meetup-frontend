@@ -221,6 +221,7 @@ const roomSlice = createSlice({
       state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
       state.currentRoom.entity.name = updatedRoom.name;
       state.currentRoom.entity.description = updatedRoom.description;
+      state.currentRoom.entity.isPrivate = updatedRoom.isPrivate;
     });
     builder.addCase(fetchAsyncGetBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
@@ -289,6 +290,9 @@ const roomSlice = createSlice({
       if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
         state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
+      } else {
+        state.belongingRooms.byIds = {};
+        state.belongingRooms.allIds = [];
       }
     });
     builder.addCase(createInviteLink.fulfilled, (state, action: PayloadAction<Invitation>) => {

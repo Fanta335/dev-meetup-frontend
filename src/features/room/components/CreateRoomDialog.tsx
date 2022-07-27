@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { postRoom, roomActions, selectRoomAvatarPreviewUrl } from "../roomSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import ImageIcon from "@mui/icons-material/Image";
 
 export type DialogTitleProps = {
   id: string;
@@ -67,7 +68,11 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { handleSubmit, control, reset, register } = useForm<FormInput>();
+  const { handleSubmit, control, reset, register } = useForm<FormInput>({
+    defaultValues: {
+      isPrivate: false,
+    },
+  });
   const preview = useAppSelector(selectRoomAvatarPreviewUrl);
 
   useEffect(() => {
@@ -118,9 +123,12 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
         </BootstrapDialogTitle>
         <DialogContent>
           <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
-          <input type="file" {...register("avatar")} onChange={onSelectFile} />
+          <Button variant="contained" component="label" color="success">
+            画像をアップロード
+            <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+          </Button>
           <Typography variant="h6">image preview</Typography>
-          {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
+          {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <ImageIcon sx={{ height: "100px", width: "100px" }} />}
           <Controller
             render={({ field }) => (
               <TextField
@@ -163,7 +171,7 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
               <Controller
                 name="isPrivate"
                 control={control}
-                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" />}
+                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />}
               />
             }
             label="部屋を非公開にする"
