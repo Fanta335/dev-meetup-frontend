@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { Profile } from "../../components/Profile";
 import { useAppDispatch } from "../../stores/hooks";
@@ -12,8 +12,8 @@ export const Home = () => {
   }, [dispatch]);
 
   return (
-    <Box sx={{pt: 12, px: 4, bgcolor: '#888'}}>
+    <Grid container sx={{ pt: 12, px: 4 }} justifyContent="center">
       <Profile />
-    </Box>
+    </Grid>
   );
 };

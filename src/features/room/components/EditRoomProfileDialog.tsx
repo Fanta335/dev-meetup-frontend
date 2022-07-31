@@ -100,16 +100,11 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
 
   return (
     <Dialog open={open} onClose={handleCloseDialog}>
-      {/* <Button variant="contained" component="label">
-        Upload File
-        <input type="file" hidden />
-      </Button> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
           部屋の設定
         </BootstrapDialogTitle>
         <DialogContent>
-          {/* <input type="file" {...register("avatar")} onChange={onSelectFile} /> */}
           <Button variant="contained" component="label" color="success">
             画像をアップロード
             <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />

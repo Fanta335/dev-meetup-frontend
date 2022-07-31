@@ -4,7 +4,7 @@ import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
 import { normalizeRoomMembers } from "./libs/normalizr/normalizeRoomMembers";
-import { User, UserType } from "./types";
+import { UpdateUserDTO, User, UserType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: UserType = {
@@ -62,9 +62,21 @@ export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/
 });
 
 export const updateUserAvatar = createAsyncThunk<User, { token: string; userId: string; formData: FormData }>(
-  "user/fetchUserProfile",
+  "user/updateUserAvatar",
   async ({ token, userId, formData }) => {
-    const res = await axios.put(`${apiUrl}/users/${userId}`, formData, {
+    const res = await axios.put(`${apiUrl}/users/${userId}/avatar`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  }
+);
+
+export const updateUserProfile = createAsyncThunk<User, { token: string; userId: string; updateUserDTO: UpdateUserDTO }>(
+  "user/updateUserProfile",
+  async ({ token, userId, updateUserDTO }) => {
+    const res = await axios.put(`${apiUrl}/users/${userId}`, updateUserDTO, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -94,6 +106,12 @@ const userSlice = createSlice({
       state.currentUsers.members.byIds = data.entities.members;
       state.currentUsers.members.allIds = data.result.members;
       state.currentUsers.owners = data.result.owners;
+    });
+    builder.addCase(updateUserAvatar.fulfilled, (state, action: PayloadAction<User>) => {
+      state.currentUser = action.payload;
+    });
+    builder.addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
+      state.currentUser = action.payload;
     });
   },
 });

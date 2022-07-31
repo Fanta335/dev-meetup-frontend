@@ -38,3 +38,9 @@ export type CurrentUser = {
   updatedAt: string;
   deletedAt: string | null;
 };
+
+export type UpdateUserDTO = {
+  name?: string;
+  email?: string;
+  password?: string;
+}

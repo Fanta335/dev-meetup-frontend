@@ -87,7 +87,7 @@ export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, han
   };
 
   return (
-    <Dialog open={open} onClose={handleCloseDialog}>
+    <Dialog open={open} onClose={handleCloseDialog} fullWidth>
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
           プロフィール画像の設定
