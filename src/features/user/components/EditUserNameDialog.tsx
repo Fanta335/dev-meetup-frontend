@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentUser, updateUserProfile } from "../userSlice";
+import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -53,7 +53,7 @@ export const EditUserNameDialog: VFC<EditUserNameDialogProps> = ({ open, handleC
 
   const onSubmit: SubmitHandler<FormInput> = async ({ name }) => {
     const token = await getAccessTokenSilently();
-    await dispatch(updateUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { name } }));
+    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { name } }));
     reset();
     handleCloseDialog();
   };
@@ -78,7 +78,7 @@ export const EditUserNameDialog: VFC<EditUserNameDialogProps> = ({ open, handleC
                 id="name"
                 label="ユーザー名"
                 fullWidth
-                variant='outlined'
+                variant="outlined"
                 autoComplete="off"
               />
             )}

@@ -12,6 +12,7 @@ const initialState: UserType = {
     id: 0,
     name: "",
     email: "",
+    description: "",
     avatar: {
       id: 0,
       key: "",
@@ -27,6 +28,7 @@ const initialState: UserType = {
         "0": {
           id: 0,
           name: "",
+          description: "",
           avatar: {
             id: 0,
             key: "",
@@ -61,10 +63,10 @@ export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/
   return res.data;
 });
 
-export const updateUserAvatar = createAsyncThunk<User, { token: string; userId: string; formData: FormData }>(
-  "user/updateUserAvatar",
+export const updateUserProfile = createAsyncThunk<User, { token: string; userId: string; formData: FormData }>(
+  "user/updateUserProfile",
   async ({ token, userId, formData }) => {
-    const res = await axios.put(`${apiUrl}/users/${userId}/avatar`, formData, {
+    const res = await axios.put(`${apiUrl}/users/${userId}`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -73,10 +75,10 @@ export const updateUserAvatar = createAsyncThunk<User, { token: string; userId: 
   }
 );
 
-export const updateUserProfile = createAsyncThunk<User, { token: string; userId: string; updateUserDTO: UpdateUserDTO }>(
-  "user/updateUserProfile",
+export const updateRootUserProfile = createAsyncThunk<User, { token: string; userId: string; updateUserDTO: UpdateUserDTO }>(
+  "user/updateRootUserProfile",
   async ({ token, userId, updateUserDTO }) => {
-    const res = await axios.put(`${apiUrl}/users/${userId}`, updateUserDTO, {
+    const res = await axios.put(`${apiUrl}/users/${userId}/root`, updateUserDTO, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -107,10 +109,10 @@ const userSlice = createSlice({
       state.currentUsers.members.allIds = data.result.members;
       state.currentUsers.owners = data.result.owners;
     });
-    builder.addCase(updateUserAvatar.fulfilled, (state, action: PayloadAction<User>) => {
+    builder.addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
     });
-    builder.addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
+    builder.addCase(updateRootUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
     });
   },

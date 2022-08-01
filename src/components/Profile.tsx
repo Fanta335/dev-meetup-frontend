@@ -8,6 +8,7 @@ import { EditUserAvatarButton } from "../features/user/components/EditUserAvatar
 import { EditUserNameButton } from "../features/user/components/EditUserNameButton";
 import { EditUserEmailButton } from "../features/user/components/EditUserEmailButton";
 import { EditUserPasswordButton } from "../features/user/components/EditUserPasswordButton";
+import { EditUserDescriptionButton } from "../features/user/components/EditUserDescriptionButton";
 
 export const Profile: VFC = () => {
   const { isLoading, getAccessTokenSilently, user } = useAuth0();
@@ -22,7 +23,6 @@ export const Profile: VFC = () => {
 
     getUserProfile();
   }, [getAccessTokenSilently, dispatch]);
-  console.log("current user: ", currentUser);
 
   if (isLoading) {
     return <Loading />;
@@ -64,13 +64,11 @@ export const Profile: VFC = () => {
           <Typography variant="body2">自己紹介</Typography>
           <Card variant="outlined" sx={{ maxWidth: "600px" }}>
             <CardContent>
-              <Typography variant="body2">
-                ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
-              </Typography>
+              <Typography variant="body2">{currentUser.description}</Typography>
             </CardContent>
             <CardActions>
               <Grid container justifyContent="end">
-                <EditUserNameButton />
+                <EditUserDescriptionButton />
               </Grid>
             </CardActions>
           </Card>

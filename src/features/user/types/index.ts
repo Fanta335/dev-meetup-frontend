@@ -8,6 +8,7 @@ export type User = {
   subId?: string;
   name: string;
   email?: string;
+  description: string;
   avatar: Avatar;
   createdAt: string;
   updatedAt: string;
@@ -34,6 +35,7 @@ export type CurrentUsers = {
 export type CurrentUser = {
   id: number;
   name: string;
+  description: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
@@ -43,4 +45,4 @@ export type UpdateUserDTO = {
   name?: string;
   email?: string;
   password?: string;
-}
+};

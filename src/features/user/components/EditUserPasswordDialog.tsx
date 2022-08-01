@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentUser, updateUserProfile } from "../userSlice";
+import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -60,7 +60,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
     }
 
     const token = await getAccessTokenSilently();
-    await dispatch(updateUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { password } }));
+    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { password } }));
     reset();
     handleCloseDialog();
   };
@@ -92,7 +92,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
             )}
             name="password"
             control={control}
-            defaultValue=''
+            defaultValue=""
             rules={{ required: true }}
           />
           <Controller
@@ -114,7 +114,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
             )}
             name="passwordCheck"
             control={control}
-            defaultValue=''
+            defaultValue=""
             rules={{ required: true }}
           />
         </DialogContent>

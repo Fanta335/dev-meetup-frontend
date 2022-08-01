@@ -1,10 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { FC, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
+import { selectCurrentUser, updateUserProfile } from "../userSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -36,24 +36,26 @@ const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
   );
 };
 
-type EditUserEmailDialogProps = {
+type EditUserDescriptionDialogProps = {
   open: boolean;
   handleCloseDialog: () => void;
 };
 
 type FormInput = {
-  email: string;
+  description: string;
 };
 
-export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handleCloseDialog }) => {
+export const EditUserDescriptionDialog: VFC<EditUserDescriptionDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, control, reset } = useForm<FormInput>();
 
-  const onSubmit: SubmitHandler<FormInput> = async ({ email }) => {
+  const onSubmit: SubmitHandler<FormInput> = async ({ description }) => {
     const token = await getAccessTokenSilently();
-    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { email } }));
+    const formData = new FormData();
+    formData.append("description", description);
+    await dispatch(updateUserProfile({ token, userId: currentUser.id.toString(), formData }));
     reset();
     handleCloseDialog();
   };
@@ -62,11 +64,11 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
     <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
-          メールアドレスを変更
+          自己紹介を変更
         </BootstrapDialogTitle>
         <DialogContent>
           <Typography variant="body1" color="text.secondary">
-            新しいメールアドレスを入力してください。
+            新しい自己紹介を入力してください。
           </Typography>
           <Controller
             render={({ field }) => (
@@ -75,16 +77,25 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
                 onChange={field.onChange}
                 inputRef={field.ref}
                 margin="dense"
-                id="email"
-                label="メールアドレス"
+                id="description"
+                label="自己紹介"
                 fullWidth
                 variant="outlined"
                 autoComplete="off"
+                multiline
+                inputProps={{ maxLength: 150 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end" sx={{ color: "text.primary" }}>
+                      {field.value.length} / 150
+                    </InputAdornment>
+                  ),
+                }}
               />
             )}
-            name="email"
+            name="description"
             control={control}
-            defaultValue={currentUser.email}
+            defaultValue={currentUser.description === "" ? "" : currentUser.description}
             rules={{ required: true }}
           />
         </DialogContent>
