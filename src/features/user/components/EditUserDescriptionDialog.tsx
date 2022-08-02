@@ -63,7 +63,7 @@ export const EditUserDescriptionDialog: VFC<EditUserDescriptionDialogProps> = ({
   return (
     <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
+        <BootstrapDialogTitle id="edit user description" onClose={handleCloseDialog}>
           自己紹介を変更
         </BootstrapDialogTitle>
         <DialogContent>

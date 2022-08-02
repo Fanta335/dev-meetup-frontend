@@ -68,7 +68,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
   return (
     <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
+        <BootstrapDialogTitle id="edit user password" onClose={handleCloseDialog}>
           パスワードを変更
         </BootstrapDialogTitle>
         <DialogContent>

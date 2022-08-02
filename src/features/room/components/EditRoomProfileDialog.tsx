@@ -101,7 +101,7 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
   return (
     <Dialog open={open} onClose={handleCloseDialog}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
+        <BootstrapDialogTitle id="edit room profile" onClose={handleCloseDialog}>
           部屋の設定
         </BootstrapDialogTitle>
         <DialogContent>

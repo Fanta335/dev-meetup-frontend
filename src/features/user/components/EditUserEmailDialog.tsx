@@ -61,7 +61,7 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
   return (
     <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleCloseDialog}>
+        <BootstrapDialogTitle id="edit user email" onClose={handleCloseDialog}>
           メールアドレスを変更
         </BootstrapDialogTitle>
         <DialogContent>
