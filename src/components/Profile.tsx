@@ -3,12 +3,13 @@ import { useEffect, VFC } from "react";
 import { Loading } from "./Loading";
 import { fetchUserProfile, selectCurrentUser } from "../features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
-import { Avatar, Button, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
+import { Avatar, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
 import { EditUserAvatarButton } from "../features/user/components/EditUserAvatarButton";
 import { EditUserNameButton } from "../features/user/components/EditUserNameButton";
 import { EditUserEmailButton } from "../features/user/components/EditUserEmailButton";
 import { EditUserPasswordButton } from "../features/user/components/EditUserPasswordButton";
 import { EditUserDescriptionButton } from "../features/user/components/EditUserDescriptionButton";
+import { DeleteUserButton } from "../features/user/components/DeleteUserButton";
 
 export const Profile: VFC = () => {
   const { isLoading, getAccessTokenSilently, user } = useAuth0();
@@ -81,9 +82,7 @@ export const Profile: VFC = () => {
         <Divider sx={{ my: 3 }} />
         <Grid item>
           <Typography variant="body2">アカウントの削除</Typography>
-          <Button variant="contained" color="error">
-            アカウントを削除する
-          </Button>
+          <DeleteUserButton />
         </Grid>
       </Grid>
     </>

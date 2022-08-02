@@ -3,6 +3,7 @@ import { User } from "../../user/types";
 
 export type RoomType = {
   belongingRooms: BelongingRooms;
+  ownRooms: OwnRooms;
   currentRoom: CurrentRoom;
   searchedRooms: SearchedRooms;
   location: Location;
@@ -48,6 +49,10 @@ export type BelongingRooms = {
   };
   allIds: string[];
 };
+
+export type OwnRooms = {
+  allIds: string[];
+}
 
 // Does not contain messageIds because the frequency of updates of messages would be very high.
 export type CurrentRoom = {

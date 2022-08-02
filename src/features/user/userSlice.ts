@@ -87,6 +87,14 @@ export const updateRootUserProfile = createAsyncThunk<User, { token: string; use
   }
 );
 
+export const deleteUser = createAsyncThunk<void, { token: string; userId: string }>("user/deleteUser", async ({ token, userId }) => {
+  axios.delete(`${apiUrl}/users/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
