@@ -11,6 +11,9 @@ const initialState: RoomType = {
     byIds: {},
     allIds: [],
   },
+  ownRooms: {
+    allIds: [],
+  },
   currentRoom: {
     entity: {
       id: 0,
@@ -63,18 +66,25 @@ export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number
   }
 );
 
-export const fetchAsyncGetBelongingRooms = createAsyncThunk<Room[], { token: string; userId: string }>(
-  "room/fetchBelongingRooms",
-  async ({ token, userId }) => {
-    const res = await axios.get<Room[]>(`${apiUrl}/users/${userId}/belonging-rooms`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log("fetch belonging rooms: ", res.data);
-    return res.data;
-  }
-);
+export const fetchBelongingRooms = createAsyncThunk<Room[], { token: string; userId: string }>("room/fetchBelongingRooms", async ({ token, userId }) => {
+  const res = await axios.get<Room[]>(`${apiUrl}/users/${userId}/belonging-rooms`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  // console.log("fetch belonging rooms: ", res.data);
+  return res.data;
+});
+
+export const fetchOwnRooms = createAsyncThunk<Room[], { token: string; userId: string }>("room/fetchOwnRooms", async ({ token, userId }) => {
+  const res = await axios.get<Room[]>(`${apiUrl}/users/${userId}/own-rooms`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  // console.log("fetch own rooms: ", res.data);
+  return res.data;
+});
 
 // [Attention] This method is shared between 3 reducers: Room, User, Message.
 export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token: string; roomId: string }, AsyncThunkConfig<{ errorMessage: string }>>(
@@ -223,12 +233,17 @@ const roomSlice = createSlice({
       state.currentRoom.entity.description = updatedRoom.description;
       state.currentRoom.entity.isPrivate = updatedRoom.isPrivate;
     });
-    builder.addCase(fetchAsyncGetBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
+    builder.addCase(fetchBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
+      // console.log('raw belonging rooms ', action.payload);
       const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
       if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
         state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
         state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
       }
+    });
+    builder.addCase(fetchOwnRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
+      // console.log("own rooms ", action.payload);
+      state.ownRooms.allIds = action.payload.map((room) => room.id.toString());
     });
     builder.addCase(fetchRoomContent.pending, (state) => {
       console.log("room content pending...");
@@ -306,6 +321,7 @@ const roomSlice = createSlice({
 export const roomActions = roomSlice.actions;
 
 export const selectBelongingRooms = (state: RootState) => state.room.belongingRooms;
+export const selectOwnRooms = (state: RootState) => state.room.ownRooms;
 export const selectCurrentRoom = (state: RootState) => state.room.currentRoom;
 export const selectCurrentRoomLoading = (state: RootState) => state.room.currentRoom.loading;
 export const selectSearchedrooms = (state: RootState) => state.room.searchedRooms;

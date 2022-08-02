@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, IconButton, List, ListItem, Tooltip, Zoom } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchAsyncGetBelongingRooms, selectBelongingRooms } from "../roomSlice";
+import { fetchBelongingRooms, fetchOwnRooms, selectBelongingRooms } from "../roomSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
@@ -15,13 +15,14 @@ export const BelongingRoomIconsList = () => {
   const currentUser = getCurrentUser(user);
 
   useEffect(() => {
-    const fetchBelongingRooms = async () => {
+    const fetchMyRooms = async () => {
       if (!currentUser) return;
 
       const token = await getAccessTokenSilently();
-      await dispatch(fetchAsyncGetBelongingRooms({ token, userId: currentUser.id.toString() }));
+      await dispatch(fetchBelongingRooms({ token, userId: currentUser.id.toString() }));
+      await dispatch(fetchOwnRooms({ token, userId: currentUser.id.toString() }));
     };
-    fetchBelongingRooms();
+    fetchMyRooms();
   }, [dispatch, getAccessTokenSilently, currentUser]);
 
   return (

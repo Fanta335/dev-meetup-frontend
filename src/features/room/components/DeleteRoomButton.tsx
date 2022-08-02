@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmRoomDeletionDialog } from "./ConfirmRoomDeletionDialog";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-import { deleteRoom, fetchAsyncGetBelongingRooms, selectCurrentRoom } from "../roomSlice";
+import { deleteRoom, fetchBelongingRooms, selectCurrentRoom } from "../roomSlice";
 import { useNavigate } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -37,7 +37,7 @@ export const DeleteRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     // First, delete the room.
     await dispatch(deleteRoom({ token, roomId: currentRoom.entity.id }));
     // Second, fetch latest belonging rooms.
-    await dispatch(fetchAsyncGetBelongingRooms({ token, userId: currentUser.id.toString() }));
+    await dispatch(fetchBelongingRooms({ token, userId: currentUser.id.toString() }));
 
     handleCloseMenu();
     navigate("/app/");
