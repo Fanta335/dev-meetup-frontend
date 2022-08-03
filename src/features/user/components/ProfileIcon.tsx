@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const ProfileIcon: VFC<Props> = ({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser }) => {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -30,7 +30,7 @@ export const ProfileIcon: VFC<Props> = ({ handleOpenUserMenu, handleCloseUserMen
   return (
     <>
       <IconButton onClick={handleOpenUserMenu}>
-        <Avatar src={currentUser.avatar ? currentUser.avatar.url : user?.picture} />
+        <Avatar src={currentUser.avatar.url} />
       </IconButton>
       <Menu
         sx={{ mt: "45px" }}

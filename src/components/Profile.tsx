@@ -12,7 +12,7 @@ import { EditUserDescriptionButton } from "../features/user/components/EditUserD
 import { DeleteUserButton } from "../features/user/components/DeleteUserButton";
 
 export const Profile: VFC = () => {
-  const { isLoading, getAccessTokenSilently, user } = useAuth0();
+  const { isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -34,7 +34,7 @@ export const Profile: VFC = () => {
       <Grid container bgcolor="#b5b4b4" direction="column" p={5} maxWidth="600px">
         <Typography variant="body2">アバター</Typography>
         <Grid item container justifyContent="space-between" alignItems="center">
-          <Avatar src={currentUser.avatar ? currentUser.avatar.url : user?.picture} sx={{ width: "100px", height: "100px" }} />
+          <Avatar src={currentUser.avatar.url} sx={{ width: "100px", height: "100px" }} />
           <Grid item>
             <EditUserAvatarButton />
           </Grid>

@@ -24,7 +24,7 @@ export const UserItem: VFC<Props> = ({ user }) => {
     <>
       <ListItemButton sx={{ pl: 0 }} onClick={handleClick}>
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={user.avatar ? user.avatar.url : ""} />
+          <Avatar alt="Remy Sharp" src={user.avatar.url} />
         </ListItemAvatar>
         <ListItemText primary={user.name} />
       </ListItemButton>

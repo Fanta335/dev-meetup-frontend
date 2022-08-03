@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Divider, Grid, Typography } from "@mui/material";
 import { VFC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
@@ -10,14 +9,13 @@ type Props = {
 };
 
 export const UserProfilePopoverContent: VFC<Props> = ({ user }) => {
-  const { user: auth0User } = useAuth0();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const isOwner = currentRoom.entity.owners.includes(user.id);
 
   return (
     <>
       <Grid container direction="column" p={2}>
-        <Avatar src={user.avatar ? user.avatar.url : auth0User?.picture} sx={{ width: 100, height: 100, mb: 2 }} />
+        <Avatar src={user.avatar.url} sx={{ width: 100, height: 100, mb: 2 }} />
         {isOwner && <Typography>ownerdesu</Typography>}
         <Typography variant="h5" fontWeight="bold">
           {user.name}

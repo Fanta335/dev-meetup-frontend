@@ -17,7 +17,7 @@ export const ParentMessageItem: VFC<Props> = ({ parentMessage }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Box>
-        <Avatar alt={author ? author.name : "removed user"} src={author?.avatar ? author?.avatar.url : ""} sx={{ mr: 1, width: 24, height: 24 }} />
+        <Avatar alt={author ? author.name : "removed user"} src={author ? author.avatar.url : ""} sx={{ mr: 1, width: 24, height: 24 }} />
       </Box>
       <Box>
         {author ? (
