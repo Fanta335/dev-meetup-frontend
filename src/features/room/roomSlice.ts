@@ -180,6 +180,25 @@ export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { toke
   }
 );
 
+export const removeOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
+  "room/removeOwnerToRoom",
+  async ({ token, userId, roomId }) => {
+    const res = await axios.put<Room & { owners: User[] }>(
+      `${apiUrl}/rooms/${roomId}/owners/remove/`,
+      {
+        userIdToRemove: userId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  }
+);
+
 export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/deleteRoom", async ({ token, roomId }) => {
   const res = await axios.delete<Room>(`${apiUrl}/rooms/${roomId}`, {
     headers: {
@@ -331,9 +350,10 @@ const roomSlice = createSlice({
       }
     });
     builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
-      const data = action.payload;
-      console.log('add result ', data);
-      state.currentRoom.entity.owners = data.owners.map(owner => owner.id);
+      state.currentRoom.entity.owners = action.payload.owners.map(owner => owner.id);
+    });
+    builder.addCase(removeOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
+      state.currentRoom.entity.owners = action.payload.owners.map(owner => owner.id);
     });
     builder.addCase(createInviteLink.fulfilled, (state, action: PayloadAction<Invitation>) => {
       const invitation = action.payload;

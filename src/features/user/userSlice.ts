@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../stores/store";
-import {  addOwnerToRoom, fetchRoomContent } from "../room/roomSlice";
+import {  addOwnerToRoom, fetchRoomContent, removeOwnerToRoom } from "../room/roomSlice";
 import { NormalizedRoomContent, Room } from "../room/types";
 import { normalizeRoomMembers } from "./libs/normalizr/normalizeRoomMembers";
 import { UpdateUserDTO, User, UserType } from "./types";
@@ -124,9 +124,10 @@ const userSlice = createSlice({
       state.currentUser = action.payload;
     });
     builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
-      const data = action.payload;
-      console.log("add result ", data);
-      state.currentUsers.owners = data.owners.map((owner) => owner.id);
+      state.currentUsers.owners = action.payload.owners.map((owner) => owner.id);
+    });
+    builder.addCase(removeOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
+      state.currentUsers.owners = action.payload.owners.map((owner) => owner.id);
     });
   },
 });

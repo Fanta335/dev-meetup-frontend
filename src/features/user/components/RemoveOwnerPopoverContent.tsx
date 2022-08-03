@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Divider, Grid, Typography } from "@mui/material";
 import { VFC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { addOwnerToRoom, selectCurrentRoom } from "../../room/roomSlice";
+import { removeOwnerToRoom, selectCurrentRoom } from "../../room/roomSlice";
 import { User } from "../types";
 
 type Props = {
@@ -10,32 +10,32 @@ type Props = {
   handleClose: () => void;
 };
 
-export const AddOwnerPopoverContent: VFC<Props> = ({ user, handleClose }) => {
+export const RemoveOwnerPopoverContent: VFC<Props> = ({ user, handleClose }) => {
   const currentRoom = useAppSelector(selectCurrentRoom);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
 
-  const handleAddOwner = async () => {
+  const handleRemoveOwner = async () => {
     const token = await getAccessTokenSilently();
-    await dispatch(addOwnerToRoom({ token, userId: user.id, roomId: currentRoom.entity.id }));
+    await dispatch(removeOwnerToRoom({ token, userId: user.id, roomId: currentRoom.entity.id }));
   };
 
   return (
     <>
       <Grid container direction="column" p={2}>
         <Typography variant="body1" fontWeight="bold">
-          {user.name}をオーナーに追加しますか？
+          {user.name}をオーナーから削除しますか？
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          オーナーは部屋の全ての管理権限を持ちます。
+          少なくとも、一人はオーナーでなければなりません。
         </Typography>
         <Divider sx={{ my: 2 }} />
         <Grid container justifyContent="space-between">
           <Button variant="contained" color="secondary" onClick={handleClose}>
             キャンセル
           </Button>
-          <Button variant="contained" color="success" onClick={handleAddOwner}>
-            オーナーに追加
+          <Button variant="contained" color="error" onClick={handleRemoveOwner} disabled={currentRoom.entity.owners.length === 1}>
+            オーナーから削除
           </Button>
         </Grid>
       </Grid>

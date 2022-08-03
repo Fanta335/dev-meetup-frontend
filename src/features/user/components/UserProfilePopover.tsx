@@ -1,9 +1,11 @@
-import { Popover, Typography } from "@mui/material";
+import { Popover } from "@mui/material";
 import { VFC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
 import { User } from "../types";
+import { selectCurrentUser } from "../userSlice";
 import { AddOwnerPopover } from "./AddOwnerPopover";
+import { RemoveOwnerPopover } from "./RemoveOwnerPopover";
 import { UserProfilePopoverContent } from "./UserProfilePopoverContent";
 
 type Props = {
@@ -16,7 +18,9 @@ type Props = {
 export const UserProfilePopover: VFC<Props> = ({ user, open, anchorEl, handleClose }) => {
   const id = open ? "simple-popover" : undefined;
   const currentRoom = useAppSelector(selectCurrentRoom);
+  const currentUser = useAppSelector(selectCurrentUser);
   const isOwner = currentRoom.entity.owners.includes(user.id);
+  const isCurrentUserOwner = currentRoom.entity.owners.includes(currentUser.id);
 
   return (
     <>
@@ -36,7 +40,8 @@ export const UserProfilePopover: VFC<Props> = ({ user, open, anchorEl, handleClo
         PaperProps={{ style: { width: "300px" } }}
       >
         <UserProfilePopoverContent user={user} />
-        {isOwner ? <Typography>this is owner.</Typography> : <AddOwnerPopover user={user} />}
+        {isCurrentUserOwner && isOwner && <RemoveOwnerPopover user={user} />}
+        {isCurrentUserOwner && !isOwner && <AddOwnerPopover user={user} />}
       </Popover>
     </>
   );
