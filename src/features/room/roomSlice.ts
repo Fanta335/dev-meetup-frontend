@@ -3,6 +3,7 @@ import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { AsyncThunkConfig, RootState } from "../../stores/store";
 import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, Invitation } from "../room/types";
+import { User } from "../user/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -149,6 +150,25 @@ export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; us
     const res = await axios.put<Room[]>(
       `${apiUrl}/users/${userId}/belonging-rooms/remove/${roomId}`,
       {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return res.data;
+  }
+);
+
+export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
+  "room/addOwnerToRoom",
+  async ({ token, userId, roomId }) => {
+    const res = await axios.put<Room & { owners: User[] }>(
+      `${apiUrl}/rooms/${roomId}/owners/add/`,
+      {
+        userIdToAdd: userId,
+      },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -309,6 +329,11 @@ const roomSlice = createSlice({
         state.belongingRooms.byIds = {};
         state.belongingRooms.allIds = [];
       }
+    });
+    builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
+      const data = action.payload;
+      console.log('add result ', data);
+      state.currentRoom.entity.owners = data.owners.map(owner => owner.id);
     });
     builder.addCase(createInviteLink.fulfilled, (state, action: PayloadAction<Invitation>) => {
       const invitation = action.payload;

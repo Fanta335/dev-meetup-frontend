@@ -87,7 +87,7 @@ export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, han
   };
 
   return (
-    <Dialog open={open} onClose={handleCloseDialog} fullWidth>
+    <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <form onSubmit={handleSubmit(onSubmit)}>
         <BootstrapDialogTitle id="edit usre avatar" onClose={handleCloseDialog}>
           プロフィール画像の設定
