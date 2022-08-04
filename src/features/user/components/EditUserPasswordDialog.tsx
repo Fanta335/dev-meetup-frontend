@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
+import { isValidPassword } from "../utils/isValidPassword";
 
 export type DialogTitleProps = {
   id: string;
@@ -51,9 +52,15 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, control, reset } = useForm<FormInput>();
+  const [isValid, setValidation] = useState(true);
   const [matched, setMatched] = useState(true);
 
   const onSubmit: SubmitHandler<FormInput> = async ({ password, passwordCheck }) => {
+    if (!isValidPassword(password)) {
+      setValidation(false);
+      return;
+    }
+
     if (password !== passwordCheck) {
       setMatched(false);
       return;
@@ -88,6 +95,8 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
                 variant="outlined"
                 autoComplete="off"
                 type="password"
+                error={!isValid}
+                helperText={isValid ? "" : "アルファベットの大文字と小文字、および数字"}
               />
             )}
             name="password"

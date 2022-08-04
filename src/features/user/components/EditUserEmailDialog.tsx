@@ -1,10 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
-import { FC, VFC } from "react";
+import { FC, useState, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
+import { isValidEmail } from "../utils/isValidEmail";
 
 export type DialogTitleProps = {
   id: string;
@@ -50,8 +51,15 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, control, reset } = useForm<FormInput>();
+  const [isValid, setValidation] = useState(true);
 
   const onSubmit: SubmitHandler<FormInput> = async ({ email }) => {
+    if (!isValidEmail(email)) {
+      setValidation(false);
+      return;
+    }
+
+    setValidation(true);
     const token = await getAccessTokenSilently();
     await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { email } }));
     reset();
@@ -80,6 +88,8 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
                 fullWidth
                 variant="outlined"
                 autoComplete="off"
+                error={!isValid}
+                helperText={isValid ? "" : "メールアドレスを入力してください！"}
               />
             )}
             name="email"
