@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../../stores/store";
-import {  addOwnerToRoom, fetchRoomContent, removeOwnerToRoom } from "../room/roomSlice";
+import { addOwnerToRoom, fetchRoomContent, removeOwnerToRoom } from "../room/roomSlice";
 import { NormalizedRoomContent, Room } from "../room/types";
 import { normalizeRoomMembers } from "./libs/normalizr/normalizeRoomMembers";
-import { UpdateUserDTO, User, UserType } from "./types";
+import { UpdateRootUserDTO, UpdateUserDTO, User, UserType } from "./types";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: UserType = {
@@ -55,7 +55,7 @@ export const fetchAllUsers = createAsyncThunk<User[], { token: string }>("user/f
 });
 
 export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/fetchUserProfile", async ({ token }) => {
-  const res = await axios.get(`${apiUrl}/users/profile`, {
+  const res = await axios.get(`${apiUrl}/users/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -63,10 +63,10 @@ export const fetchUserProfile = createAsyncThunk<User, { token: string }>("user/
   return res.data;
 });
 
-export const updateUserProfile = createAsyncThunk<User, { token: string; userId: string; formData: FormData }>(
+export const updateUserProfile = createAsyncThunk<User, { token: string; updateUserDTO: UpdateUserDTO }>(
   "user/updateUserProfile",
-  async ({ token, userId, formData }) => {
-    const res = await axios.put(`${apiUrl}/users/${userId}`, formData, {
+  async ({ token, updateUserDTO }) => {
+    const res = await axios.patch(`${apiUrl}/users/me`, updateUserDTO, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -75,10 +75,19 @@ export const updateUserProfile = createAsyncThunk<User, { token: string; userId:
   }
 );
 
-export const updateRootUserProfile = createAsyncThunk<User, { token: string; userId: string; updateUserDTO: UpdateUserDTO }>(
+export const updateUserAvatar = createAsyncThunk<User, { token: string; formData: FormData }>("user/updateUserAvatar", async ({ token, formData }) => {
+  const res = await axios.post(`${apiUrl}/users/me/avatar`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+});
+
+export const updateRootUserProfile = createAsyncThunk<User, { token: string; updateRootUserDTO: UpdateRootUserDTO }>(
   "user/updateRootUserProfile",
-  async ({ token, userId, updateUserDTO }) => {
-    const res = await axios.put(`${apiUrl}/users/${userId}/root`, updateUserDTO, {
+  async ({ token, updateRootUserDTO: updateUserDTO }) => {
+    const res = await axios.patch(`${apiUrl}/users/me/root`, updateUserDTO, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -118,6 +127,9 @@ const userSlice = createSlice({
       state.currentUsers.owners = data.result.owners;
     });
     builder.addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
+      state.currentUser = action.payload;
+    });
+    builder.addCase(updateUserAvatar.fulfilled, (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
     });
     builder.addCase(updateRootUserProfile.fulfilled, (state, action: PayloadAction<User>) => {

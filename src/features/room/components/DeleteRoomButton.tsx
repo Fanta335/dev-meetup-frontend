@@ -37,7 +37,7 @@ export const DeleteRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     // First, delete the room.
     await dispatch(deleteRoom({ token, roomId: currentRoom.entity.id }));
     // Second, fetch latest belonging rooms.
-    await dispatch(fetchBelongingRooms({ token, userId: currentUser.id.toString() }));
+    await dispatch(fetchBelongingRooms({ token }));
 
     handleCloseMenu();
     navigate("/app/");

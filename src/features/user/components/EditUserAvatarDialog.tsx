@@ -2,9 +2,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, 
 import { FC, useEffect, useState, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { useAppDispatch } from "../../../stores/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentUser, updateUserProfile } from "../userSlice";
+import { updateUserAvatar } from "../userSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -48,7 +48,6 @@ type FormInput = {
 export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, reset, register } = useForm<FormInput>();
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
@@ -81,7 +80,7 @@ export const EditUserAvatarDialog: VFC<EditUserAvatarDialogProps> = ({ open, han
     console.log("form data: ", formData.values());
 
     const token = await getAccessTokenSilently();
-    await dispatch(updateUserProfile({ token, userId: currentUser.id.toString(), formData }));
+    await dispatch(updateUserAvatar({ token, formData }));
     reset();
     handleCloseDialog();
   };

@@ -67,8 +67,8 @@ export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number
   }
 );
 
-export const fetchBelongingRooms = createAsyncThunk<Room[], { token: string; userId: string }>("room/fetchBelongingRooms", async ({ token, userId }) => {
-  const res = await axios.get<Room[]>(`${apiUrl}/users/${userId}/belonging-rooms`, {
+export const fetchBelongingRooms = createAsyncThunk<Room[], { token: string }>("room/fetchBelongingRooms", async ({ token }) => {
+  const res = await axios.get<Room[]>(`${apiUrl}/users/me/belonging-rooms`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

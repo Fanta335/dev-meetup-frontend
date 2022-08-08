@@ -53,9 +53,7 @@ export const EditUserDescriptionDialog: VFC<EditUserDescriptionDialogProps> = ({
 
   const onSubmit: SubmitHandler<FormInput> = async ({ description }) => {
     const token = await getAccessTokenSilently();
-    const formData = new FormData();
-    formData.append("description", description);
-    await dispatch(updateUserProfile({ token, userId: currentUser.id.toString(), formData }));
+    await dispatch(updateUserProfile({ token, updateUserDTO: { description } }));
     reset();
     handleCloseDialog();
   };

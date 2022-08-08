@@ -53,7 +53,7 @@ export const EditUserNameDialog: VFC<EditUserNameDialogProps> = ({ open, handleC
 
   const onSubmit: SubmitHandler<FormInput> = async ({ name }) => {
     const token = await getAccessTokenSilently();
-    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { name } }));
+    await dispatch(updateRootUserProfile({ token, updateRootUserDTO: { name } }));
     reset();
     handleCloseDialog();
   };

@@ -42,6 +42,10 @@ export type CurrentUser = {
 };
 
 export type UpdateUserDTO = {
+  description?: string;
+};
+
+export type UpdateRootUserDTO = {
   name?: string;
   email?: string;
   password?: string;

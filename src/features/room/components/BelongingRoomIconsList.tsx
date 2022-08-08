@@ -19,7 +19,7 @@ export const BelongingRoomIconsList = () => {
       if (!currentUser) return;
 
       const token = await getAccessTokenSilently();
-      await dispatch(fetchBelongingRooms({ token, userId: currentUser.id.toString() }));
+      await dispatch(fetchBelongingRooms({ token }));
       await dispatch(fetchOwnRooms({ token, userId: currentUser.id.toString() }));
     };
     fetchMyRooms();

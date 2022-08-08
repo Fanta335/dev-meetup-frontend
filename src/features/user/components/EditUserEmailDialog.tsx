@@ -61,7 +61,7 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
 
     setValidation(true);
     const token = await getAccessTokenSilently();
-    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { email } }));
+    await dispatch(updateRootUserProfile({ token, updateRootUserDTO: { email } }));
     reset();
     handleCloseDialog();
   };

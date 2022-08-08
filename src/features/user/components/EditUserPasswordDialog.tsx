@@ -2,9 +2,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, 
 import { FC, useState, VFC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { useAppDispatch } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentUser, updateRootUserProfile } from "../userSlice";
+import { updateRootUserProfile } from "../userSlice";
 import { isValidPassword } from "../utils/isValidPassword";
 
 export type DialogTitleProps = {
@@ -50,7 +50,6 @@ type FormInput = {
 export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector(selectCurrentUser);
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const [isValid, setValidation] = useState(true);
   const [matched, setMatched] = useState(true);
@@ -67,7 +66,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
     }
 
     const token = await getAccessTokenSilently();
-    await dispatch(updateRootUserProfile({ token, userId: currentUser.id.toString(), updateUserDTO: { password } }));
+    await dispatch(updateRootUserProfile({ token, updateRootUserDTO: { password } }));
     reset();
     handleCloseDialog();
   };
