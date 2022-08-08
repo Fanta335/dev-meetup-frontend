@@ -37,7 +37,6 @@ export type CreateRoomDTO = {
 };
 
 export type UpdateRoomDTO = {
-  id: number;
   name: string;
   description: string;
   isPrivate: boolean;

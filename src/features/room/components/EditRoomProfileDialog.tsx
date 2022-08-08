@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { selectCurrentRoom, updateRoom } from "../roomSlice";
+import { postRoomAvatar, selectCurrentRoom, updateRoom } from "../roomSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -81,19 +81,13 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
   };
 
   const onSubmit: SubmitHandler<FormInput> = async ({ name, description, isPrivate }) => {
-    const data: { [key: string]: string | boolean } = { name, description, isPrivate };
     const formData = new FormData();
-    for (const key in data) {
-      formData.append(key.toString(), JSON.stringify(data[key]));
-    }
+    const token = await getAccessTokenSilently();
     if (selectedFile !== undefined) {
       formData.append("file", selectedFile);
+      await dispatch(postRoomAvatar({ token, roomId: currentRoom.entity.id, formData }));
     }
-
-    console.log("form data: ", formData.values());
-
-    const token = await getAccessTokenSilently();
-    await dispatch(updateRoom({ token, roomId: currentRoom.entity.id, formData }));
+    await dispatch(updateRoom({ token, roomId: currentRoom.entity.id, updateRoomDTO: { name, description, isPrivate } }));
     reset();
     handleCloseDialog();
   };

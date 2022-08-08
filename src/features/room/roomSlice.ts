@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { normalize, schema } from "normalizr";
 import { AsyncThunkConfig, RootState } from "../../stores/store";
-import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, Invitation } from "../room/types";
+import { Room, CurrentRoom, RoomContent, NormalizedRoomContent, Location, RoomType, SearchedRoom, Invitation, UpdateRoomDTO } from "../room/types";
 import { User } from "../user/types";
 import { normalizeBelongingRooms } from "./libs/normalizr/normalizeBelongingRooms";
 
@@ -54,10 +54,23 @@ export const postRoom = createAsyncThunk<Room, { token: string; formData: FormDa
   return res.data;
 });
 
-export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number; formData: FormData }>(
+export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number; updateRoomDTO: UpdateRoomDTO }>(
+  "room/updateRoom",
+  async ({ token, roomId, updateRoomDTO }) => {
+    const res = await axios.patch(`${apiUrl}/rooms/${roomId}`, updateRoomDTO, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  }
+);
+
+export const postRoomAvatar = createAsyncThunk<Room, { token: string; roomId: number; formData: FormData }>(
   "room/updateRoom",
   async ({ token, roomId, formData }) => {
-    const res = await axios.put(`${apiUrl}/rooms/${roomId}`, formData, {
+    const res = await axios.post(`${apiUrl}/rooms/${roomId}/avatar`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -130,7 +143,7 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
 export const addMemberToRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
   "room/addMemberToRoom",
   async ({ token, userId, roomId }) => {
-    const res = await axios.put<Room[]>(
+    const res = await axios.patch<Room[]>(
       `${apiUrl}/users/${userId}/belonging-rooms/add/${roomId}`,
       {},
       {
@@ -147,7 +160,7 @@ export const addMemberToRoom = createAsyncThunk<Room[], { token: string; userId:
 export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
   "room/removeMemberFromRoom",
   async ({ token, userId, roomId }) => {
-    const res = await axios.put<Room[]>(
+    const res = await axios.patch<Room[]>(
       `${apiUrl}/users/${userId}/belonging-rooms/remove/${roomId}`,
       {},
       {
@@ -164,7 +177,7 @@ export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; us
 export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
   "room/addOwnerToRoom",
   async ({ token, userId, roomId }) => {
-    const res = await axios.put<Room & { owners: User[] }>(
+    const res = await axios.patch<Room & { owners: User[] }>(
       `${apiUrl}/rooms/${roomId}/owners/add/`,
       {
         userIdToAdd: userId,
@@ -183,7 +196,7 @@ export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { toke
 export const removeOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
   "room/removeOwnerToRoom",
   async ({ token, userId, roomId }) => {
-    const res = await axios.put<Room & { owners: User[] }>(
+    const res = await axios.patch<Room & { owners: User[] }>(
       `${apiUrl}/rooms/${roomId}/owners/remove/`,
       {
         userIdToRemove: userId,
@@ -272,6 +285,12 @@ const roomSlice = createSlice({
       state.currentRoom.entity.description = updatedRoom.description;
       state.currentRoom.entity.isPrivate = updatedRoom.isPrivate;
     });
+    builder.addCase(postRoomAvatar.fulfilled, (state, action: PayloadAction<Room>) => {
+      const updatedRoom = action.payload;
+      console.log("updated room: ", updatedRoom);
+      // Reflesh belongingRooms and currentRoom state.
+      state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
+    });
     builder.addCase(fetchBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       // console.log('raw belonging rooms ', action.payload);
       const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
@@ -350,10 +369,10 @@ const roomSlice = createSlice({
       }
     });
     builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
-      state.currentRoom.entity.owners = action.payload.owners.map(owner => owner.id);
+      state.currentRoom.entity.owners = action.payload.owners.map((owner) => owner.id);
     });
     builder.addCase(removeOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
-      state.currentRoom.entity.owners = action.payload.owners.map(owner => owner.id);
+      state.currentRoom.entity.owners = action.payload.owners.map((owner) => owner.id);
     });
     builder.addCase(createInviteLink.fulfilled, (state, action: PayloadAction<Invitation>) => {
       const invitation = action.payload;
