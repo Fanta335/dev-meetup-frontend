@@ -68,7 +68,7 @@ export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number
 );
 
 export const postRoomAvatar = createAsyncThunk<Room, { token: string; roomId: number; formData: FormData }>(
-  "room/updateRoom",
+  "room/postRoomAvatar",
   async ({ token, roomId, formData }) => {
     const res = await axios.post(`${apiUrl}/rooms/${roomId}/avatar`, formData, {
       headers: {
@@ -140,39 +140,33 @@ export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string
   }
 );
 
-export const addMemberToRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
-  "room/addMemberToRoom",
-  async ({ token, userId, roomId }) => {
-    const res = await axios.patch<Room[]>(
-      `${apiUrl}/users/${userId}/belonging-rooms/add/${roomId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+export const addMemberToRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/addMemberToRoom", async ({ token, roomId }) => {
+  const res = await axios.patch<Room>(
+    `${apiUrl}/rooms/${roomId}/members/add`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
-    return res.data;
-  }
-);
+  return res.data;
+});
 
-export const removeMemberFromRoom = createAsyncThunk<Room[], { token: string; userId: number; roomId: number }>(
-  "room/removeMemberFromRoom",
-  async ({ token, userId, roomId }) => {
-    const res = await axios.patch<Room[]>(
-      `${apiUrl}/users/${userId}/belonging-rooms/remove/${roomId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+export const removeMemberFromRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/removeMemberFromRoom", async ({ token, roomId }) => {
+  const res = await axios.patch<Room>(
+    `${apiUrl}/rooms/${roomId}/members/remove`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
-    return res.data;
-  }
-);
+  return res.data;
+});
 
 export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
   "room/addOwnerToRoom",
@@ -351,23 +345,23 @@ const roomSlice = createSlice({
         state.searchedRooms.allIds = initialState.searchedRooms.allIds;
       }
     });
-    builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
-      const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
-      if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
-        state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
-        state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
-      }
-    });
-    builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
-      const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
-      if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
-        state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
-        state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
-      } else {
-        state.belongingRooms.byIds = {};
-        state.belongingRooms.allIds = [];
-      }
-    });
+    // builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
+    //   const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
+    //   if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
+    //     state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
+    //     state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
+    //   }
+    // });
+    // builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
+    //   const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
+    //   if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
+    //     state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
+    //     state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
+    //   } else {
+    //     state.belongingRooms.byIds = {};
+    //     state.belongingRooms.allIds = [];
+    //   }
+    // });
     builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
       state.currentRoom.entity.owners = action.payload.owners.map((owner) => owner.id);
     });

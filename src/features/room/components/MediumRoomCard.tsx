@@ -4,7 +4,7 @@ import { VFC } from "react";
 import { SearchedRoom } from "../types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch } from "../../../stores/hooks";
-import { addMemberToRoom } from "../roomSlice";
+import { addMemberToRoom, fetchBelongingRooms } from "../roomSlice";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -22,7 +22,8 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
     if (!currentUser) return;
 
     const token = await getAccessTokenSilently();
-    await dispatch(addMemberToRoom({ token, userId: currentUser.id, roomId: room.id }));
+    await dispatch(addMemberToRoom({ token, roomId: room.id }));
+    await dispatch(fetchBelongingRooms({ token }));
   };
 
   return (
