@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Grid, IconButton, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -8,6 +8,7 @@ import { SearchBox } from "./SearchBox";
 import { SearchedRoomList } from "./SearchedRoomList";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
+import { SearchRoomResultPagination } from "./SearchRoomResultPagination";
 
 export const SearchRoomResult = () => {
   const [searchParams] = useSearchParams();
@@ -30,18 +31,27 @@ export const SearchRoomResult = () => {
 
   return (
     <>
-      <Box sx={{ maxWidth: "800px", px: 3, pt: 10 }}>
-        <Box sx={{ display: "flex" }}>
+      <Grid container direction="column" sx={{ maxWidth: "800px", px: 3, pt: 10, pb: 5 }}>
+        <Grid item container>
           <IconButton component={Link} to="/app/">
             <ArrowBackIcon />
           </IconButton>
           <Typography variant="h5">
-            {searchedRooms.allIds.length === 0 ? `「${queryInput}」の部屋は見つかりませんでした。` : `「${queryInput}」の部屋が${searchedRooms.allIds.length} 件あります`}
+            {searchedRooms.allIds.length === 0
+              ? `「${queryInput}」の部屋は見つかりませんでした。`
+              : `「${queryInput}」の部屋が${searchedRooms.count} 件あります`}
           </Typography>
-        </Box>
-        <SearchBox defaultValue={defaultValue} />
-        <SearchedRoomList />
-      </Box>
+        </Grid>
+        <Grid item>
+          <SearchBox defaultValue={defaultValue} />
+        </Grid>
+        <Grid item>
+          <SearchedRoomList />
+        </Grid>
+        <Grid item container justifyContent="center">
+          <SearchRoomResultPagination count={searchedRooms.count} />
+        </Grid>
+      </Grid>
     </>
   );
 };

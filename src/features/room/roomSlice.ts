@@ -37,6 +37,7 @@ const initialState: RoomType = {
   searchedRooms: {
     byIds: {},
     allIds: [],
+    count: 0,
   },
   location: "discovery",
   isRoomMemberDrawerOpen: false,
@@ -126,10 +127,10 @@ export const fetchRoomContent = createAsyncThunk<NormalizedRoomContent, { token:
   }
 );
 
-export const searchAsyncRooms = createAsyncThunk<SearchedRoom[], { token: string; searchParams: string }>(
+export const searchAsyncRooms = createAsyncThunk<{ data: SearchedRoom[]; count: number }, { token: string; searchParams: string }>(
   "room/search-rooms",
   async ({ token, searchParams }) => {
-    const res = await axios.get<SearchedRoom[]>(`${apiUrl}/rooms/search?${searchParams}`, {
+    const res = await axios.get<{ data: SearchedRoom[]; count: number }>(`${apiUrl}/rooms/search?${searchParams}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -326,23 +327,25 @@ const roomSlice = createSlice({
       console.log(action.payload?.errorMessage);
       state.currentRoom.loading = "failed";
     });
-    builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<SearchedRoom[]>) => {
-      const rooms = action.payload;
+    builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<{ data: SearchedRoom[]; count: number }>) => {
+      const res = action.payload;
 
       // console.log("searched rooms: ", rooms);
 
       const searchedRoomEntity = new schema.Entity<SearchedRoom>("searchedRooms");
       const searchedRoomSchema = { searchedRooms: [searchedRoomEntity] };
-      const normalizedSearchedRoomsData = normalize({ searchedRooms: rooms }, searchedRoomSchema);
+      const normalizedSearchedRoomsData = normalize({ searchedRooms: res.data }, searchedRoomSchema);
 
       // console.log('normalized searched rooms: ', normalizedSearchedRoomsData);
 
       if (normalizedSearchedRoomsData.entities.searchedRooms) {
         state.searchedRooms.byIds = normalizedSearchedRoomsData.entities.searchedRooms;
         state.searchedRooms.allIds = normalizedSearchedRoomsData.result.searchedRooms;
+        state.searchedRooms.count = res.count;
       } else {
         state.searchedRooms.byIds = initialState.searchedRooms.byIds;
         state.searchedRooms.allIds = initialState.searchedRooms.allIds;
+        state.searchedRooms.count = initialState.searchedRooms.count;
       }
     });
     // builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {

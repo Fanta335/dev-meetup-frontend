@@ -51,7 +51,7 @@ export type BelongingRooms = {
 
 export type OwnRooms = {
   allIds: string[];
-}
+};
 
 // Does not contain messageIds because the frequency of updates of messages would be very high.
 export type CurrentRoom = {
@@ -69,6 +69,7 @@ export type SearchedRooms = {
     [key: string]: SearchedRoom;
   };
   allIds: string[];
+  count: number;
 };
 
 // This contains all of the room contents data including Users and Messages.
