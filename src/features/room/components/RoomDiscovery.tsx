@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../stores/hooks";
 import { roomActions, searchAsyncRooms } from "../roomSlice";
@@ -26,14 +26,16 @@ export const RoomDiscovery = () => {
 
   return (
     <>
-      <Box sx={{ display: "flex", flexDirection: "column", height: "100%", pt: 8 }}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <SearchHeader />
-        </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <TopRoomList />
-        </Box>
-      </Box>
+      <Grid container height="100%">
+        <Grid container item direction="column" pt={8}>
+          <Grid container item justifyContent="center">
+            <SearchHeader />
+          </Grid>
+          <Grid container item>
+            <TopRoomList />
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };
