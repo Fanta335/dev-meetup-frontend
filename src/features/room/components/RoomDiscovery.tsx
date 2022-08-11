@@ -14,12 +14,12 @@ export const RoomDiscovery = () => {
     dispatch(roomActions.changeLocation("discovery"));
   }, [dispatch]);
 
-  const testSearchParams = "query=&offset=0&limit=6&sort=date&order=d";
+  const initialSearchParams = "query=&offset=0&limit=6&sort=date&order=d";
 
   const searchRooms = async () => {
     const token = await getAccessTokenSilently();
 
-    await dispatch(searchAsyncRooms({ token: token, searchParams: testSearchParams }));
+    await dispatch(searchAsyncRooms({ token: token, searchParams: initialSearchParams }));
   };
 
   searchRooms();

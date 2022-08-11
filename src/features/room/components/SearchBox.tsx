@@ -1,8 +1,10 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { Grid, InputAdornment, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { VFC } from "react";
+import { useAppSelector } from "../../../stores/hooks";
+import { selectCurrentTag } from "../../tag/tagSlice";
 
 type FormInput = {
   roomName: string;
@@ -20,44 +22,53 @@ type Props = {
 };
 
 export const SearchBox: VFC<Props> = ({ defaultValue = "" }) => {
+  const currentTag = useAppSelector(selectCurrentTag);
   const { handleSubmit, control } = useForm<FormInput>();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
     navigate({
       pathname: "/app/search",
-      search: createSearchParams([["query", content.roomName], ...Object.entries(defaultSearchParams)]).toString(),
+      search: createSearchParams([
+        ["query", content.roomName],
+        ...Object.entries(defaultSearchParams),
+        ["tagId", currentTag ? currentTag.id.toString() : ""],
+      ]).toString(),
     });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        render={({ field }) => (
-          <TextField
-            value={field.value}
-            onChange={field.onChange}
-            inputRef={field.ref}
-            id="search"
-            type="search"
-            placeholder="部屋を探す"
-            fullWidth
-            autoComplete="off"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ bgcolor: "#ffffff26", borderRadius: "5px" }}
+      <Grid container>
+        <Grid item xs={12}>
+          <Controller
+            render={({ field }) => (
+              <TextField
+                value={field.value}
+                onChange={field.onChange}
+                inputRef={field.ref}
+                id="search"
+                type="search"
+                placeholder="部屋を探す"
+                fullWidth
+                autoComplete="off"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ bgcolor: "#ffffff26", borderRadius: "5px" }}
+              />
+            )}
+            name="roomName"
+            control={control}
+            defaultValue={defaultValue}
+            rules={{ required: true }}
           />
-        )}
-        name="roomName"
-        control={control}
-        defaultValue={defaultValue}
-        rules={{ required: true }}
-      />
+        </Grid>
+      </Grid>
     </form>
   );
 };

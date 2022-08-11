@@ -30,22 +30,13 @@ export const TagSelect = () => {
     }
   };
 
-  console.log("tags: ", allTags);
-  console.log("current tag: ", currentTag);
-
   return (
     <>
-      <FormControl sx={{ mt: 3, minWidth: 220 }}>
+      <FormControl sx={{ mt: 3, minWidth: 220, pb: 3, width: "100%" }}>
         <InputLabel id="tag-select-label">タグで絞り込む</InputLabel>
-        <Select
-          labelId="tag-select-label"
-          id="tag-select-label-helper"
-          value={currentTag ? currentTag.id.toString() : ""}
-          label="tag"
-          onChange={handleChange}
-        >
+        <Select labelId="tag-select-label" id="tag-select-label-helper" value={currentTag ? currentTag.id.toString() : ""} label="tag" onChange={handleChange}>
           <MenuItem value="">
-            <em>タグなし</em>
+            <em>指定しない</em>
           </MenuItem>
           {allTags.allIds.map((id) => (
             <MenuItem value={id} key={id}>
