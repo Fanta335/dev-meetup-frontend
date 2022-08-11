@@ -24,7 +24,6 @@ export const ProfileIcon: VFC<Props> = ({ handleOpenUserMenu, handleCloseUserMen
     };
 
     getUserProfile();
-    console.log("profile icon.");
   }, [getAccessTokenSilently, dispatch]);
 
   return (
