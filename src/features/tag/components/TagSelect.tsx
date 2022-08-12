@@ -34,7 +34,7 @@ export const TagSelect = () => {
     <>
       <FormControl sx={{ mt: 3, minWidth: 220, pb: 3, width: "100%" }}>
         <InputLabel id="tag-select-label">タグで絞り込む</InputLabel>
-        <Select labelId="tag-select-label" id="tag-select-label-helper" value={currentTag ? currentTag.id.toString() : ""} label="tag" onChange={handleChange}>
+        <Select labelId="tag-select-label" id="tag-select-label-helper" value={currentTag ? currentTag.id.toString() : ""} label="タグで絞り込む" onChange={handleChange}>
           <MenuItem value="">
             <em>指定しない</em>
           </MenuItem>
