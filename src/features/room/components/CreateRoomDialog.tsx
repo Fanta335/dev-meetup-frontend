@@ -7,6 +7,7 @@ import {
   DialogTitle,
   FormControlLabel,
   IconButton,
+  Stack,
   Switch,
   TextField,
   Typography,
@@ -19,6 +20,7 @@ import { postRoom, roomActions, selectRoomAvatarPreviewUrl } from "../roomSlice"
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
+import { TagSelectArray } from "./TagSelectArray";
 
 export type DialogTitleProps = {
   id: string;
@@ -116,75 +118,80 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog fullScreen open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <BootstrapDialogTitle id="create room title" onClose={handleClose}>
-          部屋をつくる
-        </BootstrapDialogTitle>
-        <DialogContent>
-          <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
-          <Button variant="contained" component="label" color="success">
-            画像をアップロード
-            <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
-          </Button>
-          <Typography variant="h6">image preview</Typography>
-          {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <ImageIcon sx={{ height: "100px", width: "100px" }} />}
-          <Controller
-            render={({ field }) => (
-              <TextField
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                autoFocus
-                margin="dense"
-                id="name"
-                label="部屋の名前"
-                fullWidth
-                variant="standard"
-              />
-            )}
-            name="name"
-            control={control}
-            defaultValue=""
-            rules={{ required: true }}
-          />
-          <Controller
-            render={({ field }) => (
-              <TextField
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                margin="dense"
-                id="description"
-                label="部屋の説明"
-                fullWidth
-                variant="standard"
-              />
-            )}
-            name="description"
-            control={control}
-            defaultValue=""
-            rules={{ required: true }}
-          />
-          <FormControlLabel
-            control={
-              <Controller
-                name="isPrivate"
-                control={control}
-                render={({ field }) => <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />}
-              />
-            }
-            label="部屋を非公開にする"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={handleClose} color="secondary">
-            キャンセル
-          </Button>
-          <Button variant="contained" type="submit" color="success">
-            新規作成
-          </Button>
-        </DialogActions>
+        <Stack spacing={2} alignItems="center">
+          <BootstrapDialogTitle id="create room title" onClose={handleClose}>
+            部屋をつくる
+          </BootstrapDialogTitle>
+          <DialogContent style={{ maxWidth: "600px" }}>
+            <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
+            <Button variant="contained" component="label" color="success">
+              画像をアップロード
+              <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+            </Button>
+            <Typography variant="h6">image preview</Typography>
+            {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <ImageIcon sx={{ height: "100px", width: "100px" }} />}
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  value={field.value}
+                  onChange={field.onChange}
+                  inputRef={field.ref}
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="部屋の名前"
+                  fullWidth
+                  variant="standard"
+                />
+              )}
+              name="name"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+            />
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  value={field.value}
+                  onChange={field.onChange}
+                  inputRef={field.ref}
+                  margin="dense"
+                  id="description"
+                  label="部屋の説明"
+                  fullWidth
+                  variant="standard"
+                />
+              )}
+              name="description"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+            />
+            <FormControlLabel
+              control={
+                <Controller
+                  name="isPrivate"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />
+                  )}
+                />
+              }
+              label="部屋を非公開にする"
+            />
+            <TagSelectArray />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose} color="secondary">
+              キャンセル
+            </Button>
+            <Button variant="contained" type="submit" color="success">
+              新規作成
+            </Button>
+          </DialogActions>
+        </Stack>
       </form>
     </Dialog>
   );
