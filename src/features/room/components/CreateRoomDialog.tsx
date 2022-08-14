@@ -21,6 +21,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
 import { TagSelectArray } from "./TagSelectArray";
+import { CreateRoomFormInput } from "../types";
 
 export type DialogTitleProps = {
   id: string;
@@ -59,20 +60,14 @@ export type CreateRoomDialogProps = {
   setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 };
 
-type FormInput = {
-  name: string;
-  description: string;
-  isPrivate: boolean;
-  avatar: FileList;
-};
-
 export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { handleSubmit, control, reset, register } = useForm<FormInput>({
+  const { handleSubmit, control, reset, register } = useForm<CreateRoomFormInput>({
     defaultValues: {
       isPrivate: false,
+      tagIds: [{ id: "" }],
     },
   });
   const preview = useAppSelector(selectRoomAvatarPreviewUrl);
@@ -96,9 +91,9 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
     setSelectedFile(e.target.files[0]);
   };
 
-  const onSubmit: SubmitHandler<FormInput> = async ({ name, description, isPrivate }) => {
+  const onSubmit: SubmitHandler<CreateRoomFormInput> = async ({ name, description, isPrivate, tagIds }) => {
     // define data type so that it can be refered as data[key].
-    const data: { [key: string]: string | boolean } = { name, description, isPrivate };
+    const data: { [key: string]: string | boolean | object[] } = { name, description, isPrivate, tagIds };
     const formData = new FormData();
     for (const key in data) {
       formData.append(key.toString(), JSON.stringify(data[key]));
@@ -106,8 +101,6 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
     if (selectedFile !== undefined) formData.append("file", selectedFile);
 
     const token = await getAccessTokenSilently();
-    // console.log("data: ", data);
-    // console.log("form data: ", formData.get("file"));
 
     await dispatch(postRoom({ token, formData }))
       .unwrap()
@@ -120,12 +113,16 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
   return (
     <Dialog fullScreen open={open} onClose={handleClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2} alignItems="center">
+        <Stack spacing={2} alignItems="center" sx={{ py: 4 }}>
           <BootstrapDialogTitle id="create room title" onClose={handleClose}>
-            部屋をつくる
+            <div>
+              <Typography variant="h5" fontWeight="bold">
+                部屋を作る
+              </Typography>
+            </div>
           </BootstrapDialogTitle>
           <DialogContent style={{ maxWidth: "600px" }}>
-            <DialogContentText>新しい部屋のアイコン、名前、説明を設定しましょう。設定は後から変更できます。</DialogContentText>
+            <DialogContentText>新しい部屋のプロフィールを設定しましょう。設定は後から変更できます。</DialogContentText>
             <Button variant="contained" component="label" color="success">
               画像をアップロード
               <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
@@ -181,7 +178,7 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
               }
               label="部屋を非公開にする"
             />
-            <TagSelectArray />
+            <TagSelectArray register={register} control={control} />
           </DialogContent>
           <DialogActions>
             <Button variant="contained" onClick={handleClose} color="secondary">

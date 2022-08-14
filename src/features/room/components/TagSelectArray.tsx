@@ -1,38 +1,25 @@
-import React from "react";
+import React, { VFC } from "react";
 
 import { Box, Button, Container, Stack, IconButton, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
-import { useForm, useFieldArray } from "react-hook-form";
+import { useFieldArray, Control, UseFormRegister } from "react-hook-form";
 import { Add as AddIcon, DeleteOutline as DeleteOutlineIcon } from "@mui/icons-material";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectAllTags } from "../../tag/tagSlice";
+import { CreateRoomFormInput } from "../types";
 
-export type FormValues = {
-  tags: {
-    tagId: string;
-  }[];
+type Props = {
+  register: UseFormRegister<CreateRoomFormInput>;
+  control: Control<CreateRoomFormInput, any>;
 };
 
-export const TagSelectArray = () => {
+export const TagSelectArray: VFC<Props> = ({ control, register }) => {
   const allTags = useAppSelector(selectAllTags);
 
-  const {
-    register,
-    control,
-    handleSubmit,
-  } = useForm<FormValues>({
-    defaultValues: {
-      tags: [{ tagId: "" }],
-    },
-    mode: "onBlur",
-  });
-
   const { fields, append, remove } = useFieldArray({
-    name: "tags",
+    name: "tagIds",
     control,
   });
-
-  const onSubmit = (data: FormValues) => console.log(data);
 
   return (
     <Container maxWidth="sm" sx={{ pt: 5 }}>
@@ -43,7 +30,7 @@ export const TagSelectArray = () => {
               <Box display="flex" alignItems="center">
                 <FormControl sx={{ minWidth: 220, width: "100%" }}>
                   <InputLabel id="tag-select-label">タグを選択</InputLabel>
-                  <Select labelId="tag-select-label" label="タグを選択" defaultValue="" {...register(`tags.${index}.tagId` as const, { required: true })}>
+                  <Select labelId="tag-select-label" label="タグを選択" defaultValue="" {...register(`tagIds.${index}.id` as const, { required: true })}>
                     <MenuItem value="">
                       <em>指定しない</em>
                     </MenuItem>
@@ -65,21 +52,17 @@ export const TagSelectArray = () => {
       {fields.length < 5 && (
         <Button
           sx={{ mt: 1 }}
+          variant="contained"
           startIcon={<AddIcon />}
           onClick={() =>
             append({
-              tagId: "",
+              id: "",
             })
           }
         >
           タグを追加する
         </Button>
       )}
-      <Box textAlign="center" mt={2}>
-        <Button color="primary" variant="contained" disableElevation onClick={handleSubmit(onSubmit)}>
-          送信
-        </Button>
-      </Box>
     </Container>
   );
 };
