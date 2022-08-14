@@ -19,7 +19,7 @@ export const SearchRoomResultPagination: VFC<Props> = ({ count }) => {
     <>
       <Pagination
         page={Math.floor(offset / limit) + 1}
-        count={Math.floor(count / limit) + 1}
+        count={Math.ceil(count / limit)}
         renderItem={(item) => (
           <PaginationItem
             component={Link}
