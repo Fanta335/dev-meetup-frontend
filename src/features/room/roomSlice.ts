@@ -29,6 +29,7 @@ const initialState: RoomType = {
       createdAt: "",
       updatedAt: "",
       deletedAt: null,
+      tags: [],
       owners: [],
       members: [],
     },
@@ -136,7 +137,7 @@ export const searchAsyncRooms = createAsyncThunk<{ data: SearchedRoom[]; count: 
       },
     });
 
-    // console.log("searched rooms: ", res.data);
+    console.log("searched rooms: ", res.data);
     return res.data;
   }
 );
@@ -269,7 +270,6 @@ const roomSlice = createSlice({
       const newRoom = action.payload;
       state.belongingRooms.byIds[newRoom.id] = newRoom;
       state.belongingRooms.allIds.push(newRoom.id.toString());
-      // history.push(`/app/rooms/${newRoom.id}`);
     });
     builder.addCase(updateRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const updatedRoom = action.payload;
@@ -314,6 +314,7 @@ const roomSlice = createSlice({
           avatar: data.result.avatar,
           owners: data.result.owners,
           members: data.result.members,
+          tags: data.result.tags,
           createdAt: data.result.createdAt,
           updatedAt: data.result.updatedAt,
           deletedAt: data.result.deletedAt,

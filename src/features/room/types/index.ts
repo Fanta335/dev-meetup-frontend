@@ -1,4 +1,5 @@
 import { Message } from "../../message/types";
+import { Tag } from "../../tag/types";
 import { User } from "../../user/types";
 
 export type RoomType = {
@@ -17,6 +18,7 @@ export type Room = {
   name: string;
   description: string;
   isPrivate: boolean;
+  tags: Tag[];
   avatar: Avatar;
   createdAt: string;
   updatedAt: string;
@@ -40,6 +42,7 @@ export type UpdateRoomDTO = {
   name: string;
   description: string;
   isPrivate: boolean;
+  tags: Tag[];
 };
 
 export type BelongingRooms = {
@@ -103,7 +106,6 @@ export type NormalizedRoomContent = {
 export type Location = "profile" | "room" | "discovery";
 
 export type SearchedRoom = {
-  description: string;
   numOfMembers: number;
 } & Room;
 

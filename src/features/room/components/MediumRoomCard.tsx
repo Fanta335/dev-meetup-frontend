@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActionArea, CardContent, CardHeader, Grid, Typography } from "@mui/material";
+import { Avatar, Card, CardActionArea, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { VFC } from "react";
 import { SearchedRoom } from "../types";
@@ -40,6 +40,11 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
         <CardContent>
           <Typography variant="body1">{room.description}</Typography>
         </CardContent>
+        <Grid container sx={{ pl: 2 }}>
+          {room.tags.map((tag) => (
+            <Chip key={tag.id} label={tag.name} variant="outlined" sx={{ mr: 1, mb: 1 }} />
+          ))}
+        </Grid>
         <Grid container justifyContent="flex-end" sx={{ pr: 2, pb: 2 }}>
           <Grid item>
             <PersonIcon color="action" />

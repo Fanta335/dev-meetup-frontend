@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Card, CardActionArea, CardContent, CardHeader, Typography } from "@mui/material";
+import { Avatar, Card, CardActionArea, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
 import { VFC } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../stores/hooks";
@@ -37,7 +37,12 @@ export const SmallRoomCard: VFC<Props> = ({ room }) => {
             {room.description}
           </Typography>
         </CardContent>
-        <Typography sx={{ textAlign: "end", pr: 2, pb: 2 }}>{room.numOfMembers}人</Typography>
+        <Grid container sx={{ px: 2 }}>
+          {room.tags.map((tag) => (
+            <Chip key={tag.id} label={tag.name} variant="outlined" sx={{ mr: 1, mb: 1 }} />
+          ))}
+        </Grid>
+        <Typography sx={{ textAlign: "end", pb: 2, pr: 2 }}>{room.numOfMembers}人</Typography>
       </CardActionArea>
     </Card>
   );
