@@ -8,10 +8,11 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
 import { CreateRoomFormInput } from "./CreateRoomDialog";
 import { useAuth0 } from "@auth0/auth0-react";
+import { UpdateRoomFormInput } from "./EditRoomProfileDialog";
 
 type Props = {
-  register: UseFormRegister<CreateRoomFormInput>;
-  control: Control<CreateRoomFormInput, any>;
+  register: UseFormRegister<CreateRoomFormInput | UpdateRoomFormInput>;
+  control: Control<CreateRoomFormInput | UpdateRoomFormInput, any>;
 };
 
 export const TagSelectArray: VFC<Props> = ({ control, register }) => {
@@ -30,7 +31,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
       await dispatch(fetchAllTags({ token }));
     };
     fetchInitialTags();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

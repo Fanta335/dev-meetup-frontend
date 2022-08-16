@@ -42,7 +42,7 @@ export type UpdateRoomDTO = {
   name: string;
   description: string;
   isPrivate: boolean;
-  tags: Tag[];
+  tagIds: { id: string }[];
 };
 
 export type BelongingRooms = {
