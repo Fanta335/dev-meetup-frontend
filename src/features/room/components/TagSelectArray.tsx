@@ -1,12 +1,13 @@
-import React, { VFC } from "react";
+import React, { useEffect, VFC } from "react";
 
 import { Box, Button, Container, Stack, IconButton, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 import { useFieldArray, Control, UseFormRegister } from "react-hook-form";
 import { Add as AddIcon, DeleteOutline as DeleteOutlineIcon } from "@mui/icons-material";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectAllTags } from "../../tag/tagSlice";
-import { CreateRoomFormInput } from "../types";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
+import { CreateRoomFormInput } from "./CreateRoomDialog";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type Props = {
   register: UseFormRegister<CreateRoomFormInput>;
@@ -15,11 +16,22 @@ type Props = {
 
 export const TagSelectArray: VFC<Props> = ({ control, register }) => {
   const allTags = useAppSelector(selectAllTags);
+  const dispatch = useAppDispatch();
+  const { getAccessTokenSilently } = useAuth0();
 
   const { fields, append, remove } = useFieldArray({
     name: "tagIds",
     control,
   });
+
+  useEffect(() => {
+    const fetchInitialTags = async () => {
+      const token = await getAccessTokenSilently();
+      await dispatch(fetchAllTags({ token }));
+    };
+    fetchInitialTags();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container maxWidth="sm" sx={{ pt: 5 }}>

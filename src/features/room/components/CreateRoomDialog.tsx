@@ -21,7 +21,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import ImageIcon from "@mui/icons-material/Image";
 import { TagSelectArray } from "./TagSelectArray";
-import { CreateRoomFormInput } from "../types";
 
 export type DialogTitleProps = {
   id: string;
@@ -60,6 +59,16 @@ export type CreateRoomDialogProps = {
   setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 };
 
+export type CreateRoomFormInput = {
+  name: string;
+  description: string;
+  isPrivate: boolean;
+  avatar: FileList;
+  tagIds: {
+    id: string;
+  }[];
+};
+
 export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
@@ -93,7 +102,7 @@ export const CreateRoomDialog: VFC<CreateRoomDialogProps> = ({ open, handleClose
 
   const onSubmit: SubmitHandler<CreateRoomFormInput> = async ({ name, description, isPrivate, tagIds }) => {
     // define data type so that it can be refered as data[key].
-    const data: { [key: string]: string | boolean | object[] } = { name, description, isPrivate, tagIds };
+    const data: { [key: string]: string | boolean | { id: string }[] } = { name, description, isPrivate, tagIds };
     const formData = new FormData();
     for (const key in data) {
       formData.append(key.toString(), JSON.stringify(data[key]));
