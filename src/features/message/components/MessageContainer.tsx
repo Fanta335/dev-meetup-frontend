@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { Loading } from "../../../components/Loading";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoomLoading } from "../../room/roomSlice";
-import { MessageBoard } from "./MessageBoard";
+import { InfiniteScrollMessage } from "./InfiniteScrollMessage";
 import { MessageInputForm } from "./MessageInputForm";
 
 export const MessageContainer = () => {
@@ -17,7 +17,8 @@ export const MessageContainer = () => {
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <Box sx={{ flexGrow: 1, pt: 1, px: 1, pb: 10 }}>
-            <MessageBoard />
+            {/* <MessageBoard /> */}
+            <InfiniteScrollMessage />
           </Box>
           <Box sx={{ position: "fixed", bottom: 0, width: "calc(100% - 89px)", px: 1, pb: 3, bgcolor: 'background.default' }}>
             <MessageInputForm />
