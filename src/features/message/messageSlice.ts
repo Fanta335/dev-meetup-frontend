@@ -1,26 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
-import axios from "axios";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
 import { Message, MessageType } from "./types";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: MessageType = {
   currentMessages: {
-    byIds: {
-      // "0": {
-      //   id: 0,
-      //   authorId: 0,
-      //   roomId: 0,
-      //   content: "",
-      //   parentId: null,
-      //   createdAt: "",
-      //   updatedAt: "",
-      //   deletedAt: null,
-      // },
-    },
+    byIds: {},
     allIds: [],
   },
   isEstablishingConnection: false,
@@ -34,15 +21,6 @@ const initialState: MessageType = {
     isReplying: false,
   },
 };
-
-export const fetchCurrenMessages = createAsyncThunk<Message[], { token: string; roomId: number }>("room/fetchCurrentMessages", async ({ token, roomId }) => {
-  const res = await axios.get<Message[]>(`${apiUrl}/messages/${roomId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return res.data;
-});
 
 const messageSlice = createSlice({
   name: "message",
@@ -106,7 +84,7 @@ const messageSlice = createSlice({
     clearCurrentMessages: (state) => {
       state.currentMessages.byIds = {};
       state.currentMessages.allIds = [];
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
