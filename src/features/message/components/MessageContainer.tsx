@@ -16,11 +16,10 @@ export const MessageContainer = () => {
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-          <Box sx={{ flexGrow: 1, pt: 1, px: 1, pb: 10 }}>
-            {/* <MessageBoard /> */}
+          <Box sx={{ flexGrow: 1, pt: 1, px: 1, pb: 8 }}>
             <InfiniteScrollMessage />
           </Box>
-          <Box sx={{ position: "fixed", bottom: 0, width: "calc(100% - 89px)", px: 1, pb: 3, bgcolor: 'background.default' }}>
+          <Box sx={{ width: "100%", px: 1, pb: 3, bgcolor: "background.default" }}>
             <MessageInputForm />
           </Box>
         </Box>
