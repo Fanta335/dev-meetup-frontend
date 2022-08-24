@@ -98,10 +98,6 @@ const messageSlice = createSlice({
       state.messageReply.parentMessageId = null;
       state.messageReply.isReplying = false;
     },
-    clearCurrentMessages: (state) => {
-      state.currentMessages.byIds = {};
-      state.currentMessages.allIds = [];
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
