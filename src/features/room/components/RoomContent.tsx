@@ -40,8 +40,6 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
     const handleLeaveRoom = (prevRoomId: string | undefined) => {
       if (!prevRoomId) return;
 
-      dispatch(messageActions.clearCurrentMessages());
-
       dispatch(roomActions.leaveRoom({ roomId: prevRoomId }));
     };
 
