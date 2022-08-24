@@ -1,5 +1,6 @@
 export type MessageType = {
   currentMessages: CurrentMessages;
+  hasNext: boolean;
   isEstablishingConnection: boolean;
   isConnected: boolean;
   messageEdit: MessageEdit;
