@@ -57,8 +57,6 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
-  const currentTagIds = currentRoom.entity.tags.map((tag) => ({ id: tag.id.toString() }));
-  console.log(currentTagIds);
   const { handleSubmit, control, reset, register } = useForm<UpdateRoomFormInput>({
     defaultValues: {
       isPrivate: currentRoom.entity.isPrivate,

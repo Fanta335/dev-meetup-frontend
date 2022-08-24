@@ -116,7 +116,6 @@ const messageSlice = createSlice({
     builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<{ messages: Message[]; hasNext: boolean }>) => {
       const { messages, hasNext } = action.payload;
       const normalizedMessages = normalizeMessages(messages);
-      console.log("normalized message:", normalizedMessages);
       state.currentMessages.allIds = [...normalizedMessages.result.messages, ...state.currentMessages.allIds];
       state.currentMessages.byIds = { ...normalizedMessages.entities.messages, ...state.currentMessages.byIds };
       state.hasNext = hasNext;
