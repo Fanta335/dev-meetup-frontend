@@ -1,15 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 import { createSelector } from "reselect";
 import { RootState } from "../../stores/store";
 import { fetchRoomContent } from "../room/roomSlice";
 import { NormalizedRoomContent } from "../room/types";
+import { normalizeMessages } from "./lib/normalizr/normalizeMessages";
 import { Message, MessageType } from "./types";
 
+const apiUrl = process.env.REACT_APP_API_URL;
 const initialState: MessageType = {
   currentMessages: {
     byIds: {},
     allIds: [],
   },
+  hasNext: true,
   isEstablishingConnection: false,
   isConnected: false,
   messageEdit: {
@@ -21,6 +25,19 @@ const initialState: MessageType = {
     isReplying: false,
   },
 };
+
+export const fetchMoreMessages = createAsyncThunk<{ messages: Message[]; hasNext: boolean }, { token: string; roomId: string; searchParams: string }>(
+  "message/fetchMoreMessages",
+  async ({ token, roomId, searchParams }) => {
+    const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages?${searchParams}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  }
+);
 
 const messageSlice = createSlice({
   name: "message",
@@ -93,11 +110,20 @@ const messageSlice = createSlice({
       if (data.entities.messages !== undefined && data.result.messages !== undefined) {
         state.currentMessages.byIds = data.entities.messages;
         state.currentMessages.allIds = data.result.messages;
+        state.hasNext = true;
       } else {
-        console.log("This room has no messages!");
         state.currentMessages.byIds = initialState.currentMessages.byIds;
         state.currentMessages.allIds = initialState.currentMessages.allIds;
+        state.hasNext = false;
       }
+    });
+    builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<{ messages: Message[]; hasNext: boolean }>) => {
+      const { messages, hasNext } = action.payload;
+      const normalizedMessages = normalizeMessages(messages);
+      console.log("normalized message:", normalizedMessages);
+      state.currentMessages.allIds = [...normalizedMessages.result.messages, ...state.currentMessages.allIds];
+      state.currentMessages.byIds = { ...normalizedMessages.entities.messages, ...state.currentMessages.byIds };
+      state.hasNext = hasNext;
     });
   },
 });
@@ -105,6 +131,7 @@ const messageSlice = createSlice({
 export const messageActions = messageSlice.actions;
 
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
+export const selectHasNextMessages = (state: RootState) => state.message.hasNext;
 export const selectCurrentMessageId = (state: RootState, messageId: number) => messageId;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
 export const selectMessageEdit = (state: RootState) => state.message.messageEdit;
