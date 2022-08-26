@@ -1,5 +1,5 @@
-import { Virtuoso } from "react-virtuoso";
-import { useState, useCallback } from "react";
+import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { useState, useCallback, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchMoreMessages, selectCurrentMessages, selectHasNextMessages } from "../messageSlice";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -15,6 +15,7 @@ export const InfiniteScrollMessage = () => {
   const hasNext = useAppSelector(selectHasNextMessages);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
+  const virtuoso = useRef<VirtuosoHandle>(null);
 
   const START_INDEX = 10000;
   const INITIAL_ITEM_COUNT = 10;
@@ -33,16 +34,29 @@ export const InfiniteScrollMessage = () => {
     }
   }, [currentMessages, currentRoom.entity.id, dispatch, getAccessTokenSilently, firstItemIndex, hasNext]);
 
+  const handleClickReply = useCallback((virtualListIndex: number | undefined) => {
+    if (virtualListIndex) {
+      console.log('first index ', firstItemIndex);
+      console.log('v list index ', virtualListIndex);
+      virtuoso.current?.scrollToIndex({
+        index: virtualListIndex - firstItemIndex,
+        align: "center",
+        behavior: "smooth",
+      });
+    }
+  }, [firstItemIndex]);
+
   return (
     <Virtuoso
       style={{ marginTop: "60px" }}
       firstItemIndex={firstItemIndex}
-      initialTopMostItemIndex={INITIAL_ITEM_COUNT}
+      initialTopMostItemIndex={INITIAL_ITEM_COUNT - 1}
       data={currentMessages.allIds}
+      ref={virtuoso}
       startReached={prependMessages}
       followOutput={"auto"}
       itemContent={(index, messageId) => {
-        return <MessageItem key={messageId} messageId={messageId} />;
+        return <MessageItem key={messageId} messageId={messageId} virtualListId={index} handleClickReply={handleClickReply} />;
       }}
       components={{ Header }}
     />

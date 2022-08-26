@@ -1,9 +1,9 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { memo, useState, VFC } from "react";
+import { memo, useEffect, useState, VFC } from "react";
 import dayjs from "dayjs";
-import { useAppSelector } from "../../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
-import { selectMessageById } from "../messageSlice";
+import { messageActions, selectMessageById } from "../messageSlice";
 import { MessageMenu } from "./MessageMenu";
 import { MessageContent } from "./MessageContent";
 import { ReplyAccessory } from "./ReplyAccessory";
@@ -11,9 +11,11 @@ import { User } from "../../user/types";
 
 type Props = {
   messageId: number;
+  virtualListId: number;
+  handleClickReply: (virtualListId: number | undefined) => void;
 };
 
-export const MessageItem: VFC<Props> = memo(({ messageId }) => {
+export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleClickReply }) => {
   const [display, setDisplay] = useState(false);
 
   const currentUsers = useAppSelector(selectCurrentUsers);
@@ -24,10 +26,18 @@ export const MessageItem: VFC<Props> = memo(({ messageId }) => {
   const author = currentUsers.members.byIds[authorId.toString()] as User | undefined;
   const formattedDate = dayjs(message.createdAt).format("YYYY/MM/DD HH:mm");
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(messageActions.setVirtualListId({ messageId, virtualListId }));
+  });
+
   return (
     <>
       {/* If this message is a reply, append reply accessory. */}
-      <Box sx={[{ px: 1 }, { "&:hover": { bgcolor: "#00000013" } }]}>{parentMessageId && <ReplyAccessory parentMessageId={parentMessageId} />}</Box>
+      <Box sx={[{ px: 1 }, { "&:hover": { bgcolor: "#00000013" } }]}>
+        {parentMessageId && <ReplyAccessory parentMessageId={parentMessageId} handleClickReply={handleClickReply} />}
+      </Box>
       <Box
         component="div"
         sx={[{ display: "flex", pb: 3, px: 1 }, { "&:hover": { bgcolor: "#00000013" } }]}
@@ -50,7 +60,7 @@ export const MessageItem: VFC<Props> = memo(({ messageId }) => {
                 </Typography>
               )}
               <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                {formattedDate}
+                {formattedDate} virtual list id: {virtualListId}
               </Typography>
             </Box>
             <Box>{display && <MessageMenu messageId={message.id} />}</Box>

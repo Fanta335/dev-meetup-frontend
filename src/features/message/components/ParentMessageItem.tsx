@@ -7,9 +7,10 @@ import { User } from "../../user/types";
 
 type Props = {
   parentMessage: Message;
+  handleClickReply: (virtualListId: number | undefined) => void;
 };
 
-export const ParentMessageItem: VFC<Props> = ({ parentMessage }) => {
+export const ParentMessageItem: VFC<Props> = ({ parentMessage, handleClickReply }) => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const authorId = parentMessage?.authorId;
   const author = currentUsers.members.byIds[authorId] as User | undefined;
@@ -28,7 +29,7 @@ export const ParentMessageItem: VFC<Props> = ({ parentMessage }) => {
           </Typography>
         )}
       </Box>
-      <Box sx={{ pl: 1 }}>
+      <Box sx={{ pl: 1, cursor: "pointer" }} component="div" onClick={() => handleClickReply(parentMessage.virtualListId)}>
         <Typography variant="caption">{parentMessage.content}</Typography>
       </Box>
     </Box>
