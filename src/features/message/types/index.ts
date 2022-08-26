@@ -16,6 +16,7 @@ export type Message = {
   createdAt: string;
   updatedAt: string;
   deletedAt?: string | null;
+  virtualListId: number | undefined;
 };
 
 export type CurrentMessages = {
@@ -33,7 +34,7 @@ export type MessageEdit = {
 export type MessageReply = {
   parentMessageId: number | null;
   isReplying: boolean;
-}
+};
 
 export type CreateMessageDTO = {
   content: string;
