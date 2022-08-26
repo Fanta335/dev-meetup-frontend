@@ -98,6 +98,10 @@ const messageSlice = createSlice({
       state.messageReply.parentMessageId = null;
       state.messageReply.isReplying = false;
     },
+    setVirtualListId: (state, action: PayloadAction<{ messageId: number; virtualListId: number }>) => {
+      const { messageId, virtualListId } = action.payload;
+      state.currentMessages.byIds[messageId].virtualListId = virtualListId;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {
