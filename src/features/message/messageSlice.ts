@@ -26,6 +26,16 @@ const initialState: MessageType = {
   },
 };
 
+export const fetchOneMessage = createAsyncThunk<Message, { token: string; messageId: number }>("message/fetchOneMessage", async ({ token, messageId }) => {
+  const res = await axios.get(`${apiUrl}/messages/${messageId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+});
+
 export const fetchMoreMessages = createAsyncThunk<{ messages: Message[]; hasNext: boolean }, { token: string; roomId: string; searchParams: string }>(
   "message/fetchMoreMessages",
   async ({ token, roomId, searchParams }) => {
@@ -100,7 +110,9 @@ const messageSlice = createSlice({
     },
     setVirtualListId: (state, action: PayloadAction<{ messageId: number; virtualListId: number }>) => {
       const { messageId, virtualListId } = action.payload;
-      state.currentMessages.byIds[messageId].virtualListId = virtualListId;
+      if (messageId in state.currentMessages.byIds) {
+        state.currentMessages.byIds[messageId].virtualListId = virtualListId;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -116,6 +128,10 @@ const messageSlice = createSlice({
         state.currentMessages.allIds = initialState.currentMessages.allIds;
         state.hasNext = false;
       }
+    });
+    builder.addCase(fetchOneMessage.fulfilled, (state, action: PayloadAction<Message>) => {
+      const message = action.payload;
+      state.currentMessages.byIds = { [message.id]: message, ...state.currentMessages.byIds };
     });
     builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<{ messages: Message[]; hasNext: boolean }>) => {
       const { messages, hasNext } = action.payload;
