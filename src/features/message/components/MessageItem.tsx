@@ -21,16 +21,15 @@ export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleC
   const currentUsers = useAppSelector(selectCurrentUsers);
 
   const message = useAppSelector((state) => selectMessageById(state, messageId));
-  const parentMessageId = message.parentId;
-  const authorId = message.authorId;
-  const author = currentUsers.members.byIds[authorId.toString()] as User | undefined;
-  const formattedDate = dayjs(message.createdAt).format("YYYY/MM/DD HH:mm");
+  const parentMessageId = message?.parentId;
+  const author = currentUsers.members.byIds[message?.authorId.toString()] as User | undefined;
+  const formattedDate = dayjs(message?.createdAt).format("YYYY/MM/DD HH:mm");
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(messageActions.setVirtualListId({ messageId, virtualListId }));
-  });
+  }, [dispatch, messageId, virtualListId]);
 
   return (
     <>
@@ -63,11 +62,9 @@ export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleC
                 {formattedDate} virtual list id: {virtualListId}
               </Typography>
             </Box>
-            <Box>{display && <MessageMenu messageId={message.id} />}</Box>
+            <Box>{display && message && <MessageMenu messageId={message.id} />}</Box>
           </Box>
-          <Box>
-            <MessageContent message={message} />
-          </Box>
+          <Box>{message && <MessageContent message={message} />}</Box>
         </Box>
       </Box>
     </>
