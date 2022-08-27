@@ -28,7 +28,7 @@ export const RoomDiscovery = () => {
     <>
       <Grid container height="100%">
         <Grid container item direction="column" pt={8}>
-          <Grid container item justifyContent="center">
+          <Grid container item>
             <SearchHeader />
           </Grid>
           <Grid container item>
