@@ -12,7 +12,7 @@ import { User } from "../../user/types";
 type Props = {
   messageId: number;
   virtualListId: number;
-  handleClickReply: (virtualListId: number | undefined) => void;
+  handleClickReply: (virtualListId: number | undefined, messageId: number) => void;
 };
 
 export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleClickReply }) => {

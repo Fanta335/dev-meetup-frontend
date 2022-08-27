@@ -1,6 +1,6 @@
 export type MessageType = {
   currentMessages: CurrentMessages;
-  hasNext: boolean;
+  hasPrev: boolean;
   isEstablishingConnection: boolean;
   isConnected: boolean;
   messageEdit: MessageEdit;

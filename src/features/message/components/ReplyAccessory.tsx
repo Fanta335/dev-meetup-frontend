@@ -10,7 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 type Props = {
   parentMessageId: number;
-  handleClickReply: (virtualListId: number | undefined) => void;
+  handleClickReply: (virtualListId: number | undefined, messageId: number) => void;
 };
 
 export const ReplyAccessory: VFC<Props> = ({ parentMessageId, handleClickReply }) => {

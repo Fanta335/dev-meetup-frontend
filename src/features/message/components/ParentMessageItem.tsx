@@ -7,7 +7,7 @@ import { User } from "../../user/types";
 
 type Props = {
   parentMessage: Message;
-  handleClickReply: (virtualListId: number | undefined) => void;
+  handleClickReply: (virtualListId: number | undefined, messageId: number) => void;
 };
 
 export const ParentMessageItem: VFC<Props> = ({ parentMessage, handleClickReply }) => {
@@ -29,7 +29,7 @@ export const ParentMessageItem: VFC<Props> = ({ parentMessage, handleClickReply 
           </Typography>
         )}
       </Box>
-      <Box sx={{ pl: 1, cursor: "pointer" }} component="div" onClick={() => handleClickReply(parentMessage.virtualListId)}>
+      <Box sx={{ pl: 1, cursor: "pointer" }} component="div" onClick={() => handleClickReply(parentMessage.virtualListId, parentMessage.id)}>
         <Typography variant="caption">{parentMessage.content}</Typography>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { useState, useCallback, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchMoreMessages, selectCurrentMessages, selectHasNextMessages } from "../messageSlice";
+import { fetchManyMessages, fetchMoreMessages, selectCurrentMessages, selectHasPrevMessages } from "../messageSlice";
 import { useAuth0 } from "@auth0/auth0-react";
 import { selectCurrentRoom } from "../../room/roomSlice";
 import { MessageItem } from "./MessageItem";
@@ -12,7 +12,7 @@ import { Grid } from "@mui/material";
 export const InfiniteScrollMessage = () => {
   const currentMessages = useAppSelector(selectCurrentMessages);
   const currentRoom = useAppSelector(selectCurrentRoom);
-  const hasNext = useAppSelector(selectHasNextMessages);
+  const hasPrev = useAppSelector(selectHasPrevMessages);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const virtuoso = useRef<VirtuosoHandle>(null);
@@ -22,7 +22,7 @@ export const InfiniteScrollMessage = () => {
   const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX);
 
   const prependMessages = useCallback(async () => {
-    if (hasNext) {
+    if (hasPrev) {
       const token = await getAccessTokenSilently();
       const sinceId = currentMessages.allIds[0];
       const searchParams = `since-id=${sinceId}&limit=10`;
@@ -32,19 +32,26 @@ export const InfiniteScrollMessage = () => {
 
       await dispatch(fetchMoreMessages({ token, roomId: currentRoom.entity.id.toString(), searchParams }));
     }
-  }, [currentMessages, currentRoom.entity.id, dispatch, getAccessTokenSilently, firstItemIndex, hasNext]);
+  }, [currentMessages, currentRoom.entity.id, dispatch, getAccessTokenSilently, firstItemIndex, hasPrev]);
 
-  const handleClickReply = useCallback((virtualListIndex: number | undefined) => {
-    if (virtualListIndex) {
-      console.log('first index ', firstItemIndex);
-      console.log('v list index ', virtualListIndex);
-      virtuoso.current?.scrollToIndex({
-        index: virtualListIndex - firstItemIndex,
-        align: "center",
-        behavior: "smooth",
-      });
-    }
-  }, [firstItemIndex]);
+  const handleClickReply = useCallback(
+    async (virtualListIndex: number | undefined, messageId: number) => {
+      if (virtualListIndex) {
+        console.log("first index ", firstItemIndex);
+        console.log("v list index ", virtualListIndex);
+        virtuoso.current?.scrollToIndex({
+          index: virtualListIndex - firstItemIndex,
+          align: "center",
+          behavior: "smooth",
+        });
+      } else {
+        const searchParams = `since-id=${messageId + 5}&limit=30`;
+        const token = await getAccessTokenSilently();
+        await dispatch(fetchManyMessages({ token, roomId: currentRoom.entity.id.toString(), searchParams }));
+      }
+    },
+    [firstItemIndex, currentRoom.entity.id, dispatch, getAccessTokenSilently]
+  );
 
   return (
     <Virtuoso
@@ -64,11 +71,11 @@ export const InfiniteScrollMessage = () => {
 };
 
 const Header = () => {
-  const hasNext = useAppSelector(selectHasNextMessages);
+  const hasPrev = useAppSelector(selectHasPrevMessages);
 
   return (
     <>
-      {hasNext ? (
+      {hasPrev ? (
         <Grid container justifyContent="center">
           <Grid item>
             <Loading />
