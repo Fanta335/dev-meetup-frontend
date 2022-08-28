@@ -13,6 +13,7 @@ const initialState: MessageType = {
     byIds: {},
     allIds: [],
   },
+  messageListMap: {},
   hasPrev: true,
   isEstablishingConnection: false,
   isConnected: false,
@@ -53,6 +54,19 @@ export const fetchMoreMessages = createAsyncThunk<{ messages: Message[]; hasPrev
   "message/fetchMoreMessages",
   async ({ token, roomId, searchParams }) => {
     const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages?${searchParams}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  }
+);
+
+export const fetchAllMessageIds = createAsyncThunk<{ id: number }[], { token: string; roomId: string }>(
+  "message/fetchAllMessageIds",
+  async ({ token, roomId }) => {
+    const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages/ids`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -166,12 +180,17 @@ const messageSlice = createSlice({
       state.currentMessages.byIds = { ...normalizedMessages.entities.messages, ...state.currentMessages.byIds };
       state.hasPrev = hasPrev;
     });
+    builder.addCase(fetchAllMessageIds.fulfilled, (state, action: PayloadAction<{ id: number }[]>) => {
+      const messages = action.payload;
+      messages.forEach((message, id) => (state.messageListMap[message.id] = 100000 - messages.length + id));
+    });
   },
 });
 
 export const messageActions = messageSlice.actions;
 
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
+export const selectMessageListMap = (state: RootState) => state.message.messageListMap;
 export const selectHasPrevMessages = (state: RootState) => state.message.hasPrev;
 export const selectCurrentMessageId = (state: RootState, messageId: number) => messageId;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
