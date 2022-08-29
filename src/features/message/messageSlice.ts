@@ -14,7 +14,6 @@ const initialState: MessageType = {
     allIds: [],
   },
   messageListMap: {},
-  hasPrev: true,
   isEstablishingConnection: false,
   isConnected: false,
   messageEdit: {
@@ -37,7 +36,7 @@ export const fetchOneMessage = createAsyncThunk<Message, { token: string; messag
   return res.data;
 });
 
-export const fetchManyMessages = createAsyncThunk<{ messages: Message[]; hasPrev: boolean }, { token: string; roomId: string; searchParams: string }>(
+export const fetchManyMessages = createAsyncThunk<Message[], { token: string; roomId: string; searchParams: string }>(
   "message/fetchManyMessages",
   async ({ token, roomId, searchParams }) => {
     const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages?${searchParams}`, {
@@ -50,7 +49,7 @@ export const fetchManyMessages = createAsyncThunk<{ messages: Message[]; hasPrev
   }
 );
 
-export const fetchMoreMessages = createAsyncThunk<{ messages: Message[]; hasPrev: boolean }, { token: string; roomId: string; searchParams: string }>(
+export const fetchMoreMessages = createAsyncThunk<Message[], { token: string; roomId: string; searchParams: string }>(
   "message/fetchMoreMessages",
   async ({ token, roomId, searchParams }) => {
     const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages?${searchParams}`, {
@@ -148,41 +147,37 @@ const messageSlice = createSlice({
       // console.log("room messages: ", data.entities.messages, data.result.messages);
       if (data.entities.messages !== undefined && data.result.messages !== undefined) {
         state.currentMessages.byIds = data.entities.messages;
-        state.currentMessages.allIds = data.result.messages;
-        state.hasPrev = true;
+        // state.currentMessages.allIds = data.result.messages;
       } else {
         state.currentMessages.byIds = initialState.currentMessages.byIds;
         state.currentMessages.allIds = initialState.currentMessages.allIds;
-        state.hasPrev = false;
       }
     });
     builder.addCase(fetchOneMessage.fulfilled, (state, action: PayloadAction<Message>) => {
       const message = action.payload;
       state.currentMessages.byIds = { [message.id]: message, ...state.currentMessages.byIds };
     });
-    builder.addCase(fetchManyMessages.fulfilled, (state, action: PayloadAction<{ messages: Message[]; hasPrev: boolean }>) => {
-      const { messages, hasPrev } = action.payload;
+    builder.addCase(fetchManyMessages.fulfilled, (state, action: PayloadAction<Message[]>) => {
+      const messages = action.payload;
       const normalizedMessages = normalizeMessages(messages);
       if (normalizedMessages.entities.messages !== undefined && normalizedMessages.result.messages !== undefined) {
         state.currentMessages.allIds = normalizedMessages.result.messages;
         state.currentMessages.byIds = normalizedMessages.entities.messages;
-        state.hasPrev = hasPrev;
       } else {
         state.currentMessages.byIds = initialState.currentMessages.byIds;
         state.currentMessages.allIds = initialState.currentMessages.allIds;
-        state.hasPrev = false;
       }
     });
-    builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<{ messages: Message[]; hasPrev: boolean }>) => {
-      const { messages, hasPrev } = action.payload;
+    builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<Message[]>) => {
+      const messages = action.payload;
       const normalizedMessages = normalizeMessages(messages);
-      state.currentMessages.allIds = [...normalizedMessages.result.messages, ...state.currentMessages.allIds];
+      // state.currentMessages.allIds = [...normalizedMessages.result.messages, ...state.currentMessages.allIds];
       state.currentMessages.byIds = { ...normalizedMessages.entities.messages, ...state.currentMessages.byIds };
-      state.hasPrev = hasPrev;
     });
     builder.addCase(fetchAllMessageIds.fulfilled, (state, action: PayloadAction<{ id: number }[]>) => {
       const messages = action.payload;
-      messages.forEach((message, id) => (state.messageListMap[message.id] = 100000 - messages.length + id));
+      messages.forEach((message, id) => (state.messageListMap[message.id] = id));
+      state.currentMessages.allIds = messages.map((message) => message.id);
     });
   },
 });
@@ -191,7 +186,6 @@ export const messageActions = messageSlice.actions;
 
 export const selectCurrentMessages = (state: RootState) => state.message.currentMessages;
 export const selectMessageListMap = (state: RootState) => state.message.messageListMap;
-export const selectHasPrevMessages = (state: RootState) => state.message.hasPrev;
 export const selectCurrentMessageId = (state: RootState, messageId: number) => messageId;
 export const selectIsConnected = (state: RootState) => state.message.isConnected;
 export const selectMessageEdit = (state: RootState) => state.message.messageEdit;

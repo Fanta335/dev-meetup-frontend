@@ -1,7 +1,6 @@
 export type MessageType = {
   currentMessages: CurrentMessages;
   messageListMap: MessageListMap;
-  hasPrev: boolean;
   isEstablishingConnection: boolean;
   isConnected: boolean;
   messageEdit: MessageEdit;
@@ -28,8 +27,8 @@ export type CurrentMessages = {
 };
 
 export type MessageListMap = {
-  [key: string]: number | null;
-}
+  [key: string]: number;
+};
 
 export type MessageEdit = {
   messageId: number;
