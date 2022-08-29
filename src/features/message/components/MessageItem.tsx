@@ -12,7 +12,7 @@ import { User } from "../../user/types";
 type Props = {
   messageId: number;
   virtualListId: number;
-  handleClickReply: (virtualListId: number | undefined, messageId: number) => void;
+  handleClickReply: (messageId: number) => void;
 };
 
 export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleClickReply }) => {
@@ -59,7 +59,7 @@ export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleC
                 </Typography>
               )}
               <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-                {formattedDate} virtual list id: {virtualListId}
+                {formattedDate}
               </Typography>
             </Box>
             <Box>{display && message && <MessageMenu messageId={message.id} />}</Box>
