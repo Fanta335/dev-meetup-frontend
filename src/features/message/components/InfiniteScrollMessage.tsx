@@ -1,89 +1,85 @@
-import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
-import { useState, useCallback, useRef } from "react";
+import { ListRange, Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { useCallback, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchManyMessages, fetchMoreMessages, selectCurrentMessages, selectHasPrevMessages } from "../messageSlice";
+import { fetchAllMessageIds, fetchMoreMessages, selectCurrentMessages, selectMessageListMap } from "../messageSlice";
 import { useAuth0 } from "@auth0/auth0-react";
 import { selectCurrentRoom } from "../../room/roomSlice";
 import { MessageItem } from "./MessageItem";
 import { WelcomeMessage } from "./WelcomeMessage";
-import { Loading } from "../../../components/Loading";
-import { Grid } from "@mui/material";
 
 export const InfiniteScrollMessage = () => {
   const currentMessages = useAppSelector(selectCurrentMessages);
   const currentRoom = useAppSelector(selectCurrentRoom);
-  const hasPrev = useAppSelector(selectHasPrevMessages);
+  const messageListMap = useAppSelector(selectMessageListMap);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const virtuoso = useRef<VirtuosoHandle>(null);
 
-  const START_INDEX = 10000;
-  const INITIAL_ITEM_COUNT = 10;
-  const [firstItemIndex, setFirstItemIndex] = useState(START_INDEX);
-
-  const prependMessages = useCallback(async () => {
-    if (hasPrev) {
+  const loadMessages = useCallback(
+    async (messageId: number, isLater: boolean) => {
       const token = await getAccessTokenSilently();
-      const sinceId = currentMessages.allIds[0];
-      const searchParams = `since-id=${sinceId}&limit=10`;
-
-      const nextFirstItemIndex = firstItemIndex - 10;
-      setFirstItemIndex(() => nextFirstItemIndex);
+      const date = isLater ? 1 : -1;
+      const searchParams = `since-id=${messageId}&date=${date}&limit=30`;
 
       await dispatch(fetchMoreMessages({ token, roomId: currentRoom.entity.id.toString(), searchParams }));
-    }
-  }, [currentMessages, currentRoom.entity.id, dispatch, getAccessTokenSilently, firstItemIndex, hasPrev]);
-
-  const handleClickReply = useCallback(
-    async (virtualListIndex: number | undefined, messageId: number) => {
-      if (virtualListIndex) {
-        console.log("first index ", firstItemIndex);
-        console.log("v list index ", virtualListIndex);
-        virtuoso.current?.scrollToIndex({
-          index: virtualListIndex - firstItemIndex,
-          align: "center",
-          behavior: "smooth",
-        });
-      } else {
-        const searchParams = `since-id=${messageId + 5}&limit=30`;
-        const token = await getAccessTokenSilently();
-        await dispatch(fetchManyMessages({ token, roomId: currentRoom.entity.id.toString(), searchParams }));
-      }
     },
-    [firstItemIndex, currentRoom.entity.id, dispatch, getAccessTokenSilently]
+    [currentRoom.entity.id, dispatch, getAccessTokenSilently]
   );
 
+  const handleRangeChanged = useCallback(
+    (range: ListRange) => {
+      const startMessageId = currentMessages.allIds[range.startIndex];
+      const endMessageId = currentMessages.allIds[range.endIndex];
+      if (!currentMessages.byIds[startMessageId]) {
+        loadMessages(startMessageId, true);
+      } else if (!currentMessages.byIds[endMessageId]) {
+        loadMessages(endMessageId, false);
+      }
+    },
+    [currentMessages.allIds, currentMessages.byIds, loadMessages]
+  );
+
+  const handleClickReply = useCallback(
+    async (messageId: number) => {
+      virtuoso.current?.scrollToIndex({
+        index: messageListMap[messageId],
+        align: "center",
+        behavior: "smooth",
+      });
+    },
+    [messageListMap]
+  );
+
+  useEffect(() => {
+    const asyncFetchAllMessageIds = async () => {
+      const token = await getAccessTokenSilently();
+      dispatch(fetchAllMessageIds({ token, roomId: currentRoom.entity.id.toString() }));
+    };
+    asyncFetchAllMessageIds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <Virtuoso
-      style={{ marginTop: "60px" }}
-      firstItemIndex={firstItemIndex}
-      initialTopMostItemIndex={INITIAL_ITEM_COUNT - 1}
-      data={currentMessages.allIds}
-      ref={virtuoso}
-      startReached={prependMessages}
-      followOutput={"auto"}
-      itemContent={(index, messageId) => {
-        return <MessageItem key={messageId} messageId={messageId} virtualListId={index} handleClickReply={handleClickReply} />;
-      }}
-      components={{ Header }}
-    />
+    <>
+      <Virtuoso
+        style={{ marginTop: "60px" }}
+        data={currentMessages.allIds}
+        ref={virtuoso}
+        rangeChanged={(range) => handleRangeChanged(range)}
+        followOutput={"auto"}
+        itemContent={(index, messageId) => {
+          return <MessageItem key={messageId} messageId={messageId} virtualListId={index} handleClickReply={handleClickReply} />;
+        }}
+        components={{ Header }}
+      />
+    </>
   );
 };
 
 const Header = () => {
-  const hasPrev = useAppSelector(selectHasPrevMessages);
-
   return (
     <>
-      {hasPrev ? (
-        <Grid container justifyContent="center">
-          <Grid item>
-            <Loading />
-          </Grid>
-        </Grid>
-      ) : (
-        <WelcomeMessage />
-      )}
+      <WelcomeMessage />
     </>
   );
 };
