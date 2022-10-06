@@ -20,7 +20,7 @@ const Auth0ProviderWithHistory: FC = ({ children }) => {
       clientId={clientId}
       redirectUri={target}
       onRedirectCallback={onRedirectCallback}
-      audience={audience} // react appがアクセスするresource url
+      audience={audience}
     >
       {children}
     </Auth0Provider>
