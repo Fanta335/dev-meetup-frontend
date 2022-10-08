@@ -18,6 +18,9 @@ const ErrorFallback = () => {
 };
 
 const theme = createTheme({
+  typography: {
+    fontFamily: ["Nunito", "Kosugi_Maru"].join(","),
+  },
   palette: {
     primary: {
       main: "#1A374D",
