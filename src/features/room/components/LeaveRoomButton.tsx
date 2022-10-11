@@ -26,10 +26,9 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
       const token = await getAccessTokenSilently();
       await dispatch(removeMemberFromRoom({ token, roomId: currentRoom.entity.id }));
       await dispatch(fetchBelongingRooms({ token }));
+      // handleCloseMenu();
+      navigate("/app/");
     }
-
-    handleCloseMenu();
-    navigate("/app/");
   };
 
   const handleClickOpen = () => {
