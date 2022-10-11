@@ -18,8 +18,6 @@ export const RoomContent: VFC<Props> = ({ roomId }) => {
   const loading = useAppSelector(selectCurrentRoomLoading);
   const isConnected = useAppSelector(selectIsConnected);
 
-  console.log("loading: ", loading);
-
   useEffect(() => {
     // Handle room joining.
     const handleJoinRoom = async (newRoomId: string) => {
