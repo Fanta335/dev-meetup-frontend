@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { roomActions, selectIsRoomMemberDrawerOpen } from "../../room/roomSlice";
@@ -12,5 +12,9 @@ export const ToggleRoomMemberDrawerButton = () => {
     }
     dispatch(roomActions.toggleRoomMemberDrawer({ open }));
   };
-  return <Button onClick={toggleDrawer(!isRoomMemberDrawerOpen)} startIcon={<PeopleIcon />} variant="contained" />;
+  return (
+    <IconButton onClick={toggleDrawer(!isRoomMemberDrawerOpen)}>
+      <PeopleIcon fontSize="large" />
+    </IconButton>
+  );
 };

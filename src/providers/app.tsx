@@ -19,7 +19,10 @@ const ErrorFallback = () => {
 
 const theme = createTheme({
   typography: {
-    fontFamily: ["Nunito", "Kosugi_Maru"].join(","),
+    fontFamily: ["Nunito", "Kosugi_Maru", "sans-serif"].join(","),
+    body1: {
+      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
+    },
   },
   palette: {
     primary: {

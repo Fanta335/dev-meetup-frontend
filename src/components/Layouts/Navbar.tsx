@@ -19,9 +19,9 @@ export const Navbar = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ mr: "12px", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar position="fixed" elevation={0} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, background: "rgba(255, 0, 0, 0)" }}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1, pl: "62px", display: "flex", alignItems: "center" }}>
+        <Box sx={{ flexGrow: 1, pl: "70px", display: "flex", alignItems: "center" }}>
           <LocationName location={location} />
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
