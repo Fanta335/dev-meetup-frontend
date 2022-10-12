@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmRoomDeletionDialog } from "./ConfirmRoomDeletionDialog";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { useAuth0 } from "@auth0/auth0-react";
-import { deleteRoom, fetchBelongingRooms, selectCurrentRoom } from "../roomSlice";
+import { deleteRoom, selectCurrentRoom } from "../roomSlice";
 import { useNavigate } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -34,10 +34,7 @@ export const DeleteRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     if (!currentUser) return;
     console.log("delete room.");
     const token = await getAccessTokenSilently();
-    // First, delete the room.
     await dispatch(deleteRoom({ token, roomId: currentRoom.entity.id }));
-    // Second, fetch latest belonging rooms.
-    await dispatch(fetchBelongingRooms({ token }));
 
     handleCloseMenu();
     navigate("/app/");

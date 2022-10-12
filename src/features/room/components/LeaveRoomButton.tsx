@@ -4,7 +4,7 @@ import { useState, VFC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
-import { fetchBelongingRooms, removeMemberFromRoom, selectCurrentRoom } from "../roomSlice";
+import { removeMemberFromRoom, selectCurrentRoom } from "../roomSlice";
 import { ConfirmLeavingDialog } from "./ConfirmLeavingDialog";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -25,8 +25,6 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     if (currentUser) {
       const token = await getAccessTokenSilently();
       await dispatch(removeMemberFromRoom({ token, roomId: currentRoom.entity.id }));
-      await dispatch(fetchBelongingRooms({ token }));
-      // handleCloseMenu();
       navigate("/app/");
     }
   };

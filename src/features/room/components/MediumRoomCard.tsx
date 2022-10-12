@@ -3,8 +3,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import { VFC } from "react";
 import { SearchedRoom } from "../types";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch } from "../../../stores/hooks";
-import { addMemberToRoom, fetchBelongingRooms } from "../roomSlice";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { addMemberToRoom, selectBelongingRooms } from "../roomSlice";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -16,14 +16,15 @@ type Props = {
 export const MediumRoomCard: VFC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
+  const belongingRooms = useAppSelector(selectBelongingRooms);
   const dispatch = useAppDispatch();
 
   const handleClick = async () => {
     if (!currentUser) return;
+    if (room.id in belongingRooms.byIds) return;
 
     const token = await getAccessTokenSilently();
     await dispatch(addMemberToRoom({ token, roomId: room.id }));
-    await dispatch(fetchBelongingRooms({ token }));
   };
 
   return (
