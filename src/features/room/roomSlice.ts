@@ -349,23 +349,26 @@ const roomSlice = createSlice({
         state.searchedRooms.count = initialState.searchedRooms.count;
       }
     });
-    // builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
-    //   const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
-    //   if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
-    //     state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
-    //     state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
-    //   }
-    // });
-    // builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room[]>) => {
-    //   const normalizedBelongingRoomsData = normalizeBelongingRooms(action.payload);
-    //   if (normalizedBelongingRoomsData.entities.belongingRooms !== undefined) {
-    //     state.belongingRooms.byIds = normalizedBelongingRoomsData.entities.belongingRooms;
-    //     state.belongingRooms.allIds = normalizedBelongingRoomsData.result.belongingRooms;
-    //   } else {
-    //     state.belongingRooms.byIds = {};
-    //     state.belongingRooms.allIds = [];
-    //   }
-    // });
+    builder.addCase(deleteRoom.fulfilled, (state, action: PayloadAction<Room>) => {
+      const room = action.payload;
+
+      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => Number(id) !== room.id);
+      const newBelongingRooms = { ...state.belongingRooms.byIds };
+      delete newBelongingRooms[room.id];
+      state.belongingRooms.byIds = newBelongingRooms;
+    });
+    builder.addCase(addMemberToRoom.fulfilled, (state, action: PayloadAction<Room>) => {
+      const room = action.payload;
+      state.belongingRooms.allIds.push(room.id.toString());
+      state.belongingRooms.byIds[room.id] = room;
+    });
+    builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room>) => {
+      const room = action.payload;
+      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => Number(id) !== room.id);
+      const newBelongingRooms = { ...state.belongingRooms.byIds };
+      delete newBelongingRooms[room.id];
+      state.belongingRooms.byIds = newBelongingRooms;
+    });
     builder.addCase(addOwnerToRoom.fulfilled, (state, action: PayloadAction<Room & { owners: User[] }>) => {
       state.currentRoom.entity.owners = action.payload.owners.map((owner) => owner.id);
     });
