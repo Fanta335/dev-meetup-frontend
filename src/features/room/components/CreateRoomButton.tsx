@@ -1,4 +1,4 @@
-import { IconButton, ListItem, Tooltip, Zoom } from "@mui/material";
+import { IconButton, ListItem, Tooltip, Typography, Zoom } from "@mui/material";
 import { useState } from "react";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { CreateRoomDialog } from "./CreateRoomDialog";
@@ -7,26 +7,45 @@ import { roomActions } from "../roomSlice";
 
 export const CreateRoomButton = () => {
   const dispatch = useAppDispatch();
-  const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleDialogOpen = () => {
+    setDialogOpen(true);
   };
 
-  const handleClose = () => {
+  const handleDialogClose = () => {
     setSelectedFile(undefined);
     dispatch(roomActions.setRoomAvatarPreview({ url: null }));
-    setOpen(false);
+    setDialogOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
   };
 
   return (
-    <Tooltip title="create room" placement="right" arrow TransitionComponent={Zoom}>
+    <Tooltip
+      open={tooltipOpen}
+      title={
+        <Typography fontFamily="inherit" fontWeight="bold">
+          部屋をつくる
+        </Typography>
+      }
+      placement="right"
+      arrow
+      TransitionComponent={Zoom}
+    >
       <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
-        <IconButton aria-label="create room" onClick={handleClickOpen} color="success">
+        <IconButton aria-label="create room" onClick={handleDialogOpen} onMouseEnter={handleTooltipOpen} onMouseLeave={handleTooltipClose} color="success">
           <AddCircleOutlinedIcon sx={{ fontSize: "54px" }} />
         </IconButton>
-        <CreateRoomDialog open={open} handleClose={handleClose} selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+        <CreateRoomDialog open={dialogOpen} handleClose={handleDialogClose} selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
       </ListItem>
     </Tooltip>
   );
