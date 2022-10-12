@@ -17,7 +17,7 @@ const initialState: RoomType = {
   },
   currentRoom: {
     entity: {
-      id: 0,
+      id: "0",
       name: "",
       description: "",
       isPrivate: false,
@@ -56,7 +56,7 @@ export const postRoom = createAsyncThunk<Room, { token: string; formData: FormDa
   return res.data;
 });
 
-export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number; updateRoomDTO: UpdateRoomDTO }>(
+export const updateRoom = createAsyncThunk<Room, { token: string; roomId: string; updateRoomDTO: UpdateRoomDTO }>(
   "room/updateRoom",
   async ({ token, roomId, updateRoomDTO }) => {
     const res = await axios.patch(`${apiUrl}/rooms/${roomId}`, updateRoomDTO, {
@@ -69,7 +69,7 @@ export const updateRoom = createAsyncThunk<Room, { token: string; roomId: number
   }
 );
 
-export const postRoomAvatar = createAsyncThunk<Room, { token: string; roomId: number; formData: FormData }>(
+export const postRoomAvatar = createAsyncThunk<Room, { token: string; roomId: string; formData: FormData }>(
   "room/postRoomAvatar",
   async ({ token, roomId, formData }) => {
     const res = await axios.post(`${apiUrl}/rooms/${roomId}/avatar`, formData, {
@@ -142,7 +142,7 @@ export const searchAsyncRooms = createAsyncThunk<{ data: SearchedRoom[]; count: 
   }
 );
 
-export const addMemberToRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/addMemberToRoom", async ({ token, roomId }) => {
+export const addMemberToRoom = createAsyncThunk<Room, { token: string; roomId: string }>("room/addMemberToRoom", async ({ token, roomId }) => {
   const res = await axios.patch<Room>(
     `${apiUrl}/rooms/${roomId}/members/add`,
     {},
@@ -156,7 +156,7 @@ export const addMemberToRoom = createAsyncThunk<Room, { token: string; roomId: n
   return res.data;
 });
 
-export const removeMemberFromRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/removeMemberFromRoom", async ({ token, roomId }) => {
+export const removeMemberFromRoom = createAsyncThunk<Room, { token: string; roomId: string }>("room/removeMemberFromRoom", async ({ token, roomId }) => {
   const res = await axios.patch<Room>(
     `${apiUrl}/rooms/${roomId}/members/remove`,
     {},
@@ -170,7 +170,7 @@ export const removeMemberFromRoom = createAsyncThunk<Room, { token: string; room
   return res.data;
 });
 
-export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
+export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: string }>(
   "room/addOwnerToRoom",
   async ({ token, userId, roomId }) => {
     const res = await axios.patch<Room & { owners: User[] }>(
@@ -189,7 +189,7 @@ export const addOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { toke
   }
 );
 
-export const removeOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: number }>(
+export const removeOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { token: string; userId: number; roomId: string }>(
   "room/removeOwnerToRoom",
   async ({ token, userId, roomId }) => {
     const res = await axios.patch<Room & { owners: User[] }>(
@@ -208,7 +208,7 @@ export const removeOwnerToRoom = createAsyncThunk<Room & { owners: User[] }, { t
   }
 );
 
-export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: number }>("room/deleteRoom", async ({ token, roomId }) => {
+export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: string }>("room/deleteRoom", async ({ token, roomId }) => {
   const res = await axios.delete<Room>(`${apiUrl}/rooms/${roomId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -218,7 +218,7 @@ export const deleteRoom = createAsyncThunk<Room, { token: string; roomId: number
   return res.data;
 });
 
-export const createInviteLink = createAsyncThunk<Invitation, { token: string; roomId: number; secondsExpirationLifetime: number }>(
+export const createInviteLink = createAsyncThunk<Invitation, { token: string; roomId: string; secondsExpirationLifetime: number }>(
   "room/createInvitation",
   async ({ token, roomId, secondsExpirationLifetime }) => {
     const res = await axios.post<Invitation>(
@@ -352,7 +352,7 @@ const roomSlice = createSlice({
     builder.addCase(deleteRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const room = action.payload;
 
-      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => Number(id) !== room.id);
+      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => id !== room.id);
       const newBelongingRooms = { ...state.belongingRooms.byIds };
       delete newBelongingRooms[room.id];
       state.belongingRooms.byIds = newBelongingRooms;
@@ -364,7 +364,7 @@ const roomSlice = createSlice({
     });
     builder.addCase(removeMemberFromRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const room = action.payload;
-      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => Number(id) !== room.id);
+      state.belongingRooms.allIds = state.belongingRooms.allIds.filter((id) => id !== room.id);
       const newBelongingRooms = { ...state.belongingRooms.byIds };
       delete newBelongingRooms[room.id];
       state.belongingRooms.byIds = newBelongingRooms;
