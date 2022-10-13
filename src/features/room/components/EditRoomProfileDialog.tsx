@@ -125,7 +125,7 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
           <DialogContent sx={{ width: "100%", maxWidth: "600px" }}>
             <Stack spacing={3}>
               <Grid container alignItems="center" justifyContent="space-between" px={4}>
-                <Avatar sx={{ width: 120, height: 120 }} src={preview || currentRoom.entity.avatar.url} />
+                <Avatar sx={{ width: 120, height: 120 }} src={preview || currentRoom.entity.avatar?.url} />
                 <Grid item>
                   <Button variant="contained" component="label" color="success">
                     画像をアップロード
