@@ -1,12 +1,12 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import { VFC } from "react";
+import { FC } from "react";
 import { Loading } from "../components/Loading";
 
 type Props = {
-  component: React.VFC;
+  component: React.FC;
 };
 
-export const RouteGuard: VFC<Props> = ({ component }) => {
+export const RouteGuard: FC<Props> = ({ component }) => {
   const Component = withAuthenticationRequired(component, { onRedirecting: () => <Loading /> });
   return <Component />;
 };

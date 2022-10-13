@@ -3,13 +3,13 @@ import Button from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { AddOwnerPopoverContent } from "./AddOwnerPopoverContent";
 import { User } from "../types";
-import { useState, VFC } from "react";
+import { useState, FC } from "react";
 
 type Props = {
   user: User;
 };
 
-export const AddOwnerPopover: VFC<Props> = ({ user }) => {
+export const AddOwnerPopover: FC<Props> = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

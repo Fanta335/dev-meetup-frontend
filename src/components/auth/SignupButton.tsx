@@ -1,8 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@mui/material";
-import { VFC } from "react";
 
-const SignupButton: VFC = () => {
+const SignupButton = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (

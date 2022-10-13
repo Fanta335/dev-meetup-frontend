@@ -1,5 +1,5 @@
 import { Tooltip, Typography, Zoom } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { selectCurrentRoom } from "../../features/room/roomSlice";
 import { Location } from "../../features/room/types";
 import { useAppSelector } from "../../stores/hooks";
@@ -9,7 +9,7 @@ type Prop = {
   location: Location;
 };
 
-export const LocationName: VFC<Prop> = ({ location }) => {
+export const LocationName: FC<Prop> = ({ location }) => {
   const currentRoom = useAppSelector(selectCurrentRoom);
 
   return (

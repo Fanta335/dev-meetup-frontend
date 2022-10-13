@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 
 type Props = {
   open: boolean;
@@ -7,7 +7,7 @@ type Props = {
   handleLeave: () => void;
 };
 
-export const ConfirmLeavingDialog: VFC<Props> = ({ open, handleCloseDialog, handleLeave }) => {
+export const ConfirmLeavingDialog: FC<Props> = ({ open, handleCloseDialog, handleLeave }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
@@ -16,7 +16,7 @@ export const ConfirmLeavingDialog: VFC<Props> = ({ open, handleCloseDialog, hand
           <DialogContentText id="alert-dialog-description">部屋から脱退しますが、本当によろしいですか？</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} autoFocus color="secondary" variant='contained'>
+          <Button onClick={handleCloseDialog} autoFocus color="secondary" variant="contained">
             キャンセル
           </Button>
           <Button onClick={handleLeave} color="error" variant="contained">

@@ -2,7 +2,7 @@ import { Grid, InputAdornment, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { VFC } from "react";
+import { FC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentTag } from "../../tag/tagSlice";
 
@@ -21,7 +21,7 @@ type Props = {
   defaultValue?: string;
 };
 
-export const SearchBox: VFC<Props> = ({ defaultValue = "" }) => {
+export const SearchBox: FC<Props> = ({ defaultValue = "" }) => {
   const currentTag = useAppSelector(selectCurrentTag);
   const { handleSubmit, control } = useForm<FormInput>();
   const navigate = useNavigate();

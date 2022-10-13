@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { useState, VFC } from "react";
+import { FC, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmRoomDeletionDialog } from "./ConfirmRoomDeletionDialog";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -13,7 +13,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const DeleteRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
+export const DeleteRoomButton: FC<Props> = ({ handleCloseMenu }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentRoom = useAppSelector(selectCurrentRoom);

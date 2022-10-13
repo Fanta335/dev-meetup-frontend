@@ -1,8 +1,7 @@
-import { VFC } from "react";
 import { AppProvider } from "./providers/app";
 import { AppRoutes } from "./routes";
 
-const App: VFC = () => {
+const App = () => {
   return (
     <AppProvider>
       <AppRoutes />

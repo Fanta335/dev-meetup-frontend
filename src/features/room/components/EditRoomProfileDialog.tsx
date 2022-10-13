@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, VFC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Avatar,
   Button,
@@ -67,7 +67,7 @@ export type UpdateRoomFormInput = {
   }[];
 };
 
-export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog, handleEdit }) => {
+export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog, handleEdit }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);

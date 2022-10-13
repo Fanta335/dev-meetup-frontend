@@ -1,12 +1,12 @@
 import { Pagination, PaginationItem } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 type Props = {
   count: number;
 };
 
-export const SearchRoomResultPagination: VFC<Props> = ({ count }) => {
+export const SearchRoomResultPagination: FC<Props> = ({ count }) => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   const offset = Number(searchParams.get("offset")) || 0;

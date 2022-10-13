@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { memo, useEffect, useState, VFC } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
@@ -15,7 +15,7 @@ type Props = {
   handleClickReply: (messageId: number) => void;
 };
 
-export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleClickReply }) => {
+export const MessageItem: FC<Props> = memo(({ messageId, virtualListId, handleClickReply }) => {
   const [display, setDisplay] = useState(false);
 
   const currentUsers = useAppSelector(selectCurrentUsers);
@@ -33,7 +33,6 @@ export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleC
 
   return (
     <>
-      {/* If this message is a reply, append reply accessory. */}
       <Box sx={[{ px: 1 }, { "&:hover": { bgcolor: "#00000013" } }]}>
         {parentMessageId && <ReplyAccessory parentMessageId={parentMessageId} handleClickReply={handleClickReply} />}
       </Box>

@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
-import { FC, useState, VFC } from "react";
+import { FC, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -46,7 +46,7 @@ type FormInput = {
   deletionConfirmMessage: string;
 };
 
-export const DeleteUserDialog: VFC<DeleteUserDialogProps> = ({ open, handleCloseDialog }) => {
+export const DeleteUserDialog: FC<DeleteUserDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);

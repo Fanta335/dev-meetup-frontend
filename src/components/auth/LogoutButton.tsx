@@ -1,13 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuItem, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { VFC } from "react";
+import { FC } from "react";
 
 type Props = {
   handleClose: () => void;
 };
 
-const LogoutButton: VFC<Props> = ({ handleClose }) => {
+const LogoutButton: FC<Props> = ({ handleClose }) => {
   const { logout } = useAuth0();
 
   const handleLogout = () => {

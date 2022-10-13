@@ -1,4 +1,4 @@
-import React, { useEffect, VFC } from "react";
+import React, { useEffect, FC } from "react";
 
 import { Box, Button, Stack, IconButton, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
@@ -15,7 +15,7 @@ type Props = {
   control: Control<CreateRoomFormInput | UpdateRoomFormInput, any>;
 };
 
-export const TagSelectArray: VFC<Props> = ({ control, register }) => {
+export const TagSelectArray: FC<Props> = ({ control, register }) => {
   const allTags = useAppSelector(selectAllTags);
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();

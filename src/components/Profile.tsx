@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, VFC } from "react";
+import { useEffect } from "react";
 import { fetchUserProfile, selectCurrentUser } from "../features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
 import { Avatar, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
@@ -10,7 +10,7 @@ import { EditUserPasswordButton } from "../features/user/components/EditUserPass
 import { EditUserDescriptionButton } from "../features/user/components/EditUserDescriptionButton";
 import { DeleteUserButton } from "../features/user/components/DeleteUserButton";
 
-export const Profile: VFC = () => {
+export const Profile = () => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);

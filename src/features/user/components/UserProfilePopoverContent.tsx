@@ -1,12 +1,12 @@
 import { Avatar, Divider, Grid, Typography } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { User } from "../types";
 
 type Props = {
   user: User;
 };
 
-export const UserProfilePopoverContent: VFC<Props> = ({ user }) => {
+export const UserProfilePopoverContent: FC<Props> = ({ user }) => {
   return (
     <>
       <Grid container direction="column" p={2}>

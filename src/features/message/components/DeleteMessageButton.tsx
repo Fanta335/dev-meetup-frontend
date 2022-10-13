@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { memo, useCallback, useState, VFC } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { messageActions } from "../messageSlice";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -10,7 +10,7 @@ type Props = {
   messageId: number;
 };
 
-export const DeleteMessageButton: VFC<Props> = memo(({ messageId }) => {
+export const DeleteMessageButton: FC<Props> = memo(({ messageId }) => {
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const [open, setOpen] = useState(false);

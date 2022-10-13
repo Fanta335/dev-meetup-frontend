@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { memo, VFC } from "react";
+import { FC, memo } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectMessageEdit } from "../messageSlice";
 import { Message } from "../types";
@@ -9,7 +9,7 @@ type Props = {
   message: Message;
 };
 
-export const MessageContent: VFC<Props> = memo(({ message }) => {
+export const MessageContent: FC<Props> = memo(({ message }) => {
   const messageEdit = useAppSelector(selectMessageEdit);
 
   const isEditing = messageEdit.messageId === message.id && messageEdit.isEditing;

@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuItem, Typography } from "@mui/material";
-import { useState, VFC } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
@@ -13,7 +13,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
+export const LeaveRoomButton: FC<Props> = ({ handleCloseMenu }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);

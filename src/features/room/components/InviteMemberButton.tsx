@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { useState, VFC } from "react";
+import { FC, useState } from "react";
 import { InviteMemberDialog } from "./InviteMemberDialog";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
@@ -7,7 +7,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const InviteMemberButton: VFC<Props> = ({ handleCloseMenu }) => {
+export const InviteMemberButton: FC<Props> = ({ handleCloseMenu }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

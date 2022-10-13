@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ButtonGroup } from "@mui/material";
-import { memo, VFC } from "react";
+import { FC, memo } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
@@ -14,23 +14,20 @@ type Props = {
   messageId: number;
 };
 
-export const MessageMenu: VFC<Props> = memo(({ messageId }) => {
+export const MessageMenu: FC<Props> = memo(({ messageId }) => {
   const messageEdit = useAppSelector(selectMessageEdit);
   const isEditing = messageEdit.isEditing && messageId === messageEdit.messageId;
 
-  // Check if current user is the author of this message.
-  // Get current user id from auth0 context.
   const { user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
 
-  // Get author id.
   const currentMessages = useAppSelector(selectCurrentMessages);
   const authorId = currentMessages.byIds[messageId].authorId;
 
   const isOwnMessage = authorId === currentUser?.id;
 
   return (
-    <ButtonGroup size="small" aria-label="outlined primary button group" sx={{ px: 1 }} variant="contained" color='secondary'>
+    <ButtonGroup size="small" aria-label="outlined primary button group" sx={{ px: 1 }} variant="contained" color="secondary">
       {isEditing ? (
         <StopEditingButton />
       ) : (

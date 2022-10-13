@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { useState, VFC } from "react";
+import { FC, useState } from "react";
 import { EditRoomProfileDialog } from "./EditRoomProfileDialog";
 import SettingsIcon from "@mui/icons-material/Settings";
 
@@ -7,7 +7,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const EditRoomProfileButton: VFC<Props> = ({ handleCloseMenu }) => {
+export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
   const [open, setOpen] = useState(false);
 
   const handleEdit = () => {

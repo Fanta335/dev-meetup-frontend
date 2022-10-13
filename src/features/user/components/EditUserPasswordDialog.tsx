@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
-import { FC, useState, VFC } from "react";
+import { FC, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch } from "../../../stores/hooks";
@@ -47,7 +47,7 @@ type FormInput = {
   passwordCheck: string;
 };
 
-export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open, handleCloseDialog }) => {
+export const EditUserPasswordDialog: FC<EditUserPasswordDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const { handleSubmit, control, reset } = useForm<FormInput>();

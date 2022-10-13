@@ -57,7 +57,11 @@ const theme = createTheme({
   },
 });
 
-export const AppProvider: FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+export const AppProvider: FC<Props> = ({ children }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <BrowserRouter>

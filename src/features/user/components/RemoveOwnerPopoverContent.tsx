@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, Divider, Grid, Typography } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { removeOwnerToRoom, selectCurrentRoom } from "../../room/roomSlice";
 import { User } from "../types";
@@ -10,7 +10,7 @@ type Props = {
   handleClose: () => void;
 };
 
-export const RemoveOwnerPopoverContent: VFC<Props> = ({ user, handleClose }) => {
+export const RemoveOwnerPopoverContent: FC<Props> = ({ user, handleClose }) => {
   const currentRoom = useAppSelector(selectCurrentRoom);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();

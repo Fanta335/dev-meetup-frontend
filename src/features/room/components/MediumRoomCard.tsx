@@ -1,6 +1,6 @@
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { VFC } from "react";
+import { FC } from "react";
 import { SearchedRoom } from "../types";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -13,7 +13,7 @@ type Props = {
   room: SearchedRoom;
 };
 
-export const MediumRoomCard: VFC<Props> = ({ room }) => {
+export const MediumRoomCard: FC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
   const belongingRooms = useAppSelector(selectBelongingRooms);

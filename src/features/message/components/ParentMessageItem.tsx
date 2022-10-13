@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { Message } from "../types";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentUsers } from "../../user/userSlice";
@@ -10,7 +10,7 @@ type Props = {
   handleClickReply: (messageId: number) => void;
 };
 
-export const ParentMessageItem: VFC<Props> = ({ parentMessage, handleClickReply }) => {
+export const ParentMessageItem: FC<Props> = ({ parentMessage, handleClickReply }) => {
   const currentUsers = useAppSelector(selectCurrentUsers);
   const authorId = parentMessage?.authorId;
   const author = currentUsers.members.byIds[authorId] as User | undefined;

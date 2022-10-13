@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -14,7 +14,7 @@ type FormInput = {
   message: string;
 };
 
-export const EditMessageInputForm: VFC<Props> = ({ message }) => {
+export const EditMessageInputForm: FC<Props> = ({ message }) => {
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);

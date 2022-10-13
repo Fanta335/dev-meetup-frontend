@@ -1,6 +1,6 @@
 import { IconButton, Tooltip } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
-import { memo, useCallback, VFC } from "react";
+import { FC, memo, useCallback } from "react";
 import { useAppDispatch } from "../../../stores/hooks";
 import { messageActions } from "../messageSlice";
 
@@ -8,7 +8,7 @@ type Props = {
   messageId: number;
 };
 
-export const ReplyButton: VFC<Props> = memo(({ messageId }) => {
+export const ReplyButton: FC<Props> = memo(({ messageId }) => {
   const dispatch = useAppDispatch();
   const handleClick = useCallback(() => {
     dispatch(messageActions.startReplying({ parentMessageId: messageId }));

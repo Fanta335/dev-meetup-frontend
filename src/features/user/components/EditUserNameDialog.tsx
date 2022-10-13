@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material";
-import { FC, VFC } from "react";
+import { FC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -45,7 +45,7 @@ type FormInput = {
   name: string;
 };
 
-export const EditUserNameDialog: VFC<EditUserNameDialogProps> = ({ open, handleCloseDialog }) => {
+export const EditUserNameDialog: FC<EditUserNameDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);

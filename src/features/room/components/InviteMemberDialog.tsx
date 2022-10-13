@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { FC, VFC } from "react";
+import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { createInviteLink, selectCurrentRoom, selectInvitation } from "../roomSlice";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -40,7 +40,7 @@ type Props = {
   handleCloseDialog: () => void;
 };
 
-export const InviteMemberDialog: VFC<Props> = ({ open, handleCloseDialog }) => {
+export const InviteMemberDialog: FC<Props> = ({ open, handleCloseDialog }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const currentRoom = useAppSelector(selectCurrentRoom);

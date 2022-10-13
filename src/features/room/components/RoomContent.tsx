@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
-import { useEffect, VFC } from "react";
+import { FC, useEffect } from "react";
 import { ForbiddenPage } from "../../../components/Layouts/ForbiddenPage";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { MessageContainer } from "../../message/components/MessageContainer";
@@ -12,7 +12,7 @@ type Props = {
   roomId: string | undefined;
 };
 
-export const RoomContent: VFC<Props> = ({ roomId }) => {
+export const RoomContent: FC<Props> = ({ roomId }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const loading = useAppSelector(selectCurrentRoomLoading);

@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
-import { VFC } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
@@ -12,7 +12,7 @@ type Props = {
   room: SearchedRoom;
 };
 
-export const SmallRoomCard: VFC<Props> = ({ room }) => {
+export const SmallRoomCard: FC<Props> = ({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
   const belongingRooms = useAppSelector(selectBelongingRooms);
