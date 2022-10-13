@@ -53,7 +53,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
                   </Select>
                 </FormControl>
                 <IconButton aria-label="delete" onClick={() => remove(index)}>
-                  <DeleteOutlineIcon />
+                  <DeleteOutlineIcon color="secondary" />
                 </IconButton>
               </Box>
             </React.Fragment>
@@ -62,7 +62,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
       </Stack>
       {fields.length < 5 && (
         <Button
-          sx={{ mt: 1, width: '200px' }}
+          sx={{ mt: 1, width: "200px" }}
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() =>
