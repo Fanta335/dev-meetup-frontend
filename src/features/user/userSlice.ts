@@ -128,6 +128,7 @@ const userSlice = createSlice({
     });
     builder.addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+      console.log(action.payload);
     });
     builder.addCase(updateUserAvatar.fulfilled, (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;

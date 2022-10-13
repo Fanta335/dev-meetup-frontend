@@ -1,4 +1,4 @@
-import { Box, Button, Paper, TextField } from "@mui/material";
+import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -39,8 +39,10 @@ export const MessageInputForm = () => {
                 <div>
                   {messageReply.isReplying && messageReply.parentMessageId && (
                     <Paper sx={{ pl: 3 }} elevation={0}>
-                      {currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name} に返信中
-                      <StopReplyingButton />
+                      <Grid container alignItems="center">
+                        <Typography>{currentUsers.members.byIds[currentMessages.byIds[messageReply.parentMessageId].authorId]?.name} に返信中</Typography>
+                        <StopReplyingButton />
+                      </Grid>
                     </Paper>
                   )}
                   <TextField
@@ -52,7 +54,7 @@ export const MessageInputForm = () => {
                     // multiline
                     autoComplete="off"
                     placeholder={`${currentRoom.entity.name} へメッセージを送信`}
-                    sx={{ bgcolor: "#00000023", borderRadius: "5px" }}
+                    sx={{ bgcolor: "#7c7c7c3b", borderRadius: "5px" }}
                   />
                 </div>
               )}

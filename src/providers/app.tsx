@@ -29,17 +29,17 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: "#1A374D",
+      main: "#191919",
     },
     secondary: {
-      main: "#B1D0E0",
+      main: "#bababa",
     },
     success: {
-      main: "#8cda7d",
+      main: "#772CE8",
     },
     background: {
-      default: "#406882",
-      paper: "#1A374D",
+      default: "#2d2d2d",
+      paper: "#191919",
     },
     text: {
       primary: "#fff",
@@ -50,7 +50,7 @@ const theme = createTheme({
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#1A374D",
+          backgroundColor: "#191919",
         },
       },
     },

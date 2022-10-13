@@ -1,8 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../components/Loading";
-import { ReactComponent as GoodTeam } from "../../assets/images/good_team.svg";
 
 export const Landing = () => {
   const navigate = useNavigate();
@@ -21,20 +20,24 @@ export const Landing = () => {
   }
 
   return (
-    <div>
-      <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh">
-        <Grid item md={6}>
-          <Typography variant="h2">Dev Meetup</Typography>
+    <Box sx={{ background: "linear-gradient(#0099ff, #7106c3)", display: "flex", justifyContent: "center" }}>
+      <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" maxWidth="800px">
+        <Grid item xs={1}>
+          <Typography variant="h1" fontSize="80px" fontWeight="bold" color="white">
+            Devs Meetup
+          </Typography>
         </Grid>
-        <Grid item md={6}>
-          <Button variant="contained" onClick={handleStart}>
-          {isAuthenticated ? "開く" : "ログイン"}
+        <Grid item xs={1}>
+          <Typography variant="h4" fontWeight="bold" color="white">
+            一緒に開発する仲間を見つけよう
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant="contained" onClick={handleStart} size="large">
+            {isAuthenticated ? "開く" : "ログイン"}
           </Button>
         </Grid>
-        <Grid item md={6}>
-          <GoodTeam />
-        </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };

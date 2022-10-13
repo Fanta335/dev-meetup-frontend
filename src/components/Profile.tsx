@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, VFC } from "react";
-import { Loading } from "./Loading";
 import { fetchUserProfile, selectCurrentUser } from "../features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
 import { Avatar, Card, CardActions, CardContent, Divider, Grid, Typography } from "@mui/material";
@@ -12,7 +11,7 @@ import { EditUserDescriptionButton } from "../features/user/components/EditUserD
 import { DeleteUserButton } from "../features/user/components/DeleteUserButton";
 
 export const Profile: VFC = () => {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
 
@@ -25,13 +24,9 @@ export const Profile: VFC = () => {
     getUserProfile();
   }, [getAccessTokenSilently, dispatch]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
-      <Grid container bgcolor="#b5b4b4" direction="column" p={5} maxWidth="600px">
+      <Grid container bgcolor="#ffffff7e" direction="column" p={5} maxWidth="600px">
         <Typography variant="subtitle1" fontWeight="bold">
           アバター
         </Typography>
