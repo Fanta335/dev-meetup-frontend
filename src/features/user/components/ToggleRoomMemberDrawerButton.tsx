@@ -14,7 +14,7 @@ export const ToggleRoomMemberDrawerButton = () => {
   };
   return (
     <IconButton onClick={toggleDrawer(!isRoomMemberDrawerOpen)}>
-      <PeopleIcon fontSize="large" />
+      <PeopleIcon color="secondary" fontSize="large" />
     </IconButton>
   );
 };

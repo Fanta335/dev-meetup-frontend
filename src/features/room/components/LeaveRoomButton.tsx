@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { MenuItem } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import { useState, VFC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -42,7 +42,7 @@ export const LeaveRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     <>
       <MenuItem onClick={handleClickOpen} sx={{ color: "#e53e3e" }}>
         <LogoutIcon sx={{ mr: 1 }} />
-        部屋から脱退
+        <Typography fontFamily="">部屋から脱退</Typography>
       </MenuItem>
       <ConfirmLeavingDialog open={open} handleCloseDialog={handleCloseDialog} handleLeave={handleLeave} />
     </>

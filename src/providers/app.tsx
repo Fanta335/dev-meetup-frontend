@@ -23,6 +23,9 @@ const theme = createTheme({
     body1: {
       fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
     },
+    body2: {
+      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
+    },
   },
   palette: {
     primary: {

@@ -13,7 +13,7 @@ export const WelcomeMessage = () => {
         <Typography variant="h4" fontWeight="bold">
           {currentRoom.entity.name} へようこそ！
         </Typography>
-        <Typography variant="body1">メッセージを送信してメンバーと交流しよう。</Typography>
+        <Typography variant="subtitle1">メッセージを送信してメンバーと交流しよう。</Typography>
       </Grid>
     </>
   );

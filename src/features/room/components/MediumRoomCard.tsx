@@ -39,7 +39,7 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
           }
         />
         <CardContent>
-          <Typography variant="body1">{room.description}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">{room.description}</Typography>
         </CardContent>
         <Grid container sx={{ pl: 2 }}>
           {room.tags.map((tag) => (
@@ -51,7 +51,7 @@ export const MediumRoomCard: VFC<Props> = ({ room }) => {
             <PersonIcon color="action" />
           </Grid>
           <Grid item>
-            <Typography variant="body1">{room.numOfMembers}人が参加中</Typography>
+            <Typography variant="subtitle1">{room.numOfMembers}人が参加中</Typography>
           </Grid>
         </Grid>
       </CardActionArea>

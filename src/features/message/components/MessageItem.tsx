@@ -46,7 +46,7 @@ export const MessageItem: VFC<Props> = memo(({ messageId, virtualListId, handleC
         onMouseLeave={() => setDisplay(false)}
       >
         <Box>
-          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1 }} src={author ? author.avatar.url : ""} />
+          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1, mt: 1 }} src={author ? author.avatar.url : ""} />
         </Box>
         <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: 1 }}>
           <Box sx={{ display: "flex", alignItems: "center", height: "50px" }}>

@@ -22,7 +22,7 @@ export const UserItem: VFC<Props> = ({ user }) => {
 
   return (
     <>
-      <ListItemButton sx={{ pl: 0 }} onClick={handleClick}>
+      <ListItemButton sx={{ pl: 2 }} onClick={handleClick}>
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src={user.avatar.url} />
         </ListItemAvatar>

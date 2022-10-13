@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import { useState, VFC } from "react";
 import { InviteMemberDialog } from "./InviteMemberDialog";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -21,9 +21,9 @@ export const InviteMemberButton: VFC<Props> = ({ handleCloseMenu }) => {
 
   return (
     <>
-      <MenuItem onClick={handleClickOpen} >
+      <MenuItem onClick={handleClickOpen}>
         <PersonAddIcon sx={{ mr: 1 }} />
-        メンバーを招待
+        <Typography fontFamily="">メンバーを招待</Typography>
       </MenuItem>
       <InviteMemberDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>

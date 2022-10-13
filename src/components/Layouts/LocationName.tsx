@@ -15,7 +15,7 @@ export const LocationName: VFC<Prop> = ({ location }) => {
   return (
     <>
       {location === "room" && (
-        <Typography variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
+        <Typography variant="h6" fontWeight="bold" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
           {currentRoom.entity.name}
         </Typography>
       )}
@@ -25,12 +25,12 @@ export const LocationName: VFC<Prop> = ({ location }) => {
         </Tooltip>
       )}
       {location === "profile" && (
-        <Typography variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
+        <Typography variant="h5" fontWeight="bold" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
           プロフィール
         </Typography>
       )}
       {location === "discovery" && (
-        <Typography variant="h6" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
+        <Typography variant="h5" fontWeight="bold" noWrap sx={{ textDecoration: "none", color: "inherit" }}>
           探す
         </Typography>
       )}

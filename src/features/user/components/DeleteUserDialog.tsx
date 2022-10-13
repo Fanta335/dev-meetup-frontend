@@ -74,7 +74,7 @@ export const DeleteUserDialog: VFC<DeleteUserDialogProps> = ({ open, handleClose
           アカウントを削除
         </BootstrapDialogTitle>
         <DialogContent>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             アカウントを削除するには、「{currentUser.name}を削除する」と入力してください。
           </Typography>
           <Controller

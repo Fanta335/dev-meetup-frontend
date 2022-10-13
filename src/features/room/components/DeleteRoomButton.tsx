@@ -1,4 +1,4 @@
-import { MenuItem } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import { useState, VFC } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmRoomDeletionDialog } from "./ConfirmRoomDeletionDialog";
@@ -44,7 +44,7 @@ export const DeleteRoomButton: VFC<Props> = ({ handleCloseMenu }) => {
     <>
       <MenuItem onClick={handleClickOpen} sx={{ color: "#e53e3e" }}>
         <DeleteIcon sx={{ mr: 1 }} />
-        部屋の削除
+        <Typography fontFamily="">部屋の削除</Typography>
       </MenuItem>
       <ConfirmRoomDeletionDialog open={open} handleCloseDialog={handleCloseDialog} handleDelete={handleDelete} />
     </>

@@ -57,7 +57,9 @@ export const InviteMemberDialog: VFC<Props> = ({ open, handleCloseDialog }) => {
           メンバーを招待する
         </BootstrapDialogTitle>
         <DialogContent>
-          <DialogContentText id="invite-user-dialog-description">招待リンクを作成してください。</DialogContentText>
+          <DialogContentText id="invite-user-dialog-description" fontFamily="">
+            招待リンクを作成してください。
+          </DialogContentText>
           <TextField fullWidth placeholder="作成されていません" value={invitation ? invitation.url : ""} inputProps={{ readOnly: true }} />
         </DialogContent>
         <DialogActions>

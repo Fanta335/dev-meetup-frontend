@@ -44,7 +44,7 @@ export const ConfirmOwnershipDialog: VFC<ConfirmOwnershipDialogProps> = ({ open,
         部屋を所有しています！
       </BootstrapDialogTitle>
       <DialogContent>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="subtitle1" color="text.secondary">
           アカウントを削除する前に、あなたの所有する全ての部屋の所有権を譲渡する必要があります。
         </Typography>
       </DialogContent>

@@ -65,7 +65,7 @@ export const EditUserNameDialog: VFC<EditUserNameDialogProps> = ({ open, handleC
           ユーザー名を変更
         </BootstrapDialogTitle>
         <DialogContent>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             新しいユーザー名を入力してください。
           </Typography>
           <Controller

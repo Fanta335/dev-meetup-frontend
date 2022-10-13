@@ -32,7 +32,9 @@ export const Profile: VFC = () => {
   return (
     <>
       <Grid container bgcolor="#b5b4b4" direction="column" p={5} maxWidth="600px">
-        <Typography variant="body2">アバター</Typography>
+        <Typography variant="subtitle1" fontWeight="bold">
+          アバター
+        </Typography>
         <Grid item container justifyContent="space-between" alignItems="center">
           <Avatar src={currentUser.avatar.url} sx={{ width: "100px", height: "100px" }} />
           <Grid item>
@@ -41,7 +43,9 @@ export const Profile: VFC = () => {
         </Grid>
         <Grid item container justifyContent="space-between" py={1}>
           <Grid item>
-            <Typography variant="body2">ユーザー名</Typography>
+            <Typography variant="subtitle1" fontWeight="bold">
+              ユーザー名
+            </Typography>
             <Typography variant="body1" fontWeight="bold">
               {currentUser.name}
             </Typography>
@@ -52,7 +56,9 @@ export const Profile: VFC = () => {
         </Grid>
         <Grid item container justifyContent="space-between" py={1}>
           <Grid item>
-            <Typography variant="body2">メールアドレス</Typography>
+            <Typography variant="subtitle1" fontWeight="bold">
+              メールアドレス
+            </Typography>
             <Typography variant="body1" fontWeight="bold">
               {currentUser.email}
             </Typography>
@@ -62,10 +68,12 @@ export const Profile: VFC = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Typography variant="body2">自己紹介</Typography>
+          <Typography variant="subtitle1" fontWeight="bold">
+            自己紹介
+          </Typography>
           <Card variant="outlined" sx={{ maxWidth: "600px" }}>
             <CardContent>
-              <Typography variant="body2">{currentUser.description}</Typography>
+              <Typography variant="body1">{currentUser.description}</Typography>
             </CardContent>
             <CardActions>
               <Grid container justifyContent="end">
@@ -76,12 +84,16 @@ export const Profile: VFC = () => {
         </Grid>
         <Divider sx={{ my: 3 }} />
         <Grid item>
-          <Typography variant="body2">パスワード</Typography>
+          <Typography variant="subtitle1" fontWeight="bold">
+            パスワード
+          </Typography>
           <EditUserPasswordButton />
         </Grid>
         <Divider sx={{ my: 3 }} />
         <Grid item>
-          <Typography variant="body2">アカウントの削除</Typography>
+          <Typography variant="subtitle1" fontWeight="bold">
+            アカウントの削除
+          </Typography>
           <DeleteUserButton />
         </Grid>
       </Grid>

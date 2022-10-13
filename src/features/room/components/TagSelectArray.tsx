@@ -1,6 +1,6 @@
 import React, { useEffect, VFC } from "react";
 
-import { Box, Button, Container, Stack, IconButton, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box, Button, Stack, IconButton, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 import { useFieldArray, Control, UseFormRegister } from "react-hook-form";
 import { Add as AddIcon, DeleteOutline as DeleteOutlineIcon } from "@mui/icons-material";
@@ -35,7 +35,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
   }, []);
 
   return (
-    <Container maxWidth="sm" sx={{ pt: 5 }}>
+    <>
       <Stack spacing={2}>
         {fields.map((field, index) => {
           return (
@@ -44,9 +44,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
                 <FormControl sx={{ minWidth: 220, width: "100%" }}>
                   <InputLabel id="tag-select-label">タグを選択</InputLabel>
                   <Select labelId="tag-select-label" label="タグを選択" defaultValue="" {...register(`tagIds.${index}.id` as const, { required: true })}>
-                    <MenuItem value="">
-                      <em>指定しない</em>
-                    </MenuItem>
+                    <MenuItem value="">指定しない</MenuItem>
                     {allTags.allIds.map((id) => (
                       <MenuItem value={id} key={id}>
                         {allTags.byIds[id].name}
@@ -64,7 +62,7 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
       </Stack>
       {fields.length < 5 && (
         <Button
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, width: '200px' }}
           variant="contained"
           startIcon={<AddIcon />}
           onClick={() =>
@@ -76,6 +74,6 @@ export const TagSelectArray: VFC<Props> = ({ control, register }) => {
           タグを追加する
         </Button>
       )}
-    </Container>
+    </>
   );
 };

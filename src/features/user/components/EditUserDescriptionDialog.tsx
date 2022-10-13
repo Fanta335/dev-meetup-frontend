@@ -65,7 +65,7 @@ export const EditUserDescriptionDialog: VFC<EditUserDescriptionDialogProps> = ({
           自己紹介を変更
         </BootstrapDialogTitle>
         <DialogContent>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             新しい自己紹介を入力してください。
           </Typography>
           <Controller

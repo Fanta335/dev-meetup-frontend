@@ -73,7 +73,7 @@ export const EditUserEmailDialog: VFC<EditUserEmailDialogProps> = ({ open, handl
           メールアドレスを変更
         </BootstrapDialogTitle>
         <DialogContent>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             新しいメールアドレスを入力してください。
           </Typography>
           <Controller

@@ -78,7 +78,7 @@ export const EditUserPasswordDialog: VFC<EditUserPasswordDialogProps> = ({ open,
           パスワードを変更
         </BootstrapDialogTitle>
         <DialogContent>
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="subtitle1" color="text.secondary">
             新しいパスワードを入力してください。
           </Typography>
           <Controller

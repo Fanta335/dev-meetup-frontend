@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { MenuItem } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { VFC } from "react";
 
@@ -20,7 +20,7 @@ const LogoutButton: VFC<Props> = ({ handleClose }) => {
   return (
     <MenuItem onClick={handleLogout}>
       <LogoutIcon sx={{ mr: 1 }} />
-      ログアウト
+      <Typography fontFamily="">ログアウト</Typography>
     </MenuItem>
   );
 };

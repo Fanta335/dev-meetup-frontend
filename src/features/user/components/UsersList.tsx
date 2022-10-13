@@ -27,7 +27,6 @@ export const UsersList = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            pl: 2,
             pt: 2,
           },
           justifyContent: "center",
@@ -37,7 +36,7 @@ export const UsersList = () => {
         onClose={toggleDrawer(false)}
       >
         <Toolbar />
-        <Typography variant="body1" color="text.secondary" fontWeight="bold">
+        <Typography variant="subtitle1" color="text.secondary" fontWeight="bold" pl={2}>
           OWNER
         </Typography>
         <List sx={{ bgcolor: "background.paper" }}>
@@ -46,7 +45,7 @@ export const UsersList = () => {
           ))}
         </List>
         <Divider sx={{ my: 1 }} />
-        <Typography variant="body1" color="text.secondary" fontWeight="bold">
+        <Typography variant="subtitle1" color="text.secondary" fontWeight="bold" pl={2}>
           MEMBER
         </Typography>
         <List sx={{ bgcolor: "background.paper" }}>

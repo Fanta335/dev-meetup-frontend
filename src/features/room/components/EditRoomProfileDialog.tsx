@@ -1,5 +1,19 @@
 import { FC, useEffect, useState, VFC } from "react";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, IconButton, Stack, Switch, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Stack,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -108,62 +122,67 @@ export const EditRoomProfileDialog: VFC<EditRoomProfileDialogProps> = ({ open, h
               </Typography>
             </div>
           </BootstrapDialogTitle>
-          <DialogContent>
-            <Button variant="contained" component="label" color="success">
-              画像をアップロード
-              <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
-            </Button>
-            <Typography variant="h6">image preview</Typography>
-            {preview ? <img src={preview} alt="preview" style={{ height: "100px" }} /> : <p>no image</p>}
-            <Controller
-              render={({ field }) => (
-                <TextField
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  margin="dense"
-                  id="name"
-                  label="部屋の名前"
-                  fullWidth
-                  variant="standard"
-                />
-              )}
-              name="name"
-              control={control}
-              defaultValue={currentRoom.entity.name}
-              rules={{ required: true }}
-            />
-            <Controller
-              render={({ field }) => (
-                <TextField
-                  value={field.value}
-                  onChange={field.onChange}
-                  inputRef={field.ref}
-                  margin="dense"
-                  id="description"
-                  label="部屋の説明"
-                  fullWidth
-                  variant="standard"
-                />
-              )}
-              name="description"
-              control={control}
-              defaultValue={currentRoom.entity.description}
-              rules={{ required: true }}
-            />
-            <FormControlLabel
-              control={
-                <Controller
-                  name="isPrivate"
-                  control={control}
-                  render={({ field }) => (
-                    <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />
-                  )}
-                />
-              }
-              label="部屋を非公開にする"
-            />
-            <TagSelectArray control={control} register={register} />
+          <DialogContent sx={{ width: "100%", maxWidth: "600px" }}>
+            <Stack spacing={3}>
+              <Grid container alignItems="center" justifyContent="space-between" px={4}>
+                <Avatar sx={{ width: 120, height: 120 }} src={preview || currentRoom.entity.avatar.url} />
+                <Grid item>
+                  <Button variant="contained" component="label" color="success">
+                    画像をアップロード
+                    <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+                  </Button>
+                </Grid>
+              </Grid>
+              <Controller
+                render={({ field }) => (
+                  <TextField
+                    value={field.value}
+                    onChange={field.onChange}
+                    inputRef={field.ref}
+                    margin="dense"
+                    id="name"
+                    label="部屋の名前"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                name="name"
+                control={control}
+                defaultValue={currentRoom.entity.name}
+                rules={{ required: true }}
+              />
+              <Controller
+                render={({ field }) => (
+                  <TextField
+                    value={field.value}
+                    onChange={field.onChange}
+                    inputRef={field.ref}
+                    margin="dense"
+                    id="description"
+                    label="部屋の説明"
+                    fullWidth
+                    variant="outlined"
+                  />
+                )}
+                name="description"
+                control={control}
+                defaultValue={currentRoom.entity.description}
+                rules={{ required: true }}
+              />
+              <FormControlLabel
+                control={
+                  <Controller
+                    name="isPrivate"
+                    control={control}
+                    render={({ field }) => (
+                      <Switch onChange={(e) => field.onChange(e.target.checked)} color="success" checked={field.value} value={field.value} />
+                    )}
+                  />
+                }
+                label={<Typography fontFamily="">部屋を非公開にする</Typography>}
+              />
+              <TagSelectArray control={control} register={register} />
+            </Stack>
           </DialogContent>
           <DialogActions>
             <Button variant="contained" type="submit" color="success">
