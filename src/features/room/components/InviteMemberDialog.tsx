@@ -52,7 +52,7 @@ export const InviteMemberDialog: FC<Props> = ({ open, handleCloseDialog }) => {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" fullWidth maxWidth="sm">
         <BootstrapDialogTitle id="invite-user-title" onClose={handleCloseDialog}>
           メンバーを招待する
         </BootstrapDialogTitle>
