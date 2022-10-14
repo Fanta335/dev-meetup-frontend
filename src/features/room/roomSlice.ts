@@ -253,10 +253,10 @@ const roomSlice = createSlice({
       state.location = action.payload;
     },
     joinRoom: (state, action: PayloadAction<{ roomId: string }>) => {
-      console.log("join room");
+      // console.log("join room");
     },
     leaveRoom: (state, action: PayloadAction<{ roomId: string }>) => {
-      console.log("leave room");
+      // console.log("leave room");
     },
     toggleRoomMemberDrawer: (state, action: PayloadAction<{ open: boolean }>) => {
       state.isRoomMemberDrawerOpen = action.payload.open;
@@ -299,7 +299,7 @@ const roomSlice = createSlice({
       state.ownRooms.allIds = action.payload.map((room) => room.id.toString());
     });
     builder.addCase(fetchRoomContent.pending, (state) => {
-      console.log("room content pending...");
+      // console.log("room content pending...");
       state.currentRoom.loading = "pending";
     });
     builder.addCase(fetchRoomContent.fulfilled, (state, action: PayloadAction<NormalizedRoomContent>) => {

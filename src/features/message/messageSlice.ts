@@ -81,12 +81,12 @@ const messageSlice = createSlice({
   reducers: {
     startConnecting: (state, action: PayloadAction<{ token: string; roomId: string }>) => {
       state.isEstablishingConnection = true;
-      console.log("start connecting...");
+      // console.log("start connecting...");
     },
     connectionEstablished: (state) => {
       state.isEstablishingConnection = false;
       state.isConnected = true;
-      console.log("connection established.");
+      // console.log("connection established.");
     },
     sendMessage: (state, action: PayloadAction<{ roomId: string; content: string; parentId: number | null }>) => {
       console.log("send message: ", action.payload);

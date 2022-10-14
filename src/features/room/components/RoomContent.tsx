@@ -28,7 +28,7 @@ export const RoomContent: FC<Props> = ({ roomId }) => {
 
       // Establish new socket connection.
       if (!isConnected) {
-        console.log("connecting new socket.");
+        // console.log("connecting new socket.");
         dispatch(messageActions.startConnecting({ token: token, roomId: newRoomId }));
       }
 
