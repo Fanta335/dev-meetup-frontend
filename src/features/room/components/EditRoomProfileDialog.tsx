@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {
+  Autocomplete,
   Avatar,
   Button,
   Dialog,
@@ -19,7 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { postRoomAvatar, selectCurrentRoom, updateRoom } from "../roomSlice";
-import { TagSelectArray } from "./TagSelectArray";
+import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -54,7 +55,6 @@ const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
 type EditRoomProfileDialogProps = {
   open: boolean;
   handleCloseDialog: () => void;
-  handleEdit: () => void;
 };
 
 export type UpdateRoomFormInput = {
@@ -62,23 +62,23 @@ export type UpdateRoomFormInput = {
   description: string;
   isPrivate: boolean;
   avatar: FileList;
-  tagIds: {
-    id: string;
-  }[];
+  tagIds: number[];
 };
 
-export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog, handleEdit }) => {
+export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const { handleSubmit, control, reset, register } = useForm<UpdateRoomFormInput>({
+    mode: "onChange",
     defaultValues: {
       isPrivate: currentRoom.entity.isPrivate,
-      tagIds: [{ id: "" }],
+      tagIds: currentRoom.entity.tags.map((tag) => tag.id),
     },
   });
   const [selectedFile, setSelectedFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
+  const allTags = useAppSelector(selectAllTags);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -90,6 +90,14 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
 
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
+
+  useEffect(() => {
+    const fetchInitialAllTags = async () => {
+      const token = await getAccessTokenSilently();
+      await dispatch(fetchAllTags({ token }));
+    };
+    fetchInitialAllTags();
+  }, [dispatch, getAccessTokenSilently]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -106,6 +114,11 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
       formData.append("file", selectedFile);
       await dispatch(postRoomAvatar({ token, roomId: currentRoom.entity.id, formData }));
     }
+    // console.log('name ', name);
+    // console.log('desc ', description);
+    // console.log('is privaate ', isPrivate);
+    // console.log('tagids ', tagIds);
+
     await dispatch(updateRoom({ token, roomId: currentRoom.entity.id, updateRoomDTO: { name, description, isPrivate, tagIds } }));
     reset();
     handleCloseDialog();
@@ -181,7 +194,28 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
                 }
                 label={<Typography fontFamily="">部屋を非公開にする</Typography>}
               />
-              <TagSelectArray control={control} register={register} />
+              <Controller
+                control={control}
+                name="tagIds"
+                render={({ field }) => (
+                  <Autocomplete
+                    multiple
+                    options={allTags.allIds}
+                    getOptionLabel={(option) => allTags.byIds[option].name}
+                    fullWidth
+                    filterSelectedOptions
+                    onChange={(event, value) => {
+                      // console.log(value);
+                      field.onChange(value);
+                    }}
+                    value={field.value}
+                    ref={field.ref}
+                    id="tagIds"
+                    renderInput={(params) => <TextField {...params} label="部屋のタグ" />}
+                    // isOptionEqualToValue={(option, value) => option === value}
+                  />
+                )}
+              />
             </Stack>
           </DialogContent>
           <DialogActions>

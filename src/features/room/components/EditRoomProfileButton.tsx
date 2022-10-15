@@ -10,10 +10,6 @@ type Props = {
 export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
   const [open, setOpen] = useState(false);
 
-  const handleEdit = () => {
-    console.log("handle edit.");
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -28,7 +24,7 @@ export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
       <MenuItem onClick={handleClickOpen}>
         <SettingsIcon sx={{ mr: 1 }} /> <Typography fontFamily="">部屋の設定</Typography>
       </MenuItem>
-      <EditRoomProfileDialog open={open} handleCloseDialog={handleCloseDialog} handleEdit={handleEdit} />
+      <EditRoomProfileDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>
   );
 };

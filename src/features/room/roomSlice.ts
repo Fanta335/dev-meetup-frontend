@@ -279,6 +279,7 @@ const roomSlice = createSlice({
       state.currentRoom.entity.name = updatedRoom.name;
       state.currentRoom.entity.description = updatedRoom.description;
       state.currentRoom.entity.isPrivate = updatedRoom.isPrivate;
+      state.currentRoom.entity.tags = updatedRoom.tags;
     });
     builder.addCase(postRoomAvatar.fulfilled, (state, action: PayloadAction<Room>) => {
       const updatedRoom = action.payload;
