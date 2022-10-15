@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Avatar,
   Button,
   Dialog,
@@ -21,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { postRoom, roomActions, selectRoomAvatarPreviewUrl } from "../roomSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { TagSelectArray } from "./TagSelectArray";
+import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
 
 export type DialogTitleProps = {
   id: string;
@@ -65,9 +66,7 @@ export type CreateRoomFormInput = {
   description: string;
   isPrivate: boolean;
   avatar: FileList;
-  tagIds: {
-    id: string;
-  }[];
+  tagIds: number[];
 };
 
 export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
@@ -75,12 +74,14 @@ export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose,
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { handleSubmit, control, reset, register } = useForm<CreateRoomFormInput>({
+    mode: "onChange",
     defaultValues: {
       isPrivate: false,
-      tagIds: [{ id: "" }],
+      tagIds: [],
     },
   });
   const preview = useAppSelector(selectRoomAvatarPreviewUrl);
+  const allTags = useAppSelector(selectAllTags);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -93,6 +94,14 @@ export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose,
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile, dispatch]);
 
+  useEffect(() => {
+    const fetchInitialAllTags = async () => {
+      const token = await getAccessTokenSilently();
+      await dispatch(fetchAllTags({ token }));
+    };
+    fetchInitialAllTags();
+  }, [dispatch, getAccessTokenSilently]);
+
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
@@ -102,8 +111,7 @@ export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose,
   };
 
   const onSubmit: SubmitHandler<CreateRoomFormInput> = async ({ name, description, isPrivate, tagIds }) => {
-    // define data type so that it can be refered as data[key].
-    const data: { [key: string]: string | boolean | { id: string }[] } = { name, description, isPrivate, tagIds };
+    const data: { [key: string]: string | boolean | number[] } = { name, description, isPrivate, tagIds };
     const formData = new FormData();
     for (const key in data) {
       formData.append(key.toString(), JSON.stringify(data[key]));
@@ -194,7 +202,26 @@ export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose,
                 }
                 label={<Typography fontFamily="">部屋を非公開にする</Typography>}
               />
-              <TagSelectArray register={register} control={control} />
+              <Controller
+                control={control}
+                name="tagIds"
+                render={({ field }) => (
+                  <Autocomplete
+                    multiple
+                    options={allTags.allIds}
+                    getOptionLabel={(option) => allTags.byIds[option].name}
+                    fullWidth
+                    filterSelectedOptions
+                    onChange={(event, value) => {
+                      field.onChange(value);
+                    }}
+                    value={field.value}
+                    ref={field.ref}
+                    id="tagIds"
+                    renderInput={(params) => <TextField {...params} label="部屋のタグ" />}
+                  />
+                )}
+              />
             </Stack>
           </DialogContent>
           <DialogActions>

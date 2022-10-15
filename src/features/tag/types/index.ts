@@ -13,5 +13,5 @@ export type AllTags = {
   byIds: {
     [key: string]: Tag;
   };
-  allIds: string[];
+  allIds: number[];
 };
