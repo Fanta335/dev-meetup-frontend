@@ -273,8 +273,6 @@ const roomSlice = createSlice({
     });
     builder.addCase(updateRoom.fulfilled, (state, action: PayloadAction<Room>) => {
       const updatedRoom = action.payload;
-      console.log("updated room: ", updatedRoom);
-      // Reflesh belongingRooms and currentRoom state.
       state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
       state.currentRoom.entity.name = updatedRoom.name;
       state.currentRoom.entity.description = updatedRoom.description;
@@ -283,9 +281,8 @@ const roomSlice = createSlice({
     });
     builder.addCase(postRoomAvatar.fulfilled, (state, action: PayloadAction<Room>) => {
       const updatedRoom = action.payload;
-      console.log("updated room: ", updatedRoom);
-      // Reflesh belongingRooms and currentRoom state.
-      state.belongingRooms.byIds[updatedRoom.id] = updatedRoom;
+      state.belongingRooms.byIds[updatedRoom.id].avatar = updatedRoom.avatar;
+      state.currentRoom.entity.avatar = updatedRoom.avatar;
     });
     builder.addCase(fetchBelongingRooms.fulfilled, (state, action: PayloadAction<Room[]>) => {
       // console.log('raw belonging rooms ', action.payload);
