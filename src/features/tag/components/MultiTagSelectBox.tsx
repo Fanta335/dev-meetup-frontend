@@ -3,7 +3,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchAllTags, selectAllTags, setSearchTagIds } from "../../tag/tagSlice";
+import { fetchAllTags, selectAllTags, setSearchTagIds } from "../tagSlice";
 
 export const MultiTagSelectBox = () => {
   const allTags = useAppSelector(selectAllTags);
