@@ -11,6 +11,7 @@ const initialState: TagType = {
     allIds: [],
   },
   currentTag: null,
+  currentSearchTagIds: [],
 };
 
 export const fetchAllTags = createAsyncThunk<Tag[], { token: string }>("tag/fetchAllTags", async ({ token }) => {
@@ -29,6 +30,9 @@ const tagSlice = createSlice({
     setTag(state, action: PayloadAction<Tag | null>) {
       state.currentTag = action.payload;
     },
+    setSearchTagIds(state, action: PayloadAction<number[]>) {
+      state.currentSearchTagIds = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllTags.fulfilled, (state, action: PayloadAction<Tag[]>) => {
@@ -41,9 +45,10 @@ const tagSlice = createSlice({
   },
 });
 
-export const { setTag } = tagSlice.actions;
+export const { setTag, setSearchTagIds } = tagSlice.actions;
 
 export const selectAllTags = (state: RootState) => state.tag.allTags;
 export const selectCurrentTag = (state: RootState) => state.tag.currentTag;
+export const selectCurrentSearchTagIds = (state: RootState) => state.tag.currentSearchTagIds;
 
 export const tagReducer = tagSlice.reducer;

@@ -9,7 +9,7 @@ import { SearchedRoomList } from "./SearchedRoomList";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import { SearchRoomResultPagination } from "./SearchRoomResultPagination";
-import { TagSelect } from "../../tag/components/TagSelect";
+import { MultiTagSelectBox } from "./MultiTagSelectBox";
 
 export const SearchRoomResult = () => {
   const [searchParams] = useSearchParams();
@@ -40,15 +40,15 @@ export const SearchRoomResult = () => {
           <Typography variant="h5">
             {searchedRooms.allIds.length === 0
               ? `「${queryInput}」の部屋は見つかりませんでした。`
-              : `「${queryInput}」の部屋が${searchedRooms.count} 件あります`}
+              : `「${queryInput}」の部屋が ${searchedRooms.count} 件あります`}
           </Typography>
         </Grid>
-        <Grid container item alignItems="center" spacing={3}>
+        <Grid container item direction='column' justifyContent="center" spacing={3}>
           <Grid item xs={8}>
             <SearchBox defaultValue={defaultValue} />
           </Grid>
           <Grid item xs={4}>
-            <TagSelect />
+            <MultiTagSelectBox />
           </Grid>
         </Grid>
         <Grid item>

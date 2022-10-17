@@ -1,6 +1,7 @@
 export type TagType = {
   allTags: AllTags;
   currentTag: Tag | null;
+  currentSearchTagIds: number[];
 };
 
 export type Tag = {

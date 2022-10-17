@@ -1,10 +1,10 @@
 import { Grid, InputAdornment, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { FC } from "react";
 import { useAppSelector } from "../../../stores/hooks";
-import { selectCurrentTag } from "../../tag/tagSlice";
+import { selectCurrentSearchTagIds } from "../../tag/tagSlice";
 
 type FormInput = {
   roomName: string;
@@ -22,18 +22,22 @@ type Props = {
 };
 
 export const SearchBox: FC<Props> = ({ defaultValue = "" }) => {
-  const currentTag = useAppSelector(selectCurrentTag);
+  const currentSearchTagIds = useAppSelector(selectCurrentSearchTagIds);
   const { handleSubmit, control } = useForm<FormInput>();
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
+    const initialSearchParams = [["query", content.roomName], ...Object.entries(defaultSearchParams)];
+    if (currentSearchTagIds.length === 0) {
+      initialSearchParams.push(["tagId", ""]);
+    } else {
+      for (const tagId of currentSearchTagIds) {
+        initialSearchParams.push(["tagId", tagId.toString()]);
+      }
+    }
     navigate({
       pathname: "/app/search",
-      search: createSearchParams([
-        ["query", content.roomName],
-        ...Object.entries(defaultSearchParams),
-        ["tagId", currentTag ? currentTag.id.toString() : ""],
-      ]).toString(),
+      search: new URLSearchParams(initialSearchParams).toString(),
     });
   };
 
