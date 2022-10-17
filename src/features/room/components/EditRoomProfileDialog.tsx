@@ -114,11 +114,6 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
       formData.append("file", selectedFile);
       await dispatch(postRoomAvatar({ token, roomId: currentRoom.entity.id, formData }));
     }
-    // console.log('name ', name);
-    // console.log('desc ', description);
-    // console.log('is privaate ', isPrivate);
-    // console.log('tagids ', tagIds);
-
     await dispatch(updateRoom({ token, roomId: currentRoom.entity.id, updateRoomDTO: { name, description, isPrivate, tagIds } }));
     reset();
     handleCloseDialog();
@@ -205,14 +200,12 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
                     fullWidth
                     filterSelectedOptions
                     onChange={(event, value) => {
-                      // console.log(value);
                       field.onChange(value);
                     }}
                     value={field.value}
                     ref={field.ref}
                     id="tagIds"
                     renderInput={(params) => <TextField {...params} label="部屋のタグ" />}
-                    // isOptionEqualToValue={(option, value) => option === value}
                   />
                 )}
               />
