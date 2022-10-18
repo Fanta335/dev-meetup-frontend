@@ -22,7 +22,7 @@ export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
   return (
     <>
       <MenuItem onClick={handleClickOpen}>
-        <SettingsIcon sx={{ mr: 1 }} /> <Typography fontFamily="">部屋の設定</Typography>
+        <SettingsIcon color="secondary" sx={{ mr: 1 }} /> <Typography fontFamily="">部屋の設定</Typography>
       </MenuItem>
       <EditRoomProfileDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>

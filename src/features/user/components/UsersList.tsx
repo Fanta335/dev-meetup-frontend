@@ -39,7 +39,7 @@ export const UsersList = () => {
         <Typography variant="subtitle1" color="text.secondary" fontWeight="bold" pl={2}>
           OWNER
         </Typography>
-        <List sx={{ bgcolor: "background.paper" }}>
+        <List>
           {currentUsers.owners.map((id) => (
             <UserItem key={id} user={currentUsers.members.byIds[id]} />
           ))}
@@ -48,7 +48,7 @@ export const UsersList = () => {
         <Typography variant="subtitle1" color="text.secondary" fontWeight="bold" pl={2}>
           MEMBER
         </Typography>
-        <List sx={{ bgcolor: "background.paper" }}>
+        <List>
           {currentUsers.members.allIds.map((id) => {
             if (!currentUsers.owners.includes(id)) {
               return <UserItem key={id} user={currentUsers.members.byIds[id]} />;

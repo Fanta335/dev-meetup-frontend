@@ -63,7 +63,7 @@ export const SearchBox: FC<Props> = ({ defaultValue = "" }) => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{ bgcolor: "#ffffff26", borderRadius: "5px" }}
+                sx={{ bgcolor: "#adadad25", borderRadius: "5px" }}
               />
             )}
             name="roomName"

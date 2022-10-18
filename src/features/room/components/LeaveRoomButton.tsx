@@ -41,7 +41,7 @@ export const LeaveRoomButton: FC<Props> = ({ handleCloseMenu }) => {
   return (
     <>
       <MenuItem onClick={handleClickOpen} sx={{ color: "#e53e3e" }}>
-        <LogoutIcon sx={{ mr: 1 }} />
+        <LogoutIcon color="secondary" sx={{ mr: 1 }} />
         <Typography fontFamily="">部屋から脱退</Typography>
       </MenuItem>
       <ConfirmLeavingDialog open={open} handleCloseDialog={handleCloseDialog} handleLeave={handleLeave} />

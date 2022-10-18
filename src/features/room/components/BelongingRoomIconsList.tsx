@@ -47,7 +47,7 @@ export const BelongingRoomIconsList = () => {
                 aria-label={belongingRooms.byIds[roomId].name}
                 component={Link}
                 to={`rooms/${roomId}`}
-                sx={location === "room" && roomId === currentRoom.entity.id ? { bgcolor: "#ffffff" } : {}}
+                sx={location === "room" && roomId === currentRoom.entity.id ? { bgcolor: "#772CE8", height: "55px", width: "55px" } : {}}
               >
                 {belongingRooms.byIds[roomId].avatar ? (
                   <Avatar src={belongingRooms.byIds[roomId].avatar?.url} sx={{ height: "45px", width: "45px" }} />

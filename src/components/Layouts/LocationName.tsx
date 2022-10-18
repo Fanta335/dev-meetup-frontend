@@ -21,7 +21,7 @@ export const LocationName: FC<Prop> = ({ location }) => {
       )}
       {location === "room" && currentRoom.entity.isPrivate && (
         <Tooltip title="非公開" placement="bottom" arrow TransitionComponent={Zoom}>
-          <LockIcon sx={{ ml: 2 }} />
+          <LockIcon color="secondary" sx={{ ml: 2 }} />
         </Tooltip>
       )}
       {location === "profile" && (

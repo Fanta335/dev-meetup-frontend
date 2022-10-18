@@ -26,8 +26,8 @@ export const Navbar = () => {
           <LocationName location={location} />
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
-        <ToggleThemeSwitch />
         {location === "room" && loading === "idle" && <ToggleRoomMemberDrawerButton />}
+        <ToggleThemeSwitch />
         <ProfileIcon handleOpenUserMenu={handleOpenUserMenu} handleCloseUserMenu={handleCloseUserMenu} anchorElUser={anchorElUser} />
       </Toolbar>
     </AppBar>

@@ -10,7 +10,7 @@ type Props = {
 export const ProfileButton: FC<Props> = ({ handleClose }) => {
   return (
     <MenuItem component={Link} to="/app/profile" onClick={handleClose}>
-      <AccountCircleIcon sx={{ mr: 1 }} />
+      <AccountCircleIcon color="secondary" sx={{ mr: 1 }} />
       <Typography fontFamily="">プロフィール</Typography>
     </MenuItem>
   );

@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const lightTheme = createTheme({
+const commonTheme = {
   typography: {
     fontFamily: ["Nunito", "Kosugi_Maru", "sans-serif"].join(","),
     body1: {
@@ -17,31 +17,35 @@ export const lightTheme = createTheme({
       fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
     },
   },
+};
+
+export const lightTheme = createTheme({
+  ...commonTheme,
   palette: {
     mode: "light",
     primary: {
       main: "#cfcfcf",
     },
     secondary: {
-      main: "#bababa",
+      main: "#575757",
     },
     success: {
       main: "#772CE8",
     },
     background: {
-      default: "#fbfbfb",
-      paper: "#838383",
+      default: "#ffffff",
+      paper: "#f9f9f9",
     },
     text: {
-      primary: "#fff",
-      secondary: "#ccc",
+      primary: "#000000",
+      secondary: "#404040",
     },
   },
   components: {
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: "#eaeaea",
+          backgroundColor: "#f9f9f9",
         },
       },
     },
@@ -49,15 +53,7 @@ export const lightTheme = createTheme({
 });
 
 export const darkTheme = createTheme({
-  typography: {
-    fontFamily: ["Nunito", "Kosugi_Maru", "sans-serif"].join(","),
-    body1: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
-    },
-    body2: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
-    },
-  },
+  ...commonTheme,
   palette: {
     mode: "dark",
     primary: {

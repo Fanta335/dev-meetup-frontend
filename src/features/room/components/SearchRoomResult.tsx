@@ -9,7 +9,7 @@ import { SearchedRoomList } from "./SearchedRoomList";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import { SearchRoomResultPagination } from "./SearchRoomResultPagination";
-import { MultiTagSelectBox } from "./MultiTagSelectBox";
+import { MultiTagSelectBox } from "../../tag/components/MultiTagSelectBox";
 
 export const SearchRoomResult = () => {
   const [searchParams] = useSearchParams();
@@ -43,7 +43,7 @@ export const SearchRoomResult = () => {
               : `「${queryInput}」の部屋が ${searchedRooms.count} 件あります`}
           </Typography>
         </Grid>
-        <Grid container item direction='column' justifyContent="center" spacing={3}>
+        <Grid container item direction="column" justifyContent="center" spacing={3}>
           <Grid item xs={8}>
             <SearchBox defaultValue={defaultValue} />
           </Grid>

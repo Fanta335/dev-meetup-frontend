@@ -8,7 +8,7 @@ export const TopRoomList = () => {
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", my: 3, mx: 4, width: "100%" }}>
-        <Typography variant="h6" sx={{ color: "white", ml: 1 }}>
+        <Typography variant="h6" sx={{ ml: 1 }}>
           最近作られた部屋
         </Typography>
         <Grid container>

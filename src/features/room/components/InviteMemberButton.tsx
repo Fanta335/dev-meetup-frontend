@@ -22,7 +22,7 @@ export const InviteMemberButton: FC<Props> = ({ handleCloseMenu }) => {
   return (
     <>
       <MenuItem onClick={handleClickOpen}>
-        <PersonAddIcon sx={{ mr: 1 }} />
+        <PersonAddIcon color="secondary" sx={{ mr: 1 }} />
         <Typography fontFamily="">メンバーを招待</Typography>
       </MenuItem>
       <InviteMemberDialog open={open} handleCloseDialog={handleCloseDialog} />

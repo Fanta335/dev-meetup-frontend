@@ -54,7 +54,7 @@ export const MessageInputForm = () => {
                     // multiline
                     autoComplete="off"
                     placeholder={`${currentRoom.entity.name} へメッセージを送信`}
-                    sx={{ bgcolor: "#7c7c7c3b", borderRadius: "5px" }}
+                    sx={{ bgcolor: "#b1b1b13a", borderRadius: "5px" }}
                   />
                 </div>
               )}

@@ -19,7 +19,7 @@ const LogoutButton: FC<Props> = ({ handleClose }) => {
 
   return (
     <MenuItem onClick={handleLogout}>
-      <LogoutIcon sx={{ mr: 1 }} />
+      <LogoutIcon color="secondary" sx={{ mr: 1 }} />
       <Typography fontFamily="">ログアウト</Typography>
     </MenuItem>
   );
