@@ -137,7 +137,6 @@ export const searchAsyncRooms = createAsyncThunk<{ data: SearchedRoom[]; count: 
       },
     });
 
-    console.log("searched rooms: ", res.data);
     return res.data;
   }
 );

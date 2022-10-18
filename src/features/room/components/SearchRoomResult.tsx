@@ -27,8 +27,9 @@ export const SearchRoomResult = () => {
   }, [dispatch, getAccessTokenSilently, searchParams]);
 
   const queryInput = searchParams.get("query");
-  const roomNameInput = !queryInput ? "" : queryInput;
-  const tagIdsInput = searchParams.getAll("tagId").map(v => Number(v));
+  const defaultRoomName = !queryInput ? "" : queryInput;
+  const tagIdsInput = searchParams.getAll("tagId");
+  const defaultTagIds = tagIdsInput[0] === "" ? undefined : tagIdsInput.map((v) => Number(v));
 
   return (
     <>
@@ -44,7 +45,7 @@ export const SearchRoomResult = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <SearchBox defaultRoomName={roomNameInput} defaultTagIds={tagIdsInput} />
+          <SearchBox defaultRoomName={defaultRoomName} defaultTagIds={defaultTagIds} />
         </Grid>
         <Grid item>
           <SearchedRoomList />
