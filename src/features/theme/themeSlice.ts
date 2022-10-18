@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../stores/store";
 import { ThemeType } from "./types";
 
@@ -13,10 +13,13 @@ const themeSlice = createSlice({
     toggleColorMode(state) {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
+    setColorMode(state, action: PayloadAction<"light" | "dark">) {
+      state.mode = action.payload;
+    },
   },
 });
 
-export const { toggleColorMode } = themeSlice.actions;
+export const { toggleColorMode, setColorMode } = themeSlice.actions;
 
 export const selectColorMode = (state: RootState) => state.theme.mode;
 

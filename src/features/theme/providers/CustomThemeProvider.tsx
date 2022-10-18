@@ -1,7 +1,7 @@
-import { createTheme, ThemeProvider } from "@mui/material";
-import { FC } from "react";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectColorMode } from "../themeSlice";
+import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
+import { FC, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { selectColorMode, setColorMode } from "../themeSlice";
 
 type Props = {
   children: React.ReactNode;
@@ -87,6 +87,16 @@ export const darkTheme = createTheme({
 
 const CustomThemeProvider: FC<Props> = ({ children }) => {
   const colorMode = useAppSelector(selectColorMode);
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (prefersDarkMode) {
+      dispatch(setColorMode("dark"));
+    } else {
+      dispatch(setColorMode("light"));
+    }
+  }, [prefersDarkMode, dispatch]);
 
   return <ThemeProvider theme={colorMode === "light" ? lightTheme : darkTheme}>{children}</ThemeProvider>;
 };

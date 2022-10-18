@@ -33,7 +33,7 @@ export const Landing = () => {
           </Typography>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" onClick={handleStart} size="large">
+          <Button variant="contained" onClick={handleStart} size="large" sx={{ bgcolor: "#111", color: "#fff" }}>
             {isAuthenticated ? "開く" : "ログイン"}
           </Button>
         </Grid>
