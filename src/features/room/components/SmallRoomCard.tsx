@@ -7,6 +7,7 @@ import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { addMemberToRoom, selectBelongingRooms } from "../roomSlice";
 import { SearchedRoom } from "../types";
+import PersonIcon from "@mui/icons-material/Person";
 
 type Props = {
   room: SearchedRoom;
@@ -43,7 +44,10 @@ export const SmallRoomCard: FC<Props> = ({ room }) => {
             <Chip key={tag.id} label={tag.name} variant="outlined" sx={{ mr: 1, mb: 1 }} />
           ))}
         </Grid>
-        <Typography sx={{ textAlign: "end", pb: 2, pr: 2 }}>{room.numOfMembers}人</Typography>
+        <Grid container justifyContent='end'>
+          <PersonIcon color="secondary" />
+          <Typography sx={{ textAlign: "end", pb: 2, pr: 2 }}>{room.numOfMembers}人</Typography>
+        </Grid>
       </CardActionArea>
     </Card>
   );

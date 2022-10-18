@@ -48,7 +48,7 @@ export const MediumRoomCard: FC<Props> = ({ room }) => {
         </Grid>
         <Grid container justifyContent="flex-end" sx={{ pr: 2, pb: 2 }}>
           <Grid item>
-            <PersonIcon color="action" />
+            <PersonIcon color="secondary" />
           </Grid>
           <Grid item>
             <Typography variant="subtitle1">{room.numOfMembers}人が参加中</Typography>
