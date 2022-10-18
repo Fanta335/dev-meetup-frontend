@@ -46,7 +46,6 @@ export const SearchBox: FC<Props> = ({ defaultRoomName = "", defaultTagIds = [] 
   }, [dispatch, getAccessTokenSilently]);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
-    console.log("content ", content);
     const initialSearchParams = [["query", content.roomName], ...Object.entries(defaultSearchParams)];
     if (content.tagIds.length === 0) {
       initialSearchParams.push(["tagId", ""]);

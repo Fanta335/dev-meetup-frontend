@@ -39,6 +39,7 @@ const initialState: RoomType = {
     byIds: {},
     allIds: [],
     count: 0,
+    isloading: false,
   },
   location: "discovery",
   isRoomMemberDrawerOpen: false,
@@ -325,6 +326,9 @@ const roomSlice = createSlice({
       console.log(action.payload?.errorMessage);
       state.currentRoom.loading = "failed";
     });
+    builder.addCase(searchAsyncRooms.pending, (state) => {
+      state.searchedRooms.isloading = true;
+    });
     builder.addCase(searchAsyncRooms.fulfilled, (state, action: PayloadAction<{ data: SearchedRoom[]; count: number }>) => {
       const res = action.payload;
 
@@ -336,6 +340,7 @@ const roomSlice = createSlice({
 
       // console.log('normalized searched rooms: ', normalizedSearchedRoomsData);
 
+      state.searchedRooms.isloading = false;
       if (normalizedSearchedRoomsData.entities.searchedRooms) {
         state.searchedRooms.byIds = normalizedSearchedRoomsData.entities.searchedRooms;
         state.searchedRooms.allIds = normalizedSearchedRoomsData.result.searchedRooms;

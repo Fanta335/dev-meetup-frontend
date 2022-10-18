@@ -73,6 +73,7 @@ export type SearchedRooms = {
   };
   allIds: string[];
   count: number;
+  isloading: boolean;
 };
 
 // This contains all of the room contents data including Users and Messages.

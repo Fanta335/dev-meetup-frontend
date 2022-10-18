@@ -1,3 +1,4 @@
+import { Loading } from "../../../components/Loading";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectSearchedrooms } from "../roomSlice";
 import { MediumRoomCard } from "./MediumRoomCard";
@@ -9,12 +10,16 @@ export const SearchedRoomList = () => {
 
   return (
     <>
-      {hasAnySearchedRooms
-        ? searchedRooms.allIds.map((id) => {
-            const room = searchedRooms.byIds[id];
-            return <MediumRoomCard key={id} room={room} />;
-          })
-        : <RoomNotDiscoveredImage />}
+      {searchedRooms.isloading ? (
+        <Loading />
+      ) : hasAnySearchedRooms ? (
+        searchedRooms.allIds.map((id) => {
+          const room = searchedRooms.byIds[id];
+          return <MediumRoomCard key={id} room={room} />;
+        })
+      ) : (
+        <RoomNotDiscoveredImage />
+      )}
     </>
   );
 };

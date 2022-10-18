@@ -1,4 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
+import { Loading } from "../../../components/Loading";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectSearchedrooms } from "../roomSlice";
 import { SmallRoomCard } from "./SmallRoomCard";
@@ -12,14 +13,18 @@ export const TopRoomList = () => {
           最近作られた部屋
         </Typography>
         <Grid container>
-          {searchedRooms.allIds.map((id) => {
-            const room = searchedRooms.byIds[id];
-            return (
-              <Grid key={id} item xs={6} md={4} lg={3}>
-                <SmallRoomCard room={room} />
-              </Grid>
-            );
-          })}
+          {searchedRooms.isloading ? (
+            <Loading />
+          ) : (
+            searchedRooms.allIds.map((id) => {
+              const room = searchedRooms.byIds[id];
+              return (
+                <Grid key={id} item xs={6} md={4} lg={3}>
+                  <SmallRoomCard room={room} />
+                </Grid>
+              );
+            })
+          )}
         </Grid>
       </Box>
     </>
