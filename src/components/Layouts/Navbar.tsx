@@ -2,6 +2,7 @@ import { AppBar, Box, Toolbar } from "@mui/material";
 import { useState } from "react";
 import { RoomSettingsMenu } from "../../features/room/components/RoomSettingsMenu";
 import { selectCurrentRoomLoading, selectLocation } from "../../features/room/roomSlice";
+import { ToggleThemeSwitch } from "../../features/theme/components/ToggleThemeSwitch";
 import { ProfileIcon } from "../../features/user/components/ProfileIcon";
 import { ToggleRoomMemberDrawerButton } from "../../features/user/components/ToggleRoomMemberDrawerButton";
 import { useAppSelector } from "../../stores/hooks";
@@ -25,6 +26,7 @@ export const Navbar = () => {
           <LocationName location={location} />
           {location === "room" && loading === "idle" && <RoomSettingsMenu />}
         </Box>
+        <ToggleThemeSwitch />
         {location === "room" && loading === "idle" && <ToggleRoomMemberDrawerButton />}
         <ProfileIcon handleOpenUserMenu={handleOpenUserMenu} handleCloseUserMenu={handleCloseUserMenu} anchorElUser={anchorElUser} />
       </Toolbar>

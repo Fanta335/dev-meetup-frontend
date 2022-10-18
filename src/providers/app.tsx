@@ -1,10 +1,11 @@
-import { Button, createTheme, ThemeProvider } from "@mui/material";
+import { Button } from "@mui/material";
 import { FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "../stores/store";
 import Auth0ProviderWithHistory from "../features/auth/providers/auth0-provider-with-history";
+import CustomThemeProvider from "../features/theme/providers/CustomThemeProvider";
 
 const ErrorFallback = () => {
   return (
@@ -17,60 +18,18 @@ const ErrorFallback = () => {
   );
 };
 
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Nunito", "Kosugi_Maru", "sans-serif"].join(","),
-    body1: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
-    },
-    body2: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
-    },
-  },
-  palette: {
-    primary: {
-      main: "#191919",
-    },
-    secondary: {
-      main: "#bababa",
-    },
-    success: {
-      main: "#772CE8",
-    },
-    background: {
-      default: "#2d2d2d",
-      paper: "#191919",
-    },
-    text: {
-      primary: "#fff",
-      secondary: "#ccc",
-    },
-  },
-  components: {
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: "#191919",
-        },
-      },
-    },
-  },
-});
-
 type Props = {
   children: React.ReactNode;
 };
 
-export const AppProvider: FC<Props> = ({ children }) => {
-  return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <BrowserRouter>
-        <Auth0ProviderWithHistory>
-          <Provider store={store}>
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </Provider>
-        </Auth0ProviderWithHistory>
-      </BrowserRouter>
-    </ErrorBoundary>
-  );
-};
+export const AppProvider: FC<Props> = ({ children }) => (
+  <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <BrowserRouter>
+      <Auth0ProviderWithHistory>
+        <Provider store={store}>
+          <CustomThemeProvider>{children}</CustomThemeProvider>
+        </Provider>
+      </Auth0ProviderWithHistory>
+    </BrowserRouter>
+  </ErrorBoundary>
+);

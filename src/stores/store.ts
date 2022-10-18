@@ -3,6 +3,7 @@ import { chatMiddleware } from "../features/message/chatMiddleware";
 import { messageReducer } from "../features/message/messageSlice";
 import { roomReducer } from "../features/room/roomSlice";
 import { tagReducer } from "../features/tag/tagSlice";
+import { themeReducer } from "../features/theme/themeSlice";
 import { userReducer } from "../features/user/userSlice";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     room: roomReducer,
     message: messageReducer,
     tag: tagReducer,
+    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat([chatMiddleware]);
