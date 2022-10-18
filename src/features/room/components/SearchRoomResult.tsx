@@ -9,7 +9,6 @@ import { SearchedRoomList } from "./SearchedRoomList";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import { SearchRoomResultPagination } from "./SearchRoomResultPagination";
-import { MultiTagSelectBox } from "../../tag/components/MultiTagSelectBox";
 
 export const SearchRoomResult = () => {
   const [searchParams] = useSearchParams();
@@ -28,7 +27,8 @@ export const SearchRoomResult = () => {
   }, [dispatch, getAccessTokenSilently, searchParams]);
 
   const queryInput = searchParams.get("query");
-  const defaultValue = !queryInput ? "" : queryInput;
+  const roomNameInput = !queryInput ? "" : queryInput;
+  const tagIdsInput = searchParams.getAll("tagId").map(v => Number(v));
 
   return (
     <>
@@ -43,13 +43,8 @@ export const SearchRoomResult = () => {
               : `「${queryInput}」の部屋が ${searchedRooms.count} 件あります`}
           </Typography>
         </Grid>
-        <Grid container item direction="column" justifyContent="center" spacing={3}>
-          <Grid item xs={8}>
-            <SearchBox defaultValue={defaultValue} />
-          </Grid>
-          <Grid item xs={4}>
-            <MultiTagSelectBox />
-          </Grid>
+        <Grid item>
+          <SearchBox defaultRoomName={roomNameInput} defaultTagIds={tagIdsInput} />
         </Grid>
         <Grid item>
           <SearchedRoomList />

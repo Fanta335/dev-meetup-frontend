@@ -1,13 +1,15 @@
-import { Grid, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, Grid, InputAdornment, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { FC } from "react";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectCurrentSearchTagIds } from "../../tag/tagSlice";
+import { FC, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type FormInput = {
   roomName: string;
+  tagIds: number[];
 };
 
 const defaultSearchParams = {
@@ -18,20 +20,38 @@ const defaultSearchParams = {
 };
 
 type Props = {
-  defaultValue?: string;
+  defaultRoomName?: string;
+  defaultTagIds?: number[];
 };
 
-export const SearchBox: FC<Props> = ({ defaultValue = "" }) => {
-  const currentSearchTagIds = useAppSelector(selectCurrentSearchTagIds);
-  const { handleSubmit, control } = useForm<FormInput>();
+export const SearchBox: FC<Props> = ({ defaultRoomName = "", defaultTagIds = [] }) => {
+  const { handleSubmit, control } = useForm<FormInput>({
+    mode: "onChange",
+    defaultValues: {
+      roomName: defaultRoomName,
+      tagIds: defaultTagIds,
+    },
+  });
   const navigate = useNavigate();
+  const allTags = useAppSelector(selectAllTags);
+  const dispatch = useAppDispatch();
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    const fetchInitialAllTags = async () => {
+      const token = await getAccessTokenSilently();
+      await dispatch(fetchAllTags({ token }));
+    };
+    fetchInitialAllTags();
+  }, [dispatch, getAccessTokenSilently]);
 
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
+    console.log("content ", content);
     const initialSearchParams = [["query", content.roomName], ...Object.entries(defaultSearchParams)];
-    if (currentSearchTagIds.length === 0) {
+    if (content.tagIds.length === 0) {
       initialSearchParams.push(["tagId", ""]);
     } else {
-      for (const tagId of currentSearchTagIds) {
+      for (const tagId of content.tagIds) {
         initialSearchParams.push(["tagId", tagId.toString()]);
       }
     }
@@ -42,37 +62,61 @@ export const SearchBox: FC<Props> = ({ defaultValue = "" }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Controller
-            render={({ field }) => (
-              <TextField
-                value={field.value}
-                onChange={field.onChange}
-                inputRef={field.ref}
-                id="search"
-                type="search"
-                placeholder="部屋を探す"
-                fullWidth
-                autoComplete="off"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{ bgcolor: "#adadad25", borderRadius: "5px" }}
-              />
-            )}
-            name="roomName"
-            control={control}
-            defaultValue={defaultValue}
-            rules={{ required: true }}
-          />
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  value={field.value}
+                  onChange={field.onChange}
+                  inputRef={field.ref}
+                  id="search"
+                  type="search"
+                  placeholder="部屋を探す"
+                  fullWidth
+                  autoComplete="off"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{ bgcolor: "#adadad25", borderRadius: "5px" }}
+                />
+              )}
+              name="roomName"
+              control={control}
+              rules={{ required: true }}
+            />
+          </Grid>
+          <Grid item>
+            <Controller
+              control={control}
+              name="tagIds"
+              render={({ field }) => (
+                <Autocomplete
+                  multiple
+                  options={allTags.allIds}
+                  getOptionLabel={(option) => allTags.byIds[option].name}
+                  fullWidth
+                  filterSelectedOptions
+                  onChange={(event, value) => {
+                    field.onChange(value);
+                  }}
+                  value={field.value}
+                  ref={field.ref}
+                  id="tagIds"
+                  renderInput={(params) => <TextField {...params} label="タグで絞り込む" />}
+                />
+              )}
+            />
+          </Grid>
+          <input type="submit" hidden />
         </Grid>
-      </Grid>
-    </form>
+      </form>
+    </>
   );
 };
