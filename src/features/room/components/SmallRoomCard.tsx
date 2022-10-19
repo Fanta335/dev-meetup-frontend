@@ -8,6 +8,7 @@ import { getCurrentUser } from "../../user/utils/getCurrentUser";
 import { addMemberToRoom, selectBelongingRooms } from "../roomSlice";
 import { SearchedRoom } from "../types";
 import PersonIcon from "@mui/icons-material/Person";
+import ChairIcon from "@mui/icons-material/Chair";
 
 type Props = {
   room: SearchedRoom;
@@ -31,7 +32,11 @@ export const SmallRoomCard: FC<Props> = ({ room }) => {
     <Card sx={{ m: 1 }}>
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
         <CardHeader
-          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}></Avatar>}
+          avatar={
+            <Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}>
+              <ChairIcon fontSize="large" />
+            </Avatar>
+          }
           title={<Typography variant="h6">{room.name}</Typography>}
         />
         <CardContent>
@@ -44,7 +49,7 @@ export const SmallRoomCard: FC<Props> = ({ room }) => {
             <Chip key={tag.id} label={tag.name} variant="outlined" sx={{ mr: 1, mb: 1 }} />
           ))}
         </Grid>
-        <Grid container justifyContent='end'>
+        <Grid container justifyContent="end">
           <PersonIcon color="secondary" />
           <Typography sx={{ textAlign: "end", pb: 2, pr: 2 }}>{room.numOfMembers}人</Typography>
         </Grid>

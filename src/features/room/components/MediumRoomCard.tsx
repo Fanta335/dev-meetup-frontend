@@ -8,6 +8,7 @@ import { addMemberToRoom, selectBelongingRooms } from "../roomSlice";
 import { Link } from "react-router-dom";
 import { Auth0User } from "../../auth/types";
 import { getCurrentUser } from "../../user/utils/getCurrentUser";
+import ChairIcon from "@mui/icons-material/Chair";
 
 type Props = {
   room: SearchedRoom;
@@ -31,7 +32,11 @@ export const MediumRoomCard: FC<Props> = ({ room }) => {
     <Card sx={{ my: 3 }}>
       <CardActionArea onClick={handleClick} component={Link} to={`/app/rooms/${room.id}`}>
         <CardHeader
-          avatar={<Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}></Avatar>}
+          avatar={
+            <Avatar variant="rounded" src={room.avatar ? room.avatar.url : ""} sx={{ width: 56, height: 56 }}>
+              <ChairIcon fontSize="large" />
+            </Avatar>
+          }
           title={
             <Typography variant="h5" fontWeight="bold">
               {room.name}
@@ -39,7 +44,9 @@ export const MediumRoomCard: FC<Props> = ({ room }) => {
           }
         />
         <CardContent>
-          <Typography variant="subtitle1" color="textSecondary">{room.description}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {room.description}
+          </Typography>
         </CardContent>
         <Grid container sx={{ pl: 2 }}>
           {room.tags.map((tag) => (
