@@ -6,7 +6,6 @@ import { Avatar, Card, CardActions, CardContent, Divider, Grid, Typography } fro
 import { EditUserAvatarButton } from "../features/user/components/EditUserAvatarButton";
 import { EditUserNameButton } from "../features/user/components/EditUserNameButton";
 import { EditUserEmailButton } from "../features/user/components/EditUserEmailButton";
-import { EditUserPasswordButton } from "../features/user/components/EditUserPasswordButton";
 import { EditUserDescriptionButton } from "../features/user/components/EditUserDescriptionButton";
 import { DeleteUserButton } from "../features/user/components/DeleteUserButton";
 
@@ -77,13 +76,6 @@ export const Profile = () => {
                 </Grid>
               </CardActions>
             </Card>
-          </Grid>
-          <Divider sx={{ my: 3 }} />
-          <Grid item>
-            <Typography variant="subtitle1" fontWeight="bold">
-              パスワード
-            </Typography>
-            <EditUserPasswordButton />
           </Grid>
           <Divider sx={{ my: 3 }} />
           <Grid item>
