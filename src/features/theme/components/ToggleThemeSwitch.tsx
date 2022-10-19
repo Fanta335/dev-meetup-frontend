@@ -1,6 +1,6 @@
 import { styled, Switch } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { selectColorMode, toggleColorMode } from "../themeSlice";
+import { selectIsDarkMode, toggleColorMode } from "../themeSlice";
 import { darkTheme, lightTheme } from "../providers/CustomThemeProvider";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -51,15 +51,17 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 }));
 
 export const ToggleThemeSwitch = () => {
-  const colorMode = useAppSelector(selectColorMode);
+  const isDarkMode = useAppSelector(selectIsDarkMode);
   const dispatch = useAppDispatch();
-  const handleChange = () => {
+
+  const asyncToggleTheme = () => {
+    localStorage.setItem("darkMode", JSON.stringify(!isDarkMode));
     dispatch(toggleColorMode());
   };
 
   return (
     <>
-      <MaterialUISwitch theme={colorMode === "dark" ? darkTheme : lightTheme} checked={colorMode === "dark"} onChange={handleChange} />
+      <MaterialUISwitch theme={isDarkMode ? darkTheme : lightTheme} checked={isDarkMode} onChange={asyncToggleTheme} />
     </>
   );
 };

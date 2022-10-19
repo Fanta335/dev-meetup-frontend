@@ -83,7 +83,6 @@ export const SearchBox: FC<Props> = ({ defaultRoomName = "", defaultTagIds = [] 
                       </InputAdornment>
                     ),
                   }}
-                  sx={{ bgcolor: "#adadad25", borderRadius: "5px" }}
                 />
               )}
               name="roomName"
