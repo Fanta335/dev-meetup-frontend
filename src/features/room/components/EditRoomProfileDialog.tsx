@@ -132,51 +132,66 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
           </BootstrapDialogTitle>
           <DialogContent sx={{ width: "100%", maxWidth: "600px" }}>
             <Stack spacing={3}>
-              <Grid container alignItems="center" justifyContent="space-between" px={4}>
-                <Avatar sx={{ width: 120, height: 120 }} src={preview || currentRoom.entity.avatar?.url} />
-                <Grid item>
-                  <Button variant="contained" component="label" color="success">
-                    画像をアップロード
-                    <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
-                  </Button>
+              <Grid container item>
+                <Typography fontFamily="" variant="subtitle1">
+                  部屋のアイコン
+                </Typography>
+                <Grid container alignItems="center" justifyContent="space-between" px={4}>
+                  <Avatar sx={{ width: 120, height: 120 }} src={preview || currentRoom.entity.avatar?.url} />
+                  <Grid item>
+                    <Button variant="contained" component="label" color="success">
+                      画像をアップロード
+                      <input hidden type="file" accept=".jpg,.jpeg,.png,.svg" {...register("avatar")} onChange={onSelectFile} />
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Controller
-                render={({ field }) => (
-                  <TextField
-                    value={field.value}
-                    onChange={field.onChange}
-                    inputRef={field.ref}
-                    margin="dense"
-                    id="name"
-                    label="部屋の名前"
-                    fullWidth
-                    variant="outlined"
-                  />
-                )}
-                name="name"
-                control={control}
-                defaultValue={currentRoom.entity.name}
-                rules={{ required: true }}
-              />
-              <Controller
-                render={({ field }) => (
-                  <TextField
-                    value={field.value}
-                    onChange={field.onChange}
-                    inputRef={field.ref}
-                    margin="dense"
-                    id="description"
-                    label="部屋の説明"
-                    fullWidth
-                    variant="outlined"
-                  />
-                )}
-                name="description"
-                control={control}
-                defaultValue={currentRoom.entity.description}
-                rules={{ required: true }}
-              />
+              <Grid container item>
+                <Typography fontFamily="" variant="subtitle1">
+                  部屋の名前
+                </Typography>
+                <Controller
+                  render={({ field }) => (
+                    <TextField
+                      value={field.value}
+                      onChange={field.onChange}
+                      inputRef={field.ref}
+                      margin="dense"
+                      id="name"
+                      fullWidth
+                      variant="outlined"
+                      autoComplete="off"
+                    />
+                  )}
+                  name="name"
+                  control={control}
+                  defaultValue={currentRoom.entity.name}
+                  rules={{ required: true }}
+                />
+              </Grid>
+              <Grid container item>
+                <Typography fontFamily="" variant="subtitle1">
+                  部屋の説明
+                </Typography>
+                <Controller
+                  render={({ field }) => (
+                    <TextField
+                      value={field.value}
+                      onChange={field.onChange}
+                      inputRef={field.ref}
+                      margin="dense"
+                      id="description"
+                      fullWidth
+                      variant="outlined"
+                      autoComplete="off"
+                    />
+                  )}
+                  name="description"
+                  control={control}
+                  defaultValue={currentRoom.entity.description}
+                  rules={{ required: true }}
+                />
+              </Grid>
               <FormControlLabel
                 control={
                   <Controller
@@ -189,29 +204,43 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
                 }
                 label={<Typography fontFamily="">部屋を非公開にする</Typography>}
               />
-              <Controller
-                control={control}
-                name="tagIds"
-                render={({ field }) => (
-                  <Autocomplete
-                    multiple
-                    options={allTags.allIds}
-                    getOptionLabel={(option) => allTags.byIds[option].name}
-                    fullWidth
-                    filterSelectedOptions
-                    onChange={(event, value) => {
-                      field.onChange(value);
-                    }}
-                    value={field.value}
-                    ref={field.ref}
-                    id="tagIds"
-                    renderInput={(params) => <TextField {...params} label="部屋のタグ" />}
-                  />
-                )}
-              />
+              <Grid container item>
+                <Stack>
+                  <Typography fontFamily="" variant="subtitle1">
+                    部屋のタグ
+                  </Typography>
+                  <Typography fontFamily="" variant="subtitle2" color="secondary" sx={{ mb: 1 }}>
+                    最大で 5 つ設定できます。
+                  </Typography>
+                </Stack>
+                <Controller
+                  control={control}
+                  name="tagIds"
+                  render={({ field }) => (
+                    <Autocomplete
+                      multiple
+                      options={allTags.allIds}
+                      getOptionLabel={(option) => allTags.byIds[option].name}
+                      getOptionDisabled={(option) => field.value.length === 5}
+                      fullWidth
+                      filterSelectedOptions
+                      onChange={(event, value) => {
+                        field.onChange(value);
+                      }}
+                      value={field.value}
+                      ref={field.ref}
+                      id="tagIds"
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  )}
+                />
+              </Grid>
             </Stack>
           </DialogContent>
           <DialogActions>
+            <Button variant="contained" onClick={handleCloseDialog} color="secondary">
+              キャンセル
+            </Button>
             <Button variant="contained" type="submit" color="success">
               変更を保存する
             </Button>
