@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, IconButton, List, ListItem, Tooltip, Typography, Zoom } from "@mui/material";
+import { Avatar, Grid, IconButton, List, Stack, Tooltip, Typography, Zoom } from "@mui/material";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchBelongingRooms, fetchOwnRooms, selectBelongingRooms, selectCurrentRoom, selectLocation } from "../roomSlice";
@@ -42,22 +42,28 @@ export const BelongingRoomIconsList = () => {
             arrow
             TransitionComponent={Zoom}
           >
-            <ListItem button sx={{ display: "flex", justifyContent: "center", height: "60px" }}>
-              <IconButton
-                aria-label={belongingRooms.byIds[roomId].name}
-                component={Link}
-                to={`rooms/${roomId}`}
-                sx={location === "room" && roomId === currentRoom.entity.id ? { bgcolor: "#772CE8", height: "55px", width: "55px" } : {}}
-              >
-                {belongingRooms.byIds[roomId].avatar ? (
-                  <Avatar src={belongingRooms.byIds[roomId].avatar?.url} sx={{ height: "45px", width: "45px" }} />
-                ) : (
-                  <Avatar sx={{ height: "45px", width: "45px" }}>
-                    <ChairIcon />
-                  </Avatar>
-                )}
-              </IconButton>
-            </ListItem>
+            <Stack alignItems="center">
+              <Grid item>
+                <IconButton
+                  aria-label={belongingRooms.byIds[roomId].name}
+                  component={Link}
+                  to={`rooms/${roomId}`}
+                  sx={
+                    location === "room" && roomId === currentRoom.entity.id
+                      ? { bgcolor: "#772CE8", height: "55px", width: "55px" }
+                      : { height: "55px", width: "55px" }
+                  }
+                >
+                  {belongingRooms.byIds[roomId].avatar ? (
+                    <Avatar src={belongingRooms.byIds[roomId].avatar?.url} sx={{ height: "45px", width: "45px" }} />
+                  ) : (
+                    <Avatar sx={{ height: "45px", width: "45px" }}>
+                      <ChairIcon />
+                    </Avatar>
+                  )}
+                </IconButton>
+              </Grid>
+            </Stack>
           </Tooltip>
         ))}
       </List>
