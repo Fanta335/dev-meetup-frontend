@@ -22,9 +22,21 @@ export const EditMessageInputForm: FC<Props> = ({ message }) => {
   const onSubmit: SubmitHandler<FormInput> = async (content) => {
     dispatch(messageActions.updateMessage({ roomId: currentRoom.entity.id.toString(), messageId: message.id, content: content.message }));
     dispatch(messageActions.endEdit());
-
+    console.log("submit");
     reset();
   };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.shiftKey && event.key === "Enter") {
+      return;
+    } else if (event.key === "Enter") {
+      handleSubmit(onSubmit)(event);
+      event.preventDefault();
+    } else if (event.key === "Escape") {
+      dispatch(messageActions.endEdit());
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -35,11 +47,13 @@ export const EditMessageInputForm: FC<Props> = ({ message }) => {
                 <TextField
                   value={field.value}
                   onChange={field.onChange}
+                  onKeyDown={handleKeyDown}
                   inputRef={field.ref}
                   id="messageInputForm"
                   fullWidth
-                  // multiline
+                  multiline
                   autoComplete="off"
+                  autoFocus
                 />
               )}
               name="message"

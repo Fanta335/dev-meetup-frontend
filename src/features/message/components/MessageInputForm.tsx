@@ -6,6 +6,7 @@ import { selectCurrentUsers } from "../../user/userSlice";
 import { messageActions, selectCurrentMessages, selectMessageReply } from "../messageSlice";
 import { StopReplyingButton } from "./StopReplyingButton";
 import SendIcon from "@mui/icons-material/Send";
+import React from "react";
 
 type FormInput = {
   message: string;
@@ -29,6 +30,17 @@ export const MessageInputForm = () => {
     reset();
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.shiftKey && event.key === "Enter") {
+      return;
+    } else if (event.key === "Enter") {
+      handleSubmit(onSubmit)(event);
+      event.preventDefault();
+    } else if (event.key === "Escape") {
+      dispatch(messageActions.endReplying());
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -48,10 +60,11 @@ export const MessageInputForm = () => {
                   <TextField
                     value={field.value}
                     onChange={field.onChange}
-                    inputRef={field.ref}
+                    onKeyDown={handleKeyDown}
+                    inputRef={(input) => input && input.focus()}
                     id="messageInputForm"
                     fullWidth
-                    // multiline
+                    multiline
                     autoComplete="off"
                     placeholder={`${currentRoom.entity.name} へメッセージを送信`}
                     sx={{ bgcolor: "#b1b1b13a", borderRadius: "5px" }}
