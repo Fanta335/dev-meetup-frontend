@@ -9,12 +9,12 @@ type Props = {
 
 const commonTheme = {
   typography: {
-    fontFamily: ["Nunito", "Kosugi_Maru", "sans-serif"].join(","),
+    fontFamily: ["Nunito", "Kosugi_Maru", "Helvetica Neue", "sans-serif"].join(","),
     body1: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
+      fontFamily: ["Noto_Sans", "Noto_Sans_JP", "Helvetica Neue", "sans-serif"].join(","),
     },
     body2: {
-      fontFamily: ["Helvetica Neue", "sans-serif"].join(","),
+      fontFamily: ["Noto_Sans", "Noto_Sans_JP", "Helvetica Neue", "sans-serif"].join(","),
     },
   },
 };

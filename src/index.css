@@ -22,3 +22,13 @@ code {
   font-family: 'Kosugi_Maru';
   src: local('Kosugi_Maru'), url(./fonts/Kosugi_Maru/KosugiMaru-Regular.ttf) format('truetype');
 }
+
+@font-face {
+  font-family: 'Noto_Sans_JP';
+  src: local('Noto_Sans_JP'), url(./fonts/Noto_Sans_JP/NotoSansJP-Regular.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto_Sans';
+  src: local('Noto_Sans'), url(./fonts/Noto_Sans/NotoSans-Regular.ttf) format('truetype');
+}
