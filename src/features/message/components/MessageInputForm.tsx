@@ -6,13 +6,14 @@ import { selectCurrentUsers } from "../../user/userSlice";
 import { messageActions, selectCurrentMessages, selectMessageReply } from "../messageSlice";
 import { StopReplyingButton } from "./StopReplyingButton";
 import SendIcon from "@mui/icons-material/Send";
-import React from "react";
+import React, { useState } from "react";
 
 type FormInput = {
   message: string;
 };
 
 export const MessageInputForm = () => {
+  const [typing, setTyping] = useState(false);
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
@@ -31,7 +32,9 @@ export const MessageInputForm = () => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.shiftKey && event.key === "Enter") {
+    if (typing) {
+      event.preventDefault();
+    } else if (event.shiftKey && event.key === "Enter") {
       return;
     } else if (event.key === "Enter") {
       handleSubmit(onSubmit)(event);
@@ -60,6 +63,8 @@ export const MessageInputForm = () => {
                   <TextField
                     value={field.value}
                     onChange={field.onChange}
+                    onCompositionStart={() => setTyping(true)}
+                    onCompositionEnd={() => setTyping(false)}
                     onKeyDown={handleKeyDown}
                     inputRef={(input) => input && input.focus()}
                     id="messageInputForm"

@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -15,6 +15,7 @@ type FormInput = {
 };
 
 export const EditMessageInputForm: FC<Props> = ({ message }) => {
+  const [typing, setTyping] = useState(false);
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
@@ -27,7 +28,9 @@ export const EditMessageInputForm: FC<Props> = ({ message }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.shiftKey && event.key === "Enter") {
+    if (typing) {
+      event.preventDefault();
+    } else if (event.shiftKey && event.key === "Enter") {
       return;
     } else if (event.key === "Enter") {
       handleSubmit(onSubmit)(event);
@@ -48,6 +51,8 @@ export const EditMessageInputForm: FC<Props> = ({ message }) => {
                   value={field.value}
                   onChange={field.onChange}
                   onKeyDown={handleKeyDown}
+                  onCompositionStart={() => setTyping(true)}
+                  onCompositionEnd={() => setTyping(false)}
                   inputRef={field.ref}
                   id="messageInputForm"
                   fullWidth
