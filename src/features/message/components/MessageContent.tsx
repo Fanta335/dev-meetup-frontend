@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../stores/hooks";
 import { selectMessageEdit } from "../messageSlice";
 import { Message } from "../types";
 import { EditMessageInputForm } from "./EditMessageInputForm";
+import { MessageMarkdown } from "./MessageMarkdown";
 
 type Props = {
   message: Message;
@@ -21,9 +22,9 @@ export const MessageContent: FC<Props> = memo(({ message }) => {
         {isEditing ? (
           <EditMessageInputForm message={message} />
         ) : (
-          <div>
-            <Typography variant="body1">{message.content}</Typography>
-          </div>
+          <>
+            <MessageMarkdown markdown={message.content} />
+          </>
         )}
         {isEdited && (
           <Typography variant="subtitle2" color="text.secondary">
