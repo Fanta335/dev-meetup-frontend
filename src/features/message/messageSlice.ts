@@ -36,19 +36,6 @@ export const fetchOneMessage = createAsyncThunk<Message, { token: string; messag
   return res.data;
 });
 
-export const fetchManyMessages = createAsyncThunk<Message[], { token: string; roomId: string; searchParams: string }>(
-  "message/fetchManyMessages",
-  async ({ token, roomId, searchParams }) => {
-    const res = await axios.get(`${apiUrl}/rooms/${roomId}/messages?${searchParams}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return res.data;
-  }
-);
-
 export const fetchMoreMessages = createAsyncThunk<Message[], { token: string; roomId: string; searchParams: string }>(
   "message/fetchMoreMessages",
   async ({ token, roomId, searchParams }) => {
@@ -150,17 +137,6 @@ const messageSlice = createSlice({
     builder.addCase(fetchOneMessage.fulfilled, (state, action: PayloadAction<Message>) => {
       const message = action.payload;
       state.currentMessages.byIds = { [message.id]: message, ...state.currentMessages.byIds };
-    });
-    builder.addCase(fetchManyMessages.fulfilled, (state, action: PayloadAction<Message[]>) => {
-      const messages = action.payload;
-      const normalizedMessages = normalizeMessages(messages);
-      if (normalizedMessages.entities.messages !== undefined && normalizedMessages.result.messages !== undefined) {
-        state.currentMessages.allIds = normalizedMessages.result.messages;
-        state.currentMessages.byIds = normalizedMessages.entities.messages;
-      } else {
-        state.currentMessages.byIds = initialState.currentMessages.byIds;
-        state.currentMessages.allIds = initialState.currentMessages.allIds;
-      }
     });
     builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<Message[]>) => {
       const messages = action.payload;
