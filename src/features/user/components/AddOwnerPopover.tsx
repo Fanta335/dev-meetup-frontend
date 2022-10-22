@@ -25,7 +25,7 @@ export const AddOwnerPopover: FC<Props> = ({ user }) => {
 
   return (
     <>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick} startIcon={<AddCircleIcon />}>
+      <Button aria-describedby={id} variant="contained" onClick={handleClick} startIcon={<AddCircleIcon />} sx={{ mb: 2, ml: 2 }}>
         オーナーに追加
       </Button>
       <Popover

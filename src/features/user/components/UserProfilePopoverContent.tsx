@@ -1,4 +1,5 @@
 import { Avatar, Divider, Grid, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
 import { FC } from "react";
 import { User } from "../types";
 
@@ -9,19 +10,21 @@ type Props = {
 export const UserProfilePopoverContent: FC<Props> = ({ user }) => {
   return (
     <>
-      <Grid container direction="column" p={2}>
+      <Stack p={2}>
         <Avatar src={user.avatar.url} sx={{ width: 100, height: 100, mb: 2 }} />
         <Typography variant="h5" fontWeight="bold">
           {user.name}
         </Typography>
         <Divider sx={{ my: 2 }} />
-        {user.description.length > 0 && (
-          <Typography variant="body2" fontWeight="bold" color="text.secondary" mb={2}>
-            自己紹介
+        <Typography variant="body2" fontWeight="bold" color="text.secondary" mb={2}>
+          自己紹介
+        </Typography>
+        <Grid item sx={{ width: "100%", overflow: "auto" }}>
+          <Typography>
+            <pre style={{ fontFamily: "inherit" }}>{user.description}</pre>
           </Typography>
-        )}
-        <Typography>{user.description}</Typography>
-      </Grid>
+        </Grid>
+      </Stack>
     </>
   );
 };

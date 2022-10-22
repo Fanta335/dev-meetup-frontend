@@ -25,7 +25,7 @@ export const RemoveOwnerPopover: FC<Props> = ({ user }) => {
 
   return (
     <>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick} startIcon={<RemoveCircleIcon />}>
+      <Button aria-describedby={id} variant="contained" onClick={handleClick} startIcon={<RemoveCircleIcon />} sx={{ mb: 2, ml: 2 }}>
         オーナーから削除
       </Button>
       <Popover
