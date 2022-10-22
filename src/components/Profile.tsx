@@ -68,7 +68,9 @@ export const Profile = () => {
             </Typography>
             <Card variant="outlined" sx={{ maxWidth: "600px", bgcolor: "background.default" }}>
               <CardContent>
-                <Typography variant="body1">{currentUser.description}</Typography>
+                <Typography variant="body1">
+                  <pre style={{ fontFamily: "inherit" }}>{currentUser.description}</pre>
+                </Typography>
               </CardContent>
               <CardActions>
                 <Grid container justifyContent="end">
