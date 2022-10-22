@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
 import { FC, memo, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -49,14 +49,14 @@ export const MessageItem: FC<Props> = memo(({ messageId, virtualListId, handleCl
           }}
           onMouseLeave={() => setDisplay(false)}
         >
-          <Box>
-            <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1, mt: 1 }} src={author ? author.avatar.url : ""} />
-          </Box>
-          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: 1 }}>
-            <Box sx={{ display: "flex", alignItems: "center", height: "50px" }}>
+          <Avatar alt={author ? author.name : "removed-user"} sx={{ mr: 1, mt: 1 }} src={author ? author.avatar.url : ""} />
+          <Stack ml={1} sx={{ flexGrow: 1, width: "90%" }}>
+            <Box sx={{ display: "flex", alignItems: "center", height: "50px", maxWidth: "100%" }}>
               <Box sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}>
                 {author ? (
-                  <Typography variant="body1">{author.name}</Typography>
+                  <Typography variant="body1" fontWeight="bold">
+                    {author.name}
+                  </Typography>
                 ) : (
                   <Typography variant="body2" sx={{ fontStyle: "italic" }}>
                     脱退したユーザー
@@ -68,8 +68,8 @@ export const MessageItem: FC<Props> = memo(({ messageId, virtualListId, handleCl
               </Box>
               <Box>{display && message && <MessageMenu messageId={message.id} />}</Box>
             </Box>
-            <Box>{message && <MessageContent message={message} />}</Box>
-          </Box>
+            <Grid item>{message && <MessageContent message={message} />}</Grid>
+          </Stack>
         </Box>
       </Box>
     </>

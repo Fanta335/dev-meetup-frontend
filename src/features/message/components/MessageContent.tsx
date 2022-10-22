@@ -22,9 +22,9 @@ export const MessageContent: FC<Props> = memo(({ message }) => {
         {isEditing ? (
           <EditMessageInputForm message={message} />
         ) : (
-          <>
+          <Box sx={{ overflow: "auto" }}>
             <MessageMarkdown markdown={message.content} />
-          </>
+          </Box>
         )}
         {isEdited && (
           <Typography variant="subtitle2" color="text.secondary">
