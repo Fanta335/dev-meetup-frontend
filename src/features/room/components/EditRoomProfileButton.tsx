@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { EditRoomProfileDialog } from "./EditRoomProfileDialog";
 import SettingsIcon from "@mui/icons-material/Settings";
 
@@ -7,17 +7,17 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
+export const EditRoomProfileButton: FC<Props> = memo(({ handleCloseMenu }) => {
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpen(false);
     handleCloseMenu();
-  };
+  }, [handleCloseMenu]);
 
   return (
     <>
@@ -27,4 +27,4 @@ export const EditRoomProfileButton: FC<Props> = ({ handleCloseMenu }) => {
       <EditRoomProfileDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>
   );
-};
+});

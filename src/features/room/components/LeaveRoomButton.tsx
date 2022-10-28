@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuItem, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
@@ -13,7 +13,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const LeaveRoomButton: FC<Props> = ({ handleCloseMenu }) => {
+export const LeaveRoomButton: FC<Props> = memo(({ handleCloseMenu }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
@@ -21,22 +21,22 @@ export const LeaveRoomButton: FC<Props> = ({ handleCloseMenu }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const handleLeave = async () => {
+  const handleLeave = useCallback(async () => {
     if (currentUser) {
       const token = await getAccessTokenSilently();
       await dispatch(removeMemberFromRoom({ token, roomId: currentRoom.entity.id }));
       navigate("/app/");
     }
-  };
+  }, [currentRoom.entity.id, currentUser, dispatch, getAccessTokenSilently, navigate]);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpen(false);
     handleCloseMenu();
-  };
+  }, [handleCloseMenu]);
 
   return (
     <>
@@ -47,4 +47,4 @@ export const LeaveRoomButton: FC<Props> = ({ handleCloseMenu }) => {
       <ConfirmLeavingDialog open={open} handleCloseDialog={handleCloseDialog} handleLeave={handleLeave} />
     </>
   );
-};
+});

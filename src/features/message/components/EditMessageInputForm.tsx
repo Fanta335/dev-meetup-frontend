@@ -1,5 +1,5 @@
 import { Box, TextField } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
@@ -14,7 +14,7 @@ type FormInput = {
   message: string;
 };
 
-export const EditMessageInputForm: FC<Props> = ({ message }) => {
+export const EditMessageInputForm: FC<Props> = memo(({ message }) => {
   const [typing, setTyping] = useState(false);
   const { handleSubmit, control, reset } = useForm<FormInput>();
   const dispatch = useAppDispatch();
@@ -71,4 +71,4 @@ export const EditMessageInputForm: FC<Props> = ({ message }) => {
       </form>
     </Box>
   );
-};
+});

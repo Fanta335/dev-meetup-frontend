@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, IconButton, Menu } from "@mui/material";
-import { useEffect, FC } from "react";
+import { useEffect, FC, memo, useCallback } from "react";
 import LogoutButton from "../../../components/auth/LogoutButton";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchUserProfile, selectCurrentUser } from "../userSlice";
@@ -12,19 +12,19 @@ type Props = {
   anchorElUser: HTMLElement | null;
 };
 
-export const ProfileIcon: FC<Props> = ({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser }) => {
+export const ProfileIcon: FC<Props> = memo(({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
 
-  useEffect(() => {
-    const getUserProfile = async () => {
-      const token = await getAccessTokenSilently();
-      await dispatch(fetchUserProfile({ token }));
-    };
-
-    getUserProfile();
+  const getUserProfile = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    await dispatch(fetchUserProfile({ token }));
   }, [getAccessTokenSilently, dispatch]);
+
+  useEffect(() => {
+    getUserProfile();
+  }, [getUserProfile]);
 
   return (
     <>
@@ -52,4 +52,4 @@ export const ProfileIcon: FC<Props> = ({ handleOpenUserMenu, handleCloseUserMenu
       </Menu>
     </>
   );
-};
+});

@@ -1,7 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useCallback, useState } from "react";
 import { LeaveRoomButton } from "./LeaveRoomButton";
 import { EditRoomProfileButton } from "./EditRoomProfileButton";
 import { useAppSelector } from "../../../stores/hooks";
@@ -24,16 +24,16 @@ export const RoomSettingsMenu = () => {
 
   const open = Boolean(anchorEl);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   return (
-    <div>
+    <>
       <IconButton
         aria-label="more"
         id="long-button"
@@ -64,6 +64,6 @@ export const RoomSettingsMenu = () => {
         {isOwner && <DeleteRoomButton handleCloseMenu={handleCloseMenu} />}
         {!isOwner && <LeaveRoomButton handleCloseMenu={handleCloseMenu} />}
       </Menu>
-    </div>
+    </>
   );
 };

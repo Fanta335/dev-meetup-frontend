@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, memo, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -69,7 +69,7 @@ export type CreateRoomFormInput = {
   tagIds: number[];
 };
 
-export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose, selectedFile, setSelectedFile }) => {
+export const CreateRoomDialog: FC<CreateRoomDialogProps> = memo(({ open, handleClose, selectedFile, setSelectedFile }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -259,4 +259,4 @@ export const CreateRoomDialog: FC<CreateRoomDialogProps> = ({ open, handleClose,
       </form>
     </Dialog>
   );
-};
+});

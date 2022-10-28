@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 type Props = {
   open: boolean;
@@ -12,9 +12,9 @@ type Props = {
   handleDelelte: () => void;
 };
 
-export const ConfirmDeletionDialog: FC<Props> = ({ open, handleClose, handleDelelte }) => {
+export const ConfirmDeletionDialog: FC<Props> = memo(({ open, handleClose, handleDelelte }) => {
   return (
-    <div>
+    <>
       <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{"メッセージを削除"}</DialogTitle>
         <DialogContent>
@@ -24,9 +24,11 @@ export const ConfirmDeletionDialog: FC<Props> = ({ open, handleClose, handleDele
           <Button onClick={handleClose} autoFocus>
             キャンセル
           </Button>
-          <Button onClick={handleDelelte} color="error" variant="contained">削除</Button>
+          <Button onClick={handleDelelte} color="error" variant="contained">
+            削除
+          </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
-};
+});

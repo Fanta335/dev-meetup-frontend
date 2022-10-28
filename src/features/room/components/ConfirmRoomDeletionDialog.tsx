@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { FC } from "react";
+import { FC, memo } from "react";
 
 type Props = {
   open: boolean;
@@ -7,9 +7,9 @@ type Props = {
   handleDelete: () => void;
 };
 
-export const ConfirmRoomDeletionDialog: FC<Props> = ({ open, handleCloseDialog, handleDelete }) => {
+export const ConfirmRoomDeletionDialog: FC<Props> = memo(({ open, handleCloseDialog, handleDelete }) => {
   return (
-    <div>
+    <>
       <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">{"部屋を削除"}</DialogTitle>
         <DialogContent>
@@ -26,6 +26,6 @@ export const ConfirmRoomDeletionDialog: FC<Props> = ({ open, handleCloseDialog, 
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
-};
+});

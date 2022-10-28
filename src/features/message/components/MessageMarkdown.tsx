@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/cjs/styles/prism";
@@ -7,7 +7,7 @@ type Props = {
   markdown: string;
 };
 
-export const MessageMarkdown: FC<Props> = ({ markdown }) => {
+export const MessageMarkdown: FC<Props> = memo(({ markdown }) => {
   return (
     <ReactMarkdown
       children={markdown}
@@ -25,4 +25,4 @@ export const MessageMarkdown: FC<Props> = ({ markdown }) => {
       }}
     />
   );
-};
+});

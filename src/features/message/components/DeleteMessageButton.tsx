@@ -17,7 +17,6 @@ export const DeleteMessageButton: FC<Props> = memo(({ messageId }) => {
 
   const handleDelete = useCallback(() => {
     dispatch(messageActions.removeMessage({ roomId: currentRoom.entity.id.toString(), messageId: messageId }));
-    // console.log("remove message id: ", messageId);
     setOpen(false);
   }, [dispatch, currentRoom, messageId]);
 

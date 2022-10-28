@@ -1,5 +1,5 @@
 import { Popover } from "@mui/material";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoom } from "../../room/roomSlice";
 import { User } from "../types";
@@ -15,7 +15,7 @@ type Props = {
   handleClose: () => void;
 };
 
-export const UserProfilePopover: FC<Props> = ({ user, open, anchorEl, handleClose }) => {
+export const UserProfilePopover: FC<Props> = memo(({ user, open, anchorEl, handleClose }) => {
   const id = open ? "simple-popover" : undefined;
   const currentRoom = useAppSelector(selectCurrentRoom);
   const currentUser = useAppSelector(selectCurrentUser);
@@ -45,4 +45,4 @@ export const UserProfilePopover: FC<Props> = ({ user, open, anchorEl, handleClos
       </Popover>
     </>
   );
-};
+});

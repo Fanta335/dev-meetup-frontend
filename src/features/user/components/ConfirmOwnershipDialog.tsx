@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, memo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 export type DialogTitleProps = {
@@ -37,7 +37,7 @@ type ConfirmOwnershipDialogProps = {
   handleCloseDialog: () => void;
 };
 
-export const ConfirmOwnershipDialog: FC<ConfirmOwnershipDialogProps> = ({ open, handleCloseDialog }) => {
+export const ConfirmOwnershipDialog: FC<ConfirmOwnershipDialogProps> = memo(({ open, handleCloseDialog }) => {
   return (
     <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="xs">
       <BootstrapDialogTitle id="delete user" onClose={handleCloseDialog}>
@@ -55,4 +55,4 @@ export const ConfirmOwnershipDialog: FC<ConfirmOwnershipDialogProps> = ({ open, 
       </DialogActions>
     </Dialog>
   );
-};
+});

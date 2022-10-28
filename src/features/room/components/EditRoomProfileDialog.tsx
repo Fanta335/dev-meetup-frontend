@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import {
   Autocomplete,
   Avatar,
@@ -65,7 +65,7 @@ export type UpdateRoomFormInput = {
   tagIds: number[];
 };
 
-export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, handleCloseDialog }) => {
+export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = memo(({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentRoom = useAppSelector(selectCurrentRoom);
@@ -249,4 +249,4 @@ export const EditRoomProfileDialog: FC<EditRoomProfileDialogProps> = ({ open, ha
       </form>
     </Dialog>
   );
-};
+});

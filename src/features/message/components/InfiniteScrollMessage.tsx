@@ -62,6 +62,7 @@ export const InfiniteScrollMessage = () => {
   return (
     <>
       <Virtuoso
+        initialTopMostItemIndex={100000}
         style={{ marginTop: "60px" }}
         data={currentMessages.allIds}
         ref={virtuoso}
@@ -77,9 +78,5 @@ export const InfiniteScrollMessage = () => {
 };
 
 const Header = () => {
-  return (
-    <>
-      <WelcomeMessage />
-    </>
-  );
+  return <WelcomeMessage />;
 };

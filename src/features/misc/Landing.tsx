@@ -1,19 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box, Grid, Typography } from "@mui/material";
+import LoginButton from "../../components/auth/LoginButton";
 import { Loading } from "../../components/Loading";
 
 export const Landing = () => {
-  const navigate = useNavigate();
-  const { isAuthenticated, loginWithRedirect, isLoading } = useAuth0();
-
-  const handleStart = () => {
-    if (isAuthenticated) {
-      navigate("/app");
-    } else {
-      loginWithRedirect();
-    }
-  };
+  const { isLoading } = useAuth0();
 
   if (isLoading) {
     return <Loading />;
@@ -33,9 +24,7 @@ export const Landing = () => {
           </Typography>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" onClick={handleStart} size="large" sx={{ bgcolor: "#111", color: "#fff" }}>
-            {isAuthenticated ? "開く" : "ログイン"}
-          </Button>
+          <LoginButton />
         </Grid>
       </Grid>
     </Box>

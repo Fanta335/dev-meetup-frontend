@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ConfirmRoomDeletionDialog } from "./ConfirmRoomDeletionDialog";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -13,7 +13,7 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const DeleteRoomButton: FC<Props> = ({ handleCloseMenu }) => {
+export const DeleteRoomButton: FC<Props> = memo(({ handleCloseMenu }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentRoom = useAppSelector(selectCurrentRoom);
@@ -21,16 +21,16 @@ export const DeleteRoomButton: FC<Props> = ({ handleCloseMenu }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpen(false);
     handleCloseMenu();
-  };
+  }, [handleCloseMenu]);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     if (!currentUser) return;
     console.log("delete room.");
     const token = await getAccessTokenSilently();
@@ -38,7 +38,7 @@ export const DeleteRoomButton: FC<Props> = ({ handleCloseMenu }) => {
 
     handleCloseMenu();
     navigate("/app/");
-  };
+  }, [currentRoom.entity.id, currentUser, dispatch, getAccessTokenSilently, handleCloseMenu, navigate]);
 
   return (
     <>
@@ -49,4 +49,4 @@ export const DeleteRoomButton: FC<Props> = ({ handleCloseMenu }) => {
       <ConfirmRoomDeletionDialog open={open} handleCloseDialog={handleCloseDialog} handleDelete={handleDelete} />
     </>
   );
-};
+});

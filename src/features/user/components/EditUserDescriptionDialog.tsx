@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, memo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -45,7 +45,7 @@ type FormInput = {
   description: string;
 };
 
-export const EditUserDescriptionDialog: FC<EditUserDescriptionDialogProps> = ({ open, handleCloseDialog }) => {
+export const EditUserDescriptionDialog: FC<EditUserDescriptionDialogProps> = memo(({ open, handleCloseDialog }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
@@ -105,4 +105,4 @@ export const EditUserDescriptionDialog: FC<EditUserDescriptionDialogProps> = ({ 
       </form>
     </Dialog>
   );
-};
+});

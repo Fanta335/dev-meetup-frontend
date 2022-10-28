@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, memo, useEffect } from "react";
 import ShortcutIcon from "@mui/icons-material/Shortcut";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchOneMessage, selectCurrentMessages } from "../messageSlice";
@@ -13,7 +13,7 @@ type Props = {
   handleClickReply: (messageId: number) => void;
 };
 
-export const ReplyAccessory: FC<Props> = ({ parentMessageId, handleClickReply }) => {
+export const ReplyAccessory: FC<Props> = memo(({ parentMessageId, handleClickReply }) => {
   const currentMessages = useAppSelector(selectCurrentMessages);
   const parentMessage: Message | undefined = currentMessages.byIds[parentMessageId];
   const dispatch = useAppDispatch();
@@ -33,4 +33,4 @@ export const ReplyAccessory: FC<Props> = ({ parentMessageId, handleClickReply })
       {parentMessage ? <ParentMessageItem parentMessage={parentMessage} handleClickReply={handleClickReply} /> : <DeletedParentMessageItem />}
     </Box>
   );
-};
+});

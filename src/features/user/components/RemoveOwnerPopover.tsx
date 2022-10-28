@@ -2,23 +2,23 @@ import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { User } from "../types";
-import { useState, FC } from "react";
+import { useState, FC, memo, useCallback } from "react";
 import { RemoveOwnerPopoverContent } from "./RemoveOwnerPopoverContent";
 
 type Props = {
   user: User;
 };
 
-export const RemoveOwnerPopover: FC<Props> = ({ user }) => {
+export const RemoveOwnerPopover: FC<Props> = memo(({ user }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   const open = Boolean(anchorEl);
   const id = open ? "remove-owner-popover" : undefined;
@@ -46,4 +46,4 @@ export const RemoveOwnerPopover: FC<Props> = ({ user }) => {
       </Popover>
     </>
   );
-};
+});

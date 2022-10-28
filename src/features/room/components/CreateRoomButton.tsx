@@ -1,5 +1,5 @@
 import { IconButton, ListItem, Tooltip, Typography, Zoom } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { CreateRoomDialog } from "./CreateRoomDialog";
 import { useAppDispatch } from "../../../stores/hooks";
@@ -11,23 +11,23 @@ export const CreateRoomButton = () => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File>();
 
-  const handleDialogOpen = () => {
+  const handleDialogOpen = useCallback(() => {
     setDialogOpen(true);
-  };
+  }, []);
 
-  const handleDialogClose = () => {
+  const handleDialogClose = useCallback(() => {
     setSelectedFile(undefined);
     dispatch(roomActions.setRoomAvatarPreview({ url: null }));
     setDialogOpen(false);
-  };
+  }, [dispatch]);
 
-  const handleTooltipOpen = () => {
+  const handleTooltipOpen = useCallback(() => {
     setTooltipOpen(true);
-  };
+  }, []);
 
-  const handleTooltipClose = () => {
+  const handleTooltipClose = useCallback(() => {
     setTooltipOpen(false);
-  };
+  }, []);
 
   return (
     <Tooltip

@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { FC } from "react";
+import { FC, memo, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { createInviteLink, selectCurrentRoom, selectInvitation } from "../roomSlice";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -40,15 +40,15 @@ type Props = {
   handleCloseDialog: () => void;
 };
 
-export const InviteMemberDialog: FC<Props> = ({ open, handleCloseDialog }) => {
+export const InviteMemberDialog: FC<Props> = memo(({ open, handleCloseDialog }) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const invitation = useAppSelector(selectInvitation);
-  const handleCreateInvitation = async () => {
+  const handleCreateInvitation = useCallback(async () => {
     const token = await getAccessTokenSilently();
     await dispatch(createInviteLink({ token, roomId: currentRoom.entity.id, secondsExpirationLifetime: 60 * 60 * 24 }));
-  };
+  }, [currentRoom.entity.id, dispatch, getAccessTokenSilently]);
 
   return (
     <div>
@@ -82,4 +82,4 @@ export const InviteMemberDialog: FC<Props> = ({ open, handleCloseDialog }) => {
       </Dialog>
     </div>
   );
-};
+});

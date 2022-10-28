@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectOwnRooms } from "../../room/roomSlice";
 import { ConfirmOwnershipDialog } from "./ConfirmOwnershipDialog";
@@ -10,21 +10,21 @@ export const DeleteUserButton = () => {
   const [openOwnership, setOpenOwnership] = useState(false);
   const ownRooms = useAppSelector(selectOwnRooms);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     if (ownRooms.allIds.length === 0) {
       setOpenDeletion(true);
     } else {
       setOpenOwnership(true);
     }
-  };
+  }, [ownRooms.allIds]);
 
-  const handleCloseDeleteUserDialog = () => {
+  const handleCloseDeleteUserDialog = useCallback(() => {
     setOpenDeletion(false);
-  };
+  }, []);
 
-  const handleCloseConfirmOwnershipDialog = () => {
+  const handleCloseConfirmOwnershipDialog = useCallback(() => {
     setOpenOwnership(false);
-  };
+  }, []);
 
   return (
     <>

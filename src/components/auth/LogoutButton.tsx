@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuItem, Typography } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 
 type Props = {
   handleClose: () => void;
@@ -10,12 +10,12 @@ type Props = {
 const LogoutButton: FC<Props> = ({ handleClose }) => {
   const { logout } = useAuth0();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     handleClose();
     // clear the current user's access token.
     localStorage.removeItem("access_token");
     logout({ returnTo: window.location.origin });
-  };
+  }, [handleClose, logout]);
 
   return (
     <MenuItem onClick={handleLogout}>

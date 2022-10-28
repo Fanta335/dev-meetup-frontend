@@ -2,7 +2,7 @@ import { Autocomplete, Grid, InputAdornment, TextField } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import { FC, useEffect } from "react";
+import { FC, memo, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -24,7 +24,7 @@ type Props = {
   defaultTagIds?: number[];
 };
 
-export const SearchBox: FC<Props> = ({ defaultRoomName = "", defaultTagIds = [] }) => {
+export const SearchBox: FC<Props> = memo(({ defaultRoomName = "", defaultTagIds = [] }) => {
   const { handleSubmit, control } = useForm<FormInput>({
     mode: "onChange",
     defaultValues: {
@@ -117,4 +117,4 @@ export const SearchBox: FC<Props> = ({ defaultRoomName = "", defaultTagIds = [] 
       </form>
     </>
   );
-};
+});

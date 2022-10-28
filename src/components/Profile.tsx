@@ -68,8 +68,8 @@ export const Profile = () => {
             </Typography>
             <Card variant="outlined" sx={{ maxWidth: "600px", bgcolor: "background.default" }}>
               <CardContent>
-                <Typography variant="body1">
-                  <pre style={{ fontFamily: "inherit" }}>{currentUser.description}</pre>
+                <Typography variant="body1" component="pre">
+                  {currentUser.description}
                 </Typography>
               </CardContent>
               <CardActions>

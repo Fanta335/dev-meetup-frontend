@@ -1,5 +1,5 @@
 import { Avatar, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
-import { useState, FC } from "react";
+import { useState, FC, memo } from "react";
 import { User } from "../types";
 import { UserProfilePopover } from "./UserProfilePopover";
 
@@ -7,7 +7,7 @@ type Props = {
   user: User;
 };
 
-export const UserItem: FC<Props> = ({ user }) => {
+export const UserItem: FC<Props> = memo(({ user }) => {
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null);
 
   const handleClick = (event: React.MouseEvent) => {
@@ -31,4 +31,4 @@ export const UserItem: FC<Props> = ({ user }) => {
       <UserProfilePopover user={user} open={open} anchorEl={anchorEl} handleClose={handleClose} />
     </>
   );
-};
+});

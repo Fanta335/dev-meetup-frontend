@@ -3,22 +3,22 @@ import Button from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { AddOwnerPopoverContent } from "./AddOwnerPopoverContent";
 import { User } from "../types";
-import { useState, FC } from "react";
+import { useState, FC, memo, useCallback } from "react";
 
 type Props = {
   user: User;
 };
 
-export const AddOwnerPopover: FC<Props> = ({ user }) => {
+export const AddOwnerPopover: FC<Props> = memo(({ user }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   const open = Boolean(anchorEl);
   const id = open ? "add-owner-popover" : undefined;
@@ -46,4 +46,4 @@ export const AddOwnerPopover: FC<Props> = ({ user }) => {
       </Popover>
     </>
   );
-};
+});

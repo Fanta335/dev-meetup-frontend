@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, Chip, Grid, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, memo, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Auth0User } from "../../auth/types";
@@ -14,19 +14,19 @@ type Props = {
   room: SearchedRoom;
 };
 
-export const SmallRoomCard: FC<Props> = ({ room }) => {
+export const SmallRoomCard: FC<Props> = memo(({ room }) => {
   const { getAccessTokenSilently, user } = useAuth0<Auth0User>();
   const currentUser = getCurrentUser(user);
   const belongingRooms = useAppSelector(selectBelongingRooms);
   const dispatch = useAppDispatch();
 
-  const handleClick = async () => {
+  const handleClick = useCallback(async () => {
     if (!currentUser) return;
     if (room.id in belongingRooms.byIds) return;
 
     const token = await getAccessTokenSilently();
     await dispatch(addMemberToRoom({ token, roomId: room.id }));
-  };
+  }, [belongingRooms.byIds, currentUser, dispatch, getAccessTokenSilently, room.id]);
 
   return (
     <Card sx={{ m: 1 }}>
@@ -56,4 +56,4 @@ export const SmallRoomCard: FC<Props> = ({ room }) => {
       </CardActionArea>
     </Card>
   );
-};
+});

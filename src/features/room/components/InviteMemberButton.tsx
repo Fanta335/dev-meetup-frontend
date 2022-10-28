@@ -1,5 +1,5 @@
 import { MenuItem, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { InviteMemberDialog } from "./InviteMemberDialog";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
@@ -7,17 +7,17 @@ type Props = {
   handleCloseMenu: () => void;
 };
 
-export const InviteMemberButton: FC<Props> = ({ handleCloseMenu }) => {
+export const InviteMemberButton: FC<Props> = memo(({ handleCloseMenu }) => {
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpen(false);
     handleCloseMenu();
-  };
+  }, [handleCloseMenu]);
 
   return (
     <>
@@ -28,4 +28,4 @@ export const InviteMemberButton: FC<Props> = ({ handleCloseMenu }) => {
       <InviteMemberDialog open={open} handleCloseDialog={handleCloseDialog} />
     </>
   );
-};
+});
