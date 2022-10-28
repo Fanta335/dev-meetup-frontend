@@ -24,6 +24,7 @@ export type CurrentMessages = {
     [key: string]: Message;
   };
   allIds: number[];
+  isLoading: boolean;
 };
 
 export type MessageListMap = {

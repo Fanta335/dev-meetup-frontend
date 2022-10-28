@@ -12,6 +12,7 @@ const initialState: MessageType = {
   currentMessages: {
     byIds: {},
     allIds: [],
+    isLoading: false,
   },
   messageListMap: {},
   isEstablishingConnection: false,
@@ -138,11 +139,15 @@ const messageSlice = createSlice({
       const message = action.payload;
       state.currentMessages.byIds = { [message.id]: message, ...state.currentMessages.byIds };
     });
+    builder.addCase(fetchMoreMessages.pending, (state) => {
+      state.currentMessages.isLoading = true;
+    })
     builder.addCase(fetchMoreMessages.fulfilled, (state, action: PayloadAction<Message[]>) => {
       const messages = action.payload;
       const normalizedMessages = normalizeMessages(messages);
       // state.currentMessages.allIds = [...normalizedMessages.result.messages, ...state.currentMessages.allIds];
       state.currentMessages.byIds = { ...normalizedMessages.entities.messages, ...state.currentMessages.byIds };
+      state.currentMessages.isLoading = false;
     });
     builder.addCase(fetchAllMessageIds.fulfilled, (state, action: PayloadAction<{ id: number }[]>) => {
       const messages = action.payload;
