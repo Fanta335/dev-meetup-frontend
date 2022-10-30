@@ -1,4 +1,4 @@
-import { Loading } from "../../../components/Loading";
+import { Loading } from "../../../components/Elements/Loading/Loading";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectSearchedrooms } from "../roomSlice";
 import { MediumRoomCard } from "./MediumRoomCard";

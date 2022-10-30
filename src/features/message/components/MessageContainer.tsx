@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Loading } from "../../../components/Loading";
+import { Loading } from "../../../components/Elements/Loading/Loading";
 import { useAppSelector } from "../../../stores/hooks";
 import { selectCurrentRoomLoading } from "../../room/roomSlice";
 import { InfiniteScrollMessage } from "./InfiniteScrollMessage";
