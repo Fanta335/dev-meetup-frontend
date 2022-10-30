@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
-import { Profile } from "../../components/Profile";
+import { Profile } from "../user/components/Profile";
 import { useAppDispatch } from "../../stores/hooks";
 import { roomActions } from "../room/roomSlice";
 
