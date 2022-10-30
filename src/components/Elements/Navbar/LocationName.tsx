@@ -1,9 +1,9 @@
 import { Tooltip, Typography, Zoom } from "@mui/material";
 import { FC } from "react";
-import { selectCurrentRoom } from "../../features/room/roomSlice";
-import { Location } from "../../features/room/types";
-import { useAppSelector } from "../../stores/hooks";
 import LockIcon from "@mui/icons-material/Lock";
+import { selectCurrentRoom } from "../../../features/room/roomSlice";
+import { useAppSelector } from "../../../stores/hooks";
+import { Location } from "../../../features/room/types";
 
 type Prop = {
   location: Location;
