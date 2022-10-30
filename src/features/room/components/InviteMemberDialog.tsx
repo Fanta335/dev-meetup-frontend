@@ -1,39 +1,9 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, TextField } from "@mui/material";
 import { FC, memo, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { createInviteLink, selectCurrentRoom, selectInvitation } from "../roomSlice";
 import { useAuth0 } from "@auth0/auth0-react";
-
-export type DialogTitleProps = {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-};
-
-const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "gray",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
+import { BootstrapDialogTitle } from "../../../components/Elements/Dialog/BootstrapDialogTitle";
 
 type Props = {
   open: boolean;

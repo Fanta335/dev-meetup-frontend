@@ -1,36 +1,6 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, Typography } from "@mui/material";
 import { FC, memo } from "react";
-import CloseIcon from "@mui/icons-material/Close";
-
-export type DialogTitleProps = {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-};
-
-const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "gray",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
+import { BootstrapDialogTitle } from "../../../components/Elements/Dialog/BootstrapDialogTitle";
 
 type ConfirmOwnershipDialogProps = {
   open: boolean;

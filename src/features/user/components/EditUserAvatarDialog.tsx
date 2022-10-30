@@ -1,40 +1,10 @@
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton } from "@mui/material";
+import { Avatar, Button, Dialog, DialogActions, DialogContent, Grid } from "@mui/material";
 import { FC, memo, useEffect, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { selectCurrentUser, updateUserAvatar } from "../userSlice";
-
-export type DialogTitleProps = {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-};
-
-const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "gray",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
+import { BootstrapDialogTitle } from "../../../components/Elements/Dialog/BootstrapDialogTitle";
 
 type EditUserAvatarDialogProps = {
   open: boolean;

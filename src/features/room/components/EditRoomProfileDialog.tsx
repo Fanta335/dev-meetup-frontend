@@ -6,51 +6,19 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   FormControlLabel,
   Grid,
-  IconButton,
   Stack,
   Switch,
   TextField,
   Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { postRoomAvatar, selectCurrentRoom, updateRoom } from "../roomSlice";
 import { fetchAllTags, selectAllTags } from "../../tag/tagSlice";
-
-export type DialogTitleProps = {
-  id: string;
-  children?: React.ReactNode;
-  onClose: () => void;
-};
-
-const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "gray",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
+import { BootstrapDialogTitle } from "../../../components/Elements/Dialog/BootstrapDialogTitle";
 
 type EditRoomProfileDialogProps = {
   open: boolean;
