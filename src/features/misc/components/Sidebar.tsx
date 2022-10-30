@@ -1,7 +1,7 @@
 import { Divider, Drawer, Toolbar } from "@mui/material";
-import { BelongingRoomIconsList } from "../../../features/room/components/BelongingRoomIconsList";
-import { CreateRoomButton } from "../../../features/room/components/CreateRoomButton";
-import { DiscoverRoomButton } from "../../../features/room/components/DiscoverRoomButton";
+import { BelongingRoomIconsList } from "../../room/components/BelongingRoomIconsList";
+import { CreateRoomButton } from "../../room/components/CreateRoomButton";
+import { DiscoverRoomButton } from "../../room/components/DiscoverRoomButton";
 
 const Sidebar = () => {
   const drawerWidth = 75;

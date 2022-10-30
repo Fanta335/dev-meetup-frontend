@@ -1,6 +1,6 @@
 import { MainLayout } from "../components/Layouts/MainLayout";
 import { Home } from "../features/misc/routes/Home";
-import { InvitationRedirectPage } from "../features/misc/InvitationRedirectPage";
+import { InvitationRedirectPage } from "../features/misc/routes/InvitationRedirectPage";
 import { Room } from "../features/room/components/Room";
 import { RoomDiscovery } from "../features/room/components/RoomDiscovery";
 import { SearchRoomResult } from "../features/room/components/SearchRoomResult";

@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { ReactComponent as QuestionMark } from "../../assets/images/question.svg";
+import { ReactComponent as QuestionMark } from "../../../assets/images/question.svg";
 
 export const ForbiddenPage = () => {
   return (

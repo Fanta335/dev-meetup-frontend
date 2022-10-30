@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../stores/hooks";
-import { accessByInvitation } from "../room/roomSlice";
+import { accessByInvitation } from "../../room/roomSlice";
 import { InvalidInvitation } from "./InvalidInvitation";
 
 export const InvitationRedirectPage = () => {

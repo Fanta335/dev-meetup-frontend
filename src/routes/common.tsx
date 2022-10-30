@@ -1,5 +1,5 @@
-import { NotFoundPage } from "../components/Layouts/NotFoundPage";
-import { Landing } from "../features/misc/Landing";
+import { Landing } from "../features/misc/routes/Landing";
+import { NotFoundPage } from "../features/misc/routes/NotFoundPage";
 
 export const commonRoutes = [
   {

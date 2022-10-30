@@ -1,10 +1,10 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
 import { useCallback, useState } from "react";
-import { RoomSettingsMenu } from "../../../features/room/components/RoomSettingsMenu";
-import { selectCurrentRoomLoading, selectLocation } from "../../../features/room/roomSlice";
-import { ToggleThemeSwitch } from "../../../features/theme/components/ToggleThemeSwitch";
-import { ProfileIcon } from "../../../features/user/components/ProfileIcon";
-import { ToggleRoomMemberDrawerButton } from "../../../features/user/components/ToggleRoomMemberDrawerButton";
+import { RoomSettingsMenu } from "../../room/components/RoomSettingsMenu";
+import { selectCurrentRoomLoading, selectLocation } from "../../room/roomSlice";
+import { ToggleThemeSwitch } from "../../theme/components/ToggleThemeSwitch";
+import { ProfileIcon } from "../../user/components/ProfileIcon";
+import { ToggleRoomMemberDrawerButton } from "../../user/components/ToggleRoomMemberDrawerButton";
 import { useAppSelector } from "../../../stores/hooks";
 import { LocationName } from "./LocationName";
 
