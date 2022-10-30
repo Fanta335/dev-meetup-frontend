@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, IconButton, Menu } from "@mui/material";
 import { useEffect, FC, memo, useCallback } from "react";
-import LogoutButton from "../../../components/auth/LogoutButton";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import LogoutButton from "../../auth/components/LogoutButton";
 import { fetchUserProfile, selectCurrentUser } from "../userSlice";
 import { ProfileButton } from "./ProfileButton";
 

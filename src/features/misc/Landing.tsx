@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Grid, Typography } from "@mui/material";
-import LoginButton from "../../components/auth/LoginButton";
+import LoginButton from "../auth/components/LoginButton";
 import { Loading } from "../../components/Loading";
 
 export const Landing = () => {
