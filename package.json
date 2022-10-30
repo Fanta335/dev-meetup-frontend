@@ -33,8 +33,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-virtuoso": "^2.19.1",
     "reselect": "^4.1.6",
-    "socket.io-client": "^4.5.2",
-    "typescript": "~4.8.4"
+    "socket.io-client": "^4.5.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,7 +42,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ".eslintrc.json"
   },
   "browserslist": {
     "production": [
@@ -56,5 +55,19 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
+    "@typescript-eslint/parser": "^5.41.0",
+    "eslint": "^8.26.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript": "^4.8.4"
   }
 }
