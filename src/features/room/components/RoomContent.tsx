@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { FC, memo, useCallback, useEffect } from "react";
-import { ForbiddenPage } from "../../../components/Layouts/ForbiddenPage";
+import { ForbiddenPage } from "../../misc/routes/ForbiddenPage";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { MessageContainer } from "../../message/components/MessageContainer";
 import { messageActions, selectIsConnected } from "../../message/messageSlice";

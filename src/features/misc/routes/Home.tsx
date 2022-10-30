@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
-import { Profile } from "../user/components/Profile";
-import { useAppDispatch } from "../../stores/hooks";
-import { roomActions } from "../room/roomSlice";
+import { Profile } from "../../user/components/Profile";
+import { useAppDispatch } from "../../../stores/hooks";
+import { roomActions } from "../../room/roomSlice";
 
 export const Home = () => {
   const dispatch = useAppDispatch();

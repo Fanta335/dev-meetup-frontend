@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Grid, Typography } from "@mui/material";
-import LoginButton from "../auth/components/LoginButton";
-import { Loading } from "../../components/Elements/Loading/Loading";
+import { Loading } from "../../../components/Elements/Loading/Loading";
+import LoginButton from "../../auth/components/LoginButton";
 
 export const Landing = () => {
   const { isLoading } = useAuth0();

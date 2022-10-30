@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Grid } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../stores/hooks";
+import { useAppDispatch } from "../../../stores/hooks";
 import { accessByInvitation } from "../room/roomSlice";
-import { InvalidInvitation } from "./components/InvalidInvitation";
+import { InvalidInvitation } from "./InvalidInvitation";
 
 export const InvitationRedirectPage = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -13,26 +13,24 @@ export const InvitationRedirectPage = () => {
   const navigate = useNavigate();
   const [passed, setPassed] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    const asyncAccessByInvitation = async () => {
-      const token = await getAccessTokenSilently();
-      if (uuid === undefined) {
-        navigate("/");
-        console.log("uuid is undefined");
-      } else {
-        await dispatch(accessByInvitation({ token, uuid }))
-          .unwrap()
-          .then((room) => {
-            setPassed(true);
-            navigate(`/app/rooms/${room.id}`);
-          })
-          .catch(() => {
-            setPassed(false);
-            console.log("access failed.");
-          });
-      }
-    };
+  const asyncAccessByInvitation = useCallback(async () => {
+    const token = await getAccessTokenSilently();
+    if (uuid === undefined) {
+      navigate("/");
+    } else {
+      await dispatch(accessByInvitation({ token, uuid }))
+        .unwrap()
+        .then((room) => {
+          setPassed(true);
+          navigate(`/app/rooms/${room.id}`);
+        })
+        .catch(() => {
+          setPassed(false);
+        });
+    }
+  }, [dispatch, getAccessTokenSilently, navigate, uuid]);
 
+  useEffect(() => {
     asyncAccessByInvitation();
   });
 
