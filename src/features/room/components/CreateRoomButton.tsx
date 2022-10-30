@@ -1,9 +1,9 @@
-import { IconButton, ListItem, Tooltip, Typography, Zoom } from "@mui/material";
-import { useCallback, useState } from "react";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import { CreateRoomDialog } from "./CreateRoomDialog";
-import { useAppDispatch } from "../../../stores/hooks";
-import { roomActions } from "../roomSlice";
+import { IconButton, ListItem, Tooltip, Typography, Zoom } from '@mui/material';
+import { useCallback, useState } from 'react';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import { CreateRoomDialog } from './CreateRoomDialog';
+import { useAppDispatch } from '../../../stores/hooks';
+import { roomActions } from '../roomSlice';
 
 export const CreateRoomButton = () => {
   const dispatch = useAppDispatch();
@@ -41,11 +41,22 @@ export const CreateRoomButton = () => {
       arrow
       TransitionComponent={Zoom}
     >
-      <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
-        <IconButton aria-label="create room" onClick={handleDialogOpen} onMouseEnter={handleTooltipOpen} onMouseLeave={handleTooltipClose} color="success">
-          <AddCircleOutlinedIcon sx={{ fontSize: "54px" }} />
+      <ListItem button sx={{ display: 'flex', justifyContent: 'center', height: '50px' }}>
+        <IconButton
+          aria-label="create room"
+          onClick={handleDialogOpen}
+          onMouseEnter={handleTooltipOpen}
+          onMouseLeave={handleTooltipClose}
+          color="success"
+        >
+          <AddCircleOutlinedIcon sx={{ fontSize: '54px' }} />
         </IconButton>
-        <CreateRoomDialog open={dialogOpen} handleClose={handleDialogClose} selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+        <CreateRoomDialog
+          open={dialogOpen}
+          handleClose={handleDialogClose}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+        />
       </ListItem>
     </Tooltip>
   );

@@ -1,13 +1,13 @@
-import { MenuItem, Typography } from "@mui/material";
-import { FC, memo, useCallback, useState } from "react";
-import { InviteMemberDialog } from "./InviteMemberDialog";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { MenuItem, Typography } from '@mui/material';
+import { FC, memo, useCallback, useState } from 'react';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { InviteMemberDialog } from './InviteMemberDialog';
 
 type Props = {
   handleCloseMenu: () => void;
 };
 
-export const InviteMemberButton: FC<Props> = memo(({ handleCloseMenu }) => {
+export const InviteMemberButton: FC<Props> = memo(({ handleCloseMenu }: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = useCallback(() => {
@@ -29,3 +29,5 @@ export const InviteMemberButton: FC<Props> = memo(({ handleCloseMenu }) => {
     </>
   );
 });
+
+InviteMemberButton.displayName = 'InviteMemberButton';

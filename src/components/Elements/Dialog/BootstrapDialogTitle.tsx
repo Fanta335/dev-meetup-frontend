@@ -1,6 +1,6 @@
-import { DialogTitle, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { FC } from "react";
+import { DialogTitle, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { FC } from 'react';
 
 type DialogTitleProps = {
   id: string;
@@ -19,10 +19,10 @@ export const BootstrapDialogTitle: FC<DialogTitleProps> = (props) => {
           aria-label="close"
           onClick={onClose}
           sx={{
-            position: "absolute",
+            position: 'absolute',
             right: 8,
             top: 8,
-            color: "gray",
+            color: 'gray',
           }}
         >
           <CloseIcon />

@@ -1,6 +1,6 @@
-import { IconButton, ListItem, Tooltip, Typography, Zoom } from "@mui/material";
-import ExploreIcon from "@mui/icons-material/Explore";
-import { Link } from "react-router-dom";
+import { IconButton, ListItem, Tooltip, Typography, Zoom } from '@mui/material';
+import ExploreIcon from '@mui/icons-material/Explore';
+import { Link } from 'react-router-dom';
 
 export const DiscoverRoomButton = () => {
   return (
@@ -14,9 +14,9 @@ export const DiscoverRoomButton = () => {
       arrow
       TransitionComponent={Zoom}
     >
-      <ListItem button sx={{ display: "flex", justifyContent: "center", height: "50px" }}>
+      <ListItem button sx={{ display: 'flex', justifyContent: 'center', height: '50px' }}>
         <IconButton aria-label="discover room" component={Link} to="/app/" color="success">
-          <ExploreIcon sx={{ fontSize: "54px" }} />
+          <ExploreIcon sx={{ fontSize: '54px' }} />
         </IconButton>
       </ListItem>
     </Tooltip>

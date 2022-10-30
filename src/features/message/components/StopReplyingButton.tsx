@@ -1,8 +1,8 @@
-import { IconButton, Tooltip } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { useAppDispatch } from "../../../stores/hooks";
-import { messageActions } from "../messageSlice";
-import { useCallback } from "react";
+import { IconButton, Tooltip } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { useCallback } from 'react';
+import { useAppDispatch } from '../../../stores/hooks';
+import { messageActions } from '../messageSlice';
 
 export const StopReplyingButton = () => {
   const dispatch = useAppDispatch();

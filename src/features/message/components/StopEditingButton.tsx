@@ -1,7 +1,7 @@
-import { IconButton, Tooltip } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
-import { useAppDispatch } from "../../../stores/hooks";
-import { messageActions } from "../messageSlice";
+import { IconButton, Tooltip } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { useAppDispatch } from '../../../stores/hooks';
+import { messageActions } from '../messageSlice';
 
 export const StopEditingButton = () => {
   const dispatch = useAppDispatch();

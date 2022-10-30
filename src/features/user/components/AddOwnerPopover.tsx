@@ -1,15 +1,15 @@
-import Popover from "@mui/material/Popover";
-import Button from "@mui/material/Button";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { AddOwnerPopoverContent } from "./AddOwnerPopoverContent";
-import { User } from "../types";
-import { useState, FC, memo, useCallback } from "react";
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useState, FC, memo, useCallback } from 'react';
+import { AddOwnerPopoverContent } from './AddOwnerPopoverContent';
+import { User } from '../types';
 
 type Props = {
   user: User;
 };
 
-export const AddOwnerPopover: FC<Props> = memo(({ user }) => {
+export const AddOwnerPopover: FC<Props> = memo(({ user }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,11 +21,17 @@ export const AddOwnerPopover: FC<Props> = memo(({ user }) => {
   }, []);
 
   const open = Boolean(anchorEl);
-  const id = open ? "add-owner-popover" : undefined;
+  const id = open ? 'add-owner-popover' : undefined;
 
   return (
     <>
-      <Button aria-describedby={id} variant="contained" onClick={handleClick} startIcon={<AddCircleIcon />} sx={{ mb: 2, ml: 2 }}>
+      <Button
+        aria-describedby={id}
+        variant="contained"
+        onClick={handleClick}
+        startIcon={<AddCircleIcon />}
+        sx={{ mb: 2, ml: 2 }}
+      >
         オーナーに追加
       </Button>
       <Popover
@@ -34,12 +40,12 @@ export const AddOwnerPopover: FC<Props> = memo(({ user }) => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
         <AddOwnerPopoverContent user={user} handleClose={handleClose} />
@@ -47,3 +53,5 @@ export const AddOwnerPopover: FC<Props> = memo(({ user }) => {
     </>
   );
 });
+
+AddOwnerPopover.displayName = 'AddOwnerPopover';

@@ -1,7 +1,7 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Grid, Typography } from "@mui/material";
-import { Loading } from "../../../components/Elements/Loading/Loading";
-import LoginButton from "../../auth/components/LoginButton";
+import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Grid, Typography } from '@mui/material';
+import { Loading } from '../../../components/Elements/Loading/Loading';
+import LoginButton from '../../auth/components/LoginButton';
 
 export const Landing = () => {
   const { isLoading } = useAuth0();
@@ -11,8 +11,21 @@ export const Landing = () => {
   }
 
   return (
-    <Box sx={{ background: "linear-gradient(#0099ff, #7106c3)", display: "flex", justifyContent: "center" }}>
-      <Grid container direction="column" alignItems="center" justifyContent="center" height="100vh" maxWidth="800px">
+    <Box
+      sx={{
+        background: 'linear-gradient(#0099ff, #7106c3)',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        maxWidth="800px"
+      >
         <Grid item xs={1}>
           <Typography variant="h1" fontSize="80px" fontWeight="bold" color="white">
             Devs Meetup

@@ -1,10 +1,10 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Grid } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../stores/hooks";
-import { accessByInvitation } from "../../room/roomSlice";
-import { InvalidInvitation } from "./InvalidInvitation";
+import { useAuth0 } from '@auth0/auth0-react';
+import { Grid } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../../stores/hooks';
+import { accessByInvitation } from '../../room/roomSlice';
+import { InvalidInvitation } from './InvalidInvitation';
 
 export const InvitationRedirectPage = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -16,7 +16,7 @@ export const InvitationRedirectPage = () => {
   const asyncAccessByInvitation = useCallback(async () => {
     const token = await getAccessTokenSilently();
     if (uuid === undefined) {
-      navigate("/");
+      navigate('/');
     } else {
       await dispatch(accessByInvitation({ token, uuid }))
         .unwrap()
@@ -35,14 +35,21 @@ export const InvitationRedirectPage = () => {
   });
 
   return (
-    <>
-      <Grid container justifyContent="center" alignItems="center" sx={{ height: "100vh", overflow: "auto", bgcolor: "background.default" }}>
-        {passed === false && (
-          <Grid item>
-            <InvalidInvitation />
-          </Grid>
-        )}
-      </Grid>
-    </>
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        height: '100vh',
+        overflow: 'auto',
+        bgcolor: 'background.default',
+      }}
+    >
+      {passed === false && (
+        <Grid item>
+          <InvalidInvitation />
+        </Grid>
+      )}
+    </Grid>
   );
 };

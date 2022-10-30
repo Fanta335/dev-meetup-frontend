@@ -1,11 +1,16 @@
-import { ListRange, Virtuoso, VirtuosoHandle } from "react-virtuoso";
-import { useCallback, useRef, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchAllMessageIds, fetchMoreMessages, selectCurrentMessages, selectMessageListMap } from "../messageSlice";
-import { useAuth0 } from "@auth0/auth0-react";
-import { selectCurrentRoom } from "../../room/roomSlice";
-import { MessageItem } from "./MessageItem";
-import { WelcomeMessage } from "./WelcomeMessage";
+import { ListRange, Virtuoso, VirtuosoHandle } from 'react-virtuoso';
+import { useCallback, useRef, useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import {
+  fetchAllMessageIds,
+  fetchMoreMessages,
+  selectCurrentMessages,
+  selectMessageListMap,
+} from '../messageSlice';
+import { selectCurrentRoom } from '../../room/roomSlice';
+import { MessageItem } from './MessageItem';
+import { WelcomeMessage } from './WelcomeMessage';
 
 export const InfiniteScrollMessage = () => {
   const currentMessages = useAppSelector(selectCurrentMessages);
@@ -21,7 +26,13 @@ export const InfiniteScrollMessage = () => {
       const date = isLater ? 1 : -1;
       const searchParams = `since-id=${messageId}&date=${date}&limit=30`;
 
-      await dispatch(fetchMoreMessages({ token, roomId: currentRoom.entity.id.toString(), searchParams }));
+      await dispatch(
+        fetchMoreMessages({
+          token,
+          roomId: currentRoom.entity.id.toString(),
+          searchParams,
+        })
+      );
     },
     [currentRoom.entity.id, dispatch, getAccessTokenSilently]
   );
@@ -40,11 +51,11 @@ export const InfiniteScrollMessage = () => {
   );
 
   const handleClickReply = useCallback(
-    async (messageId: number) => {
+    (messageId: number) => {
       virtuoso.current?.scrollToIndex({
         index: messageListMap[messageId],
-        align: "center",
-        behavior: "smooth",
+        align: 'center',
+        behavior: 'smooth',
       });
     },
     [messageListMap]
@@ -60,20 +71,27 @@ export const InfiniteScrollMessage = () => {
   }, []);
 
   return (
-    <>
-      <Virtuoso
-        initialTopMostItemIndex={100000}
-        style={{ marginTop: "60px" }}
-        data={currentMessages.allIds}
-        ref={virtuoso}
-        rangeChanged={(range) => handleRangeChanged(range)}
-        followOutput={"auto"}
-        itemContent={(index, messageId) => {
-          return <MessageItem key={messageId} messageId={messageId} virtualListId={index} handleClickReply={handleClickReply} />;
-        }}
-        components={{ Header }}
-      />
-    </>
+    <Virtuoso
+      initialTopMostItemIndex={100000}
+      style={{ marginTop: '60px' }}
+      data={currentMessages.allIds}
+      ref={virtuoso}
+      rangeChanged={(range) => {
+        return handleRangeChanged(range);
+      }}
+      followOutput="auto"
+      itemContent={(index, messageId) => {
+        return (
+          <MessageItem
+            key={messageId}
+            messageId={messageId}
+            virtualListId={index}
+            handleClickReply={handleClickReply}
+          />
+        );
+      }}
+      components={{ Header }}
+    />
   );
 };
 

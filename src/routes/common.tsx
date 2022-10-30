@@ -1,5 +1,5 @@
-import { Landing } from "../features/misc/routes/Landing";
-import { NotFoundPage } from "../features/misc/routes/NotFoundPage";
+import { Landing } from '../features/misc/routes/Landing';
+import { NotFoundPage } from '../features/misc/routes/NotFoundPage';
 
 export const commonRoutes = [
   {
@@ -7,7 +7,7 @@ export const commonRoutes = [
     element: <Landing />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFoundPage />,
   },
 ];

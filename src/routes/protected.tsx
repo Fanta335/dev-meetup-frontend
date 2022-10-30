@@ -1,14 +1,14 @@
-import { MainLayout } from "../components/Layouts/MainLayout";
-import { Home } from "../features/misc/routes/Home";
-import { InvitationRedirectPage } from "../features/misc/routes/InvitationRedirectPage";
-import { Room } from "../features/room/components/Room";
-import { RoomDiscovery } from "../features/room/components/RoomDiscovery";
-import { SearchRoomResult } from "../features/room/components/SearchRoomResult";
-import { RouteGuard } from "./RouteGuard";
+import { MainLayout } from '../components/Layouts/MainLayout';
+import { Home } from '../features/misc/routes/Home';
+import { InvitationRedirectPage } from '../features/misc/routes/InvitationRedirectPage';
+import { Room } from '../features/room/components/Room';
+import { RoomDiscovery } from '../features/room/components/RoomDiscovery';
+import { SearchRoomResult } from '../features/room/components/SearchRoomResult';
+import { RouteGuard } from './RouteGuard';
 
 export const protectedRoutes = [
   {
-    path: "/app",
+    path: '/app',
     element: <RouteGuard component={MainLayout} />,
     children: [
       {
@@ -16,21 +16,21 @@ export const protectedRoutes = [
         element: <RoomDiscovery />,
       },
       {
-        path: "profile",
+        path: 'profile',
         element: <Home />,
       },
       {
-        path: "search",
+        path: 'search',
         element: <SearchRoomResult />,
       },
       {
-        path: "rooms/:id",
+        path: 'rooms/:id',
         element: <Room />,
       },
     ],
   },
   {
-    path: "/invite/:uuid",
+    path: '/invite/:uuid',
     element: <RouteGuard component={InvitationRedirectPage} />,
   },
 ];

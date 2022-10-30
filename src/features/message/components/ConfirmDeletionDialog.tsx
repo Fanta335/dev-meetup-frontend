@@ -1,10 +1,10 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { FC, memo } from "react";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { FC, memo } from 'react';
 
 type Props = {
   open: boolean;
@@ -12,13 +12,20 @@ type Props = {
   handleDelelte: () => void;
 };
 
-export const ConfirmDeletionDialog: FC<Props> = memo(({ open, handleClose, handleDelelte }) => {
-  return (
-    <>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{"メッセージを削除"}</DialogTitle>
+export const ConfirmDeletionDialog: FC<Props> = memo(
+  ({ open, handleClose, handleDelelte }: Props) => {
+    return (
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">メッセージを削除</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">メッセージを削除します。よろしいですか？</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            メッセージを削除します。よろしいですか？
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} autoFocus>
@@ -29,6 +36,8 @@ export const ConfirmDeletionDialog: FC<Props> = memo(({ open, handleClose, handl
           </Button>
         </DialogActions>
       </Dialog>
-    </>
-  );
-});
+    );
+  }
+);
+
+ConfirmDeletionDialog.displayName = 'ConfirmDeletionDialog';

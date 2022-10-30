@@ -1,8 +1,8 @@
-import { User } from "@auth0/auth0-react";
+import { User } from '@auth0/auth0-react';
 
 const namespace = process.env.REACT_APP_API_NAMESPACE;
-export const mysqlUser = Symbol(namespace + "/mysqlUser");
-export const roles = Symbol(namespace + "/roles");
+export const mysqlUser = Symbol(`${namespace}/mysqlUser`);
+export const roles = Symbol(`${namespace}/roles`);
 
 export type Auth0User = {
   [mysqlUser]: MysqlUser;

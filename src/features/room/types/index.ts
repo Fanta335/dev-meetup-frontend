@@ -1,6 +1,6 @@
-import { Message } from "../../message/types";
-import { Tag } from "../../tag/types";
-import { User } from "../../user/types";
+import { Message } from '../../message/types';
+import { Tag } from '../../tag/types';
+import { User } from '../../user/types';
 
 export type RoomType = {
   belongingRooms: BelongingRooms;
@@ -65,7 +65,7 @@ export type CurrentRoom = {
   loading: LoadingRoomType;
 };
 
-export type LoadingRoomType = "idle" | "pending" | "succeeded" | "failed";
+export type LoadingRoomType = 'idle' | 'pending' | 'succeeded' | 'failed';
 
 export type SearchedRooms = {
   byIds: {
@@ -104,7 +104,7 @@ export type NormalizedRoomContent = {
   } & Room;
 };
 
-export type Location = "profile" | "room" | "discovery";
+export type Location = 'profile' | 'room' | 'discovery';
 
 export type SearchedRoom = {
   numOfMembers: number;
@@ -120,14 +120,14 @@ export type SearchParamsType = {
 };
 
 export const SortOptions = {
-  CreatedAt: "date",
+  CreatedAt: 'date',
 } as const;
 export type KeyOfSortOptions = keyof typeof SortOptions;
 export type SortOptionsType = typeof SortOptions[KeyOfSortOptions];
 
 export const OrderOptions = {
-  ASC: "a",
-  DESC: "d",
+  ASC: 'a',
+  DESC: 'd',
 } as const;
 export type KeyOfOrderOptions = keyof typeof OrderOptions;
 export type OrderOptionsType = typeof OrderOptions[KeyOfOrderOptions];

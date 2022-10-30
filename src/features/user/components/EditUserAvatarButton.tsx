@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
-import { useCallback, useState } from "react";
-import { EditUserAvatarDialog } from "./EditUserAvatarDialog";
+import { Button } from '@mui/material';
+import { useCallback, useState } from 'react';
+import { EditUserAvatarDialog } from './EditUserAvatarDialog';
 
 export const EditUserAvatarButton = () => {
   const [open, setOpen] = useState(false);

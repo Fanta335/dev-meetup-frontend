@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
-import { useCallback, useState } from "react";
-import { EditUserEmailDialog } from "./EditUserEmailDialog";
+import { Button } from '@mui/material';
+import { useCallback, useState } from 'react';
+import { EditUserEmailDialog } from './EditUserEmailDialog';
 
 export const EditUserEmailButton = () => {
   const [open, setOpen] = useState(false);

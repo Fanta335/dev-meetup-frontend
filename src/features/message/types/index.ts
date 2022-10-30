@@ -48,13 +48,13 @@ export type CreateMessageDTO = {
 
 // Use union instead of enum. ref: https://weseek.co.jp/tech/1609/
 export const MessageEvent = {
-  SendMessage: "send_message",
-  RemoveMessage: "remove_message",
-  ReceiveMessage: "receive_message",
-  ReceiveMessageRemoved: "receive_message_removed",
-  JoinRoom: "join_room",
-  LeaveRoom: "leave_room",
-  UpdateMessage: "update_message",
+  SendMessage: 'send_message',
+  RemoveMessage: 'remove_message',
+  ReceiveMessage: 'receive_message',
+  ReceiveMessageRemoved: 'receive_message_removed',
+  JoinRoom: 'join_room',
+  LeaveRoom: 'leave_room',
+  UpdateMessage: 'update_message',
 } as const;
 
 export type MessageEventType = typeof MessageEvent[keyof typeof MessageEvent];

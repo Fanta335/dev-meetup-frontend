@@ -1,9 +1,9 @@
-import { Button } from "@mui/material";
-import { useCallback, useState } from "react";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectOwnRooms } from "../../room/roomSlice";
-import { ConfirmOwnershipDialog } from "./ConfirmOwnershipDialog";
-import { DeleteUserDialog } from "./DeleteUserDialog";
+import { Button } from '@mui/material';
+import { useCallback, useState } from 'react';
+import { useAppSelector } from '../../../stores/hooks';
+import { selectOwnRooms } from '../../room/roomSlice';
+import { ConfirmOwnershipDialog } from './ConfirmOwnershipDialog';
+import { DeleteUserDialog } from './DeleteUserDialog';
 
 export const DeleteUserButton = () => {
   const [openDeletion, setOpenDeletion] = useState(false);
@@ -32,7 +32,10 @@ export const DeleteUserButton = () => {
         アカウントを削除する
       </Button>
       <DeleteUserDialog open={openDeletion} handleCloseDialog={handleCloseDeleteUserDialog} />
-      <ConfirmOwnershipDialog open={openOwnership} handleCloseDialog={handleCloseConfirmOwnershipDialog} />
+      <ConfirmOwnershipDialog
+        open={openOwnership}
+        handleCloseDialog={handleCloseConfirmOwnershipDialog}
+      />
     </>
   );
 };

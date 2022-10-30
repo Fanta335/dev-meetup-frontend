@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
-import { useState } from "react";
-import { EditUserNameDialog } from "./EditUserNameDialog";
+import { Button } from '@mui/material';
+import { useState } from 'react';
+import { EditUserNameDialog } from './EditUserNameDialog';
 
 export const EditUserNameButton = () => {
   const [open, setOpen] = useState(false);

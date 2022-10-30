@@ -1,16 +1,16 @@
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useCallback, useState } from "react";
-import { LeaveRoomButton } from "./LeaveRoomButton";
-import { EditRoomProfileButton } from "./EditRoomProfileButton";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectCurrentRoom } from "../roomSlice";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getCurrentUser } from "../../user/utils/getCurrentUser";
-import { Auth0User } from "../../auth/types";
-import { DeleteRoomButton } from "./DeleteRoomButton";
-import { InviteMemberButton } from "./InviteMemberButton";
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useCallback, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { LeaveRoomButton } from './LeaveRoomButton';
+import { EditRoomProfileButton } from './EditRoomProfileButton';
+import { useAppSelector } from '../../../stores/hooks';
+import { selectCurrentRoom } from '../roomSlice';
+import { getCurrentUser } from '../../user/utils/getCurrentUser';
+import { Auth0User } from '../../auth/types';
+import { DeleteRoomButton } from './DeleteRoomButton';
+import { InviteMemberButton } from './InviteMemberButton';
 
 const ITEM_HEIGHT = 48;
 
@@ -20,7 +20,9 @@ export const RoomSettingsMenu = () => {
 
   const currentRoom = useAppSelector(selectCurrentRoom);
   const currentUser = getCurrentUser(user);
-  const isOwner = currentRoom.entity.owners.some((id) => id === currentUser?.id);
+  const isOwner = currentRoom.entity.owners.some((id) => {
+    return id === currentUser?.id;
+  });
 
   const open = Boolean(anchorEl);
 
@@ -37,8 +39,8 @@ export const RoomSettingsMenu = () => {
       <IconButton
         aria-label="more"
         id="long-button"
-        aria-controls={open ? "long-menu" : undefined}
-        aria-expanded={open ? "true" : undefined}
+        aria-controls={open ? 'long-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
       >
@@ -47,7 +49,7 @@ export const RoomSettingsMenu = () => {
       <Menu
         id="long-menu"
         MenuListProps={{
-          "aria-labelledby": "long-button",
+          'aria-labelledby': 'long-button',
         }}
         anchorEl={anchorEl}
         open={open}
@@ -55,7 +57,7 @@ export const RoomSettingsMenu = () => {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: "20ch",
+            width: '20ch',
           },
         }}
       >

@@ -1,8 +1,8 @@
-import { Loading } from "../../../components/Elements/Loading/Loading";
-import { useAppSelector } from "../../../stores/hooks";
-import { selectSearchedrooms } from "../roomSlice";
-import { MediumRoomCard } from "./MediumRoomCard";
-import { RoomNotDiscoveredImage } from "./RoomNotDiscoveredImage";
+import { Loading } from '../../../components/Elements/Loading/Loading';
+import { useAppSelector } from '../../../stores/hooks';
+import { selectSearchedrooms } from '../roomSlice';
+import { MediumRoomCard } from './MediumRoomCard';
+import { RoomNotDiscoveredImage } from './RoomNotDiscoveredImage';
 
 export const SearchedRoomList = () => {
   const searchedRooms = useAppSelector(selectSearchedrooms);

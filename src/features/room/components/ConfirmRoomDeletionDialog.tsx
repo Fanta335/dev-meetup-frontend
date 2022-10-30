@@ -1,5 +1,12 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { FC, memo } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
+import { FC, memo } from 'react';
 
 type Props = {
   open: boolean;
@@ -7,11 +14,16 @@ type Props = {
   handleDelete: () => void;
 };
 
-export const ConfirmRoomDeletionDialog: FC<Props> = memo(({ open, handleCloseDialog, handleDelete }) => {
-  return (
-    <>
-      <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{"部屋を削除"}</DialogTitle>
+export const ConfirmRoomDeletionDialog: FC<Props> = memo(
+  ({ open, handleCloseDialog, handleDelete }: Props) => {
+    return (
+      <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">部屋を削除</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" fontFamily="">
             部屋を削除します。削除した部屋は、二度と戻せません！本当によろしいですか？
@@ -26,6 +38,8 @@ export const ConfirmRoomDeletionDialog: FC<Props> = memo(({ open, handleCloseDia
           </Button>
         </DialogActions>
       </Dialog>
-    </>
-  );
-});
+    );
+  }
+);
+
+ConfirmRoomDeletionDialog.displayName = 'ConfirmRoomDeletionDialog';

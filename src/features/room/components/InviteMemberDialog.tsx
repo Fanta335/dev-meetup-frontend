@@ -1,28 +1,48 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, TextField } from "@mui/material";
-import { FC, memo, useCallback } from "react";
-import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { createInviteLink, selectCurrentRoom, selectInvitation } from "../roomSlice";
-import { useAuth0 } from "@auth0/auth0-react";
-import { BootstrapDialogTitle } from "../../../components/Elements/Dialog/BootstrapDialogTitle";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  TextField,
+} from '@mui/material';
+import { FC, memo, useCallback } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useAppDispatch, useAppSelector } from '../../../stores/hooks';
+import { createInviteLink, selectCurrentRoom, selectInvitation } from '../roomSlice';
+import { BootstrapDialogTitle } from '../../../components/Elements/Dialog/BootstrapDialogTitle';
 
 type Props = {
   open: boolean;
   handleCloseDialog: () => void;
 };
 
-export const InviteMemberDialog: FC<Props> = memo(({ open, handleCloseDialog }) => {
+export const InviteMemberDialog: FC<Props> = memo(({ open, handleCloseDialog }: Props) => {
   const dispatch = useAppDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const currentRoom = useAppSelector(selectCurrentRoom);
   const invitation = useAppSelector(selectInvitation);
   const handleCreateInvitation = useCallback(async () => {
     const token = await getAccessTokenSilently();
-    await dispatch(createInviteLink({ token, roomId: currentRoom.entity.id, secondsExpirationLifetime: 60 * 60 * 24 }));
+    await dispatch(
+      createInviteLink({
+        token,
+        roomId: currentRoom.entity.id,
+        secondsExpirationLifetime: 60 * 60 * 24,
+      })
+    );
   }, [currentRoom.entity.id, dispatch, getAccessTokenSilently]);
 
   return (
     <div>
-      <Dialog open={open} onClose={handleCloseDialog} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" fullWidth maxWidth="sm">
+      <Dialog
+        open={open}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth
+        maxWidth="sm"
+      >
         <BootstrapDialogTitle id="invite-user-title" onClose={handleCloseDialog}>
           メンバーを招待する
         </BootstrapDialogTitle>
@@ -30,9 +50,15 @@ export const InviteMemberDialog: FC<Props> = memo(({ open, handleCloseDialog }) 
           <DialogContentText id="invite-user-dialog-description" fontFamily="">
             招待リンクを作成してください。
           </DialogContentText>
-          <TextField fullWidth placeholder="作成されていません" value={invitation ? invitation.url : ""} inputProps={{ readOnly: true }} />
+          <TextField
+            fullWidth
+            placeholder="作成されていません"
+            value={invitation ? invitation.url : ''}
+            inputProps={{ readOnly: true }}
+          />
         </DialogContent>
         <DialogActions>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <Button color="success" variant="contained" onClick={handleCreateInvitation}>
             リンクを作成
           </Button>
@@ -53,3 +79,5 @@ export const InviteMemberDialog: FC<Props> = memo(({ open, handleCloseDialog }) 
     </div>
   );
 });
+
+InviteMemberDialog.displayName = 'InviteMemberDialog';

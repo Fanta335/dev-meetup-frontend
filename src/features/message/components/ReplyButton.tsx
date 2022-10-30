@@ -1,14 +1,14 @@
-import { IconButton, Tooltip } from "@mui/material";
-import ReplyIcon from "@mui/icons-material/Reply";
-import { FC, memo, useCallback } from "react";
-import { useAppDispatch } from "../../../stores/hooks";
-import { messageActions } from "../messageSlice";
+import { IconButton, Tooltip } from '@mui/material';
+import ReplyIcon from '@mui/icons-material/Reply';
+import { FC, memo, useCallback } from 'react';
+import { useAppDispatch } from '../../../stores/hooks';
+import { messageActions } from '../messageSlice';
 
 type Props = {
   messageId: number;
 };
 
-export const ReplyButton: FC<Props> = memo(({ messageId }) => {
+export const ReplyButton: FC<Props> = memo(({ messageId }: Props) => {
   const dispatch = useAppDispatch();
   const handleClick = useCallback(() => {
     dispatch(messageActions.startReplying({ parentMessageId: messageId }));
@@ -22,3 +22,5 @@ export const ReplyButton: FC<Props> = memo(({ messageId }) => {
     </Tooltip>
   );
 });
+
+ReplyButton.displayName = 'ReplyButton';

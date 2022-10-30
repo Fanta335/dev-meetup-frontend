@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
-import { useCallback, useState } from "react";
-import { EditUserDescriptionDialog } from "./EditUserDescriptionDialog";
+import { Button } from '@mui/material';
+import { useCallback, useState } from 'react';
+import { EditUserDescriptionDialog } from './EditUserDescriptionDialog';
 
 export const EditUserDescriptionButton = () => {
   const [open, setOpen] = useState(false);

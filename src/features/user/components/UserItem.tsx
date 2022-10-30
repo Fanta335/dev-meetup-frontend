@@ -1,13 +1,13 @@
-import { Avatar, ListItemAvatar, ListItemButton, ListItemText } from "@mui/material";
-import { useState, FC, memo } from "react";
-import { User } from "../types";
-import { UserProfilePopover } from "./UserProfilePopover";
+import { Avatar, ListItemAvatar, ListItemButton, ListItemText } from '@mui/material';
+import { useState, FC, memo } from 'react';
+import { User } from '../types';
+import { UserProfilePopover } from './UserProfilePopover';
 
 type Props = {
   user: User;
 };
 
-export const UserItem: FC<Props> = memo(({ user }) => {
+export const UserItem: FC<Props> = memo(({ user }: Props) => {
   const [anchorEl, setAnchorEl] = useState<(EventTarget & Element) | null>(null);
 
   const handleClick = (event: React.MouseEvent) => {
@@ -32,3 +32,5 @@ export const UserItem: FC<Props> = memo(({ user }) => {
     </>
   );
 });
+
+UserItem.displayName = 'UserItem';
