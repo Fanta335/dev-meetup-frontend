@@ -66,7 +66,7 @@ export const Profile = () => {
             自己紹介
           </Typography>
           <Card variant="outlined" sx={{ maxWidth: '600px', bgcolor: 'background.default' }}>
-            <CardContent>
+            <CardContent sx={{ overflow: 'auto' }}>
               <Typography variant="body1" component="pre">
                 {currentUser.description}
               </Typography>
