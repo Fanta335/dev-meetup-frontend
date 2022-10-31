@@ -42,7 +42,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .jsx,.js,.tsx,.ts src/",
     "fmt": "prettier --write src/**/*.{js,jsx,ts,tsx,json}",
-    "list:precommit": "eslint 'src/**/*.{ts,tsx}' --max-warnings 0",
+    "lint:precommit": "eslint 'src/**/*.{ts,tsx}' --max-warnings 0",
     "fmt:precommit": "prettier --write src/**/*.{js,jsx,ts,tsx,json}",
     "prepare": "husky install"
   },
