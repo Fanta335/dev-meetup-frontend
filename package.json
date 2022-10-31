@@ -41,7 +41,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .jsx,.js,.tsx,.ts src/",
-    "format": "prettier --write src/**/*"
+    "fmt": "prettier --write src/**/*.{js,jsx,ts,tsx,json}",
+    "list:precommit": "eslint 'src/**/*.{ts,tsx}' --max-warnings 0",
+    "fmt:precommit": "prettier --write src/**/*.{js,jsx,ts,tsx,json}",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": ".eslintrc.json"
@@ -71,7 +74,18 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "npm run lint:precommit",
+    "src/**/*.{js,jsx,ts,tsx,json}": "npm run fmt:precommit"
   }
 }
